@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"io"
 
-	contriblock "github.com/liuxd6825/components-contrib/lock"
+	contriblock "github.com/liuxd6825/dapr-components-contrib/lock"
 	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	complock "github.com/liuxd6825/dapr/pkg/components/lock"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"

@@ -18,7 +18,7 @@ import (
 	"errors"
 	"time"
 
-	workflowContrib "github.com/liuxd6825/components-contrib/workflows"
+	workflowContrib "github.com/liuxd6825/dapr-components-contrib/workflows"
 )
 
 type MockWorkflow struct{}

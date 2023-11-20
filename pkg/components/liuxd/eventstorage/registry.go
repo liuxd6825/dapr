@@ -4,7 +4,7 @@ import (
 	"github.com/dapr/kit/logger"
 	"strings"
 
-	es "github.com/liuxd6825/components-contrib/liuxd/eventstorage"
+	es "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage"
 	"github.com/liuxd6825/dapr/pkg/components"
 	"github.com/pkg/errors"
 )

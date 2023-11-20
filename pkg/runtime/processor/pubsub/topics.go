@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/liuxd6825/components-contrib/metadata"
-	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/metadata"
+	contribpubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
 	"github.com/liuxd6825/dapr/pkg/resiliency"
 	"github.com/liuxd6825/dapr/pkg/runtime/compstore"

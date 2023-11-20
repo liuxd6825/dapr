@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/pubsub/azure/eventhubs"
+	"github.com/liuxd6825/dapr-components-contrib/pubsub/azure/eventhubs"
 	pubsubLoader "github.com/liuxd6825/dapr/pkg/components/pubsub"
 )
 

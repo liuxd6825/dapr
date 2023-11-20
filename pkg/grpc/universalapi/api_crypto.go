@@ -21,7 +21,7 @@ import (
 	"github.com/lestrrat-go/jwx/v2/jwk"
 
 	encv1 "github.com/dapr/kit/schemes/enc/v1"
-	contribCrypto "github.com/liuxd6825/components-contrib/crypto"
+	contribCrypto "github.com/liuxd6825/dapr-components-contrib/crypto"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
 	"github.com/liuxd6825/dapr/pkg/resiliency"
 )

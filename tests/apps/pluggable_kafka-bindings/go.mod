@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/dapr-sandbox/components-go-sdk v0.0.0-20221213200551-bd485eb929ff
-	github.com/liuxd6825/components-contrib v1.9.1-0.20221213185150-c5c985a68514
+	github.com/liuxd6825/dapr-components-contrib v1.9.1-0.20221213185150-c5c985a68514
 	github.com/dapr/kit v0.0.4-0.20221211173611-bcf6ee09314e
 )
 

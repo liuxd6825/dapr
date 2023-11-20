@@ -26,7 +26,7 @@ import (
 	"golang.org/x/net/http2"
 
 	"github.com/dapr/kit/logger"
-	contribmiddle "github.com/liuxd6825/components-contrib/middleware"
+	contribmiddle "github.com/liuxd6825/dapr-components-contrib/middleware"
 	commonapi "github.com/liuxd6825/dapr/pkg/apis/common"
 	httpendpapi "github.com/liuxd6825/dapr/pkg/apis/httpEndpoint/v1alpha1"
 	"github.com/liuxd6825/dapr/pkg/channel"

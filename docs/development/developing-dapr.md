@@ -204,4 +204,4 @@ Refer to the [Dapr Docs](https://docs.dapr.io/developing-applications/debugging/
 
 ## See also
 
-- Setting up a development environment [for building Dapr components](https://github.com/liuxd6825/components-contrib/blob/master/docs/developing-component.md)
+- Setting up a development environment [for building Dapr components](https://github.com/liuxd6825/dapr-components-contrib/blob/master/docs/developing-component.md)

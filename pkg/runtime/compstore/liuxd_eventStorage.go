@@ -1,6 +1,6 @@
 package compstore
 
-import "github.com/liuxd6825/components-contrib/liuxd/eventstorage"
+import "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage"
 
 func (c *ComponentStore) AddEventStorage(name string, store eventstorage.EventStorage) {
 	c.lock.Lock()

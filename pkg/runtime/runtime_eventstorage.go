@@ -2,11 +2,11 @@ package runtime
 
 import (
 	"context"
-	"github.com/liuxd6825/components-contrib/liuxd/common"
-	"github.com/liuxd6825/components-contrib/liuxd/eventstorage"
-	"github.com/liuxd6825/components-contrib/liuxd/eventstorage/impl/gorm_impl"
-	"github.com/liuxd6825/components-contrib/liuxd/eventstorage/impl/mongo_impl"
-	"github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/common"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage/impl/gorm_impl"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage/impl/mongo_impl"
+	"github.com/liuxd6825/dapr-components-contrib/pubsub"
 	components_v1alpha1 "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	"github.com/liuxd6825/dapr/pkg/outbox"
 

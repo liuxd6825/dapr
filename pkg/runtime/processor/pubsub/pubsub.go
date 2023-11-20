@@ -24,8 +24,8 @@ import (
 	"k8s.io/apimachinery/pkg/util/sets"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/contenttype"
-	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/contenttype"
+	contribpubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
 	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	comppubsub "github.com/liuxd6825/dapr/pkg/components/pubsub"
 	"github.com/liuxd6825/dapr/pkg/config"

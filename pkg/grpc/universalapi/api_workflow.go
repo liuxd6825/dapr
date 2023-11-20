@@ -22,7 +22,7 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/liuxd6825/components-contrib/workflows"
+	"github.com/liuxd6825/dapr-components-contrib/workflows"
 	"github.com/liuxd6825/dapr/pkg/messages"
 	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
 )

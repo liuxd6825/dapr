@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/pubsub/pulsar"
+	"github.com/liuxd6825/dapr-components-contrib/pubsub/pulsar"
 	pubsubLoader "github.com/liuxd6825/dapr/pkg/components/pubsub"
 )
 

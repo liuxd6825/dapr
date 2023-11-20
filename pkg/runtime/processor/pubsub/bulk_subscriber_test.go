@@ -33,7 +33,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/dapr/kit/logger"
-	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	contribpubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
 	componentsV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	channelt "github.com/liuxd6825/dapr/pkg/channel/testing"
 	"github.com/liuxd6825/dapr/pkg/config"

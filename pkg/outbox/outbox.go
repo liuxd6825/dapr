@@ -16,7 +16,7 @@ package outbox
 import (
 	"context"
 
-	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/state"
 	"github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 )
 

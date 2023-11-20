@@ -18,7 +18,7 @@ import (
 	"strings"
 
 	"github.com/dapr/kit/logger"
-	wfs "github.com/liuxd6825/components-contrib/workflows"
+	wfs "github.com/liuxd6825/dapr-components-contrib/workflows"
 	"github.com/liuxd6825/dapr/pkg/components"
 )
 

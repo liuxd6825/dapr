@@ -23,7 +23,7 @@ import (
 
 	"github.com/dapr/kit/logger"
 	"github.com/dapr/kit/ptr"
-	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/state"
 	resiliencyV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/resiliency/v1alpha1"
 	"github.com/liuxd6825/dapr/pkg/resiliency"
 )

@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/state/aws/dynamodb"
+	"github.com/liuxd6825/dapr-components-contrib/state/aws/dynamodb"
 	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
 )
 

@@ -17,7 +17,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/liuxd6825/components-contrib/secretstores"
+	"github.com/liuxd6825/dapr-components-contrib/secretstores"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
 	"github.com/liuxd6825/dapr/pkg/messages"
 	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"

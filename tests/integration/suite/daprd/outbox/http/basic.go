@@ -26,7 +26,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/state"
 	"github.com/liuxd6825/dapr/tests/integration/framework"
 	procdaprd "github.com/liuxd6825/dapr/tests/integration/framework/process/daprd"
 	prochttp "github.com/liuxd6825/dapr/tests/integration/framework/process/http"

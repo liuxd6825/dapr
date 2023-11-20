@@ -16,7 +16,7 @@ package universalapi
 import (
 	"context"
 
-	"github.com/liuxd6825/components-contrib/lock"
+	"github.com/liuxd6825/dapr-components-contrib/lock"
 	lockLoader "github.com/liuxd6825/dapr/pkg/components/lock"
 	"github.com/liuxd6825/dapr/pkg/messages"
 	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"

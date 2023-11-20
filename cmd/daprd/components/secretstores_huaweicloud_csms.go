@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/secretstores/huaweicloud/csms"
+	"github.com/liuxd6825/dapr-components-contrib/secretstores/huaweicloud/csms"
 	secretstoresLoader "github.com/liuxd6825/dapr/pkg/components/secretstores"
 )
 

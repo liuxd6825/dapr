@@ -21,7 +21,7 @@ import (
 	"sync"
 
 	"github.com/dapr/kit/logger"
-	contribstate "github.com/liuxd6825/components-contrib/state"
+	contribstate "github.com/liuxd6825/dapr-components-contrib/state"
 	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	compstate "github.com/liuxd6825/dapr/pkg/components/state"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"

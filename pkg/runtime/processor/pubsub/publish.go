@@ -29,8 +29,8 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	"github.com/liuxd6825/components-contrib/contenttype"
-	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/contenttype"
+	contribpubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
 	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
 	runtimev1 "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"

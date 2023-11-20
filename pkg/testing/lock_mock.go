@@ -7,7 +7,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 
-	lock "github.com/liuxd6825/components-contrib/lock"
+	lock "github.com/liuxd6825/dapr-components-contrib/lock"
 )
 
 // MockStore is a mock of Store interface.

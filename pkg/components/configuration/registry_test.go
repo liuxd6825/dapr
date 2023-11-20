@@ -21,7 +21,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/dapr/kit/logger"
-	c "github.com/liuxd6825/components-contrib/configuration"
+	c "github.com/liuxd6825/dapr-components-contrib/configuration"
 	"github.com/liuxd6825/dapr/pkg/components/configuration"
 )
 

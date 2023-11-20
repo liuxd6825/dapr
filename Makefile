@@ -457,7 +457,7 @@ gen-proto: check-proto-version $(GEN_PROTOS) modtidy
 ################################################################################
 .PHONY: get-components-contrib
 get-components-contrib:
-	go get github.com/liuxd6825/components-contrib@master
+	go get github.com/liuxd6825/dapr-components-contrib@master
 	make modtidy-all
 
 ################################################################################
@@ -532,7 +532,7 @@ prettier:
 .PHONY: update-components-contrib
 # Branch or tag to pin
 COMPONENTS_CONTRIB_BRANCH ?= master
-COMPONENTS_CONTRIB_REPO ?= github.com/liuxd6825/components-contrib
+COMPONENTS_CONTRIB_REPO ?= github.com/liuxd6825/dapr-components-contrib
 update-components-contrib:
 	go get -u $(COMPONENTS_CONTRIB_REPO)@$(COMPONENTS_CONTRIB_BRANCH)
 	make modtidy-all

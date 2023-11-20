@@ -21,7 +21,7 @@ import (
 	"sync"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/pubsub"
 	"github.com/liuxd6825/dapr/pkg/components/pluggable"
 	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
 )

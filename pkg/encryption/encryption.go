@@ -24,7 +24,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/liuxd6825/components-contrib/secretstores"
+	"github.com/liuxd6825/dapr-components-contrib/secretstores"
 	commonapi "github.com/liuxd6825/dapr/pkg/apis/common"
 	"github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 )

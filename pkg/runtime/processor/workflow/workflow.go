@@ -18,7 +18,7 @@ import (
 	"sync"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/workflows"
+	"github.com/liuxd6825/dapr-components-contrib/workflows"
 	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	compworkflow "github.com/liuxd6825/dapr/pkg/components/workflows"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"

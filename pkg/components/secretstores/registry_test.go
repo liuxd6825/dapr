@@ -21,7 +21,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/dapr/kit/logger"
-	ss "github.com/liuxd6825/components-contrib/secretstores"
+	ss "github.com/liuxd6825/dapr-components-contrib/secretstores"
 	"github.com/liuxd6825/dapr/pkg/components/secretstores"
 )
 

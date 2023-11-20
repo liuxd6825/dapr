@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/lock/redis"
+	"github.com/liuxd6825/dapr-components-contrib/lock/redis"
 	lockLoader "github.com/liuxd6825/dapr/pkg/components/lock"
 )
 

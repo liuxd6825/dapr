@@ -36,8 +36,8 @@ import (
 	"sigs.k8s.io/yaml"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/metadata"
-	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/metadata"
+	contribpubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
 	commonapi "github.com/liuxd6825/dapr/pkg/apis/common"
 	componentsV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	subscriptionsapi "github.com/liuxd6825/dapr/pkg/apis/subscriptions/v1alpha1"

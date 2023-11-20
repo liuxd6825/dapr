@@ -21,7 +21,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/dapr/kit/logger"
-	cp "github.com/liuxd6825/components-contrib/crypto"
+	cp "github.com/liuxd6825/dapr-components-contrib/crypto"
 	"github.com/liuxd6825/dapr/pkg/components/crypto"
 )
 

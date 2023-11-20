@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/lock"
+	"github.com/liuxd6825/dapr-components-contrib/lock"
 	"github.com/liuxd6825/dapr/pkg/components"
 )
 

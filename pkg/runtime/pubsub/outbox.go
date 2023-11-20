@@ -24,8 +24,8 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/dapr/kit/logger"
-	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
-	"github.com/liuxd6825/components-contrib/state"
+	contribPubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/state"
 	"github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	"github.com/liuxd6825/dapr/pkg/outbox"
 	"github.com/liuxd6825/dapr/utils"

@@ -28,8 +28,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/dapr/kit/ptr"
-	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
-	"github.com/liuxd6825/components-contrib/state"
+	contribPubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/state"
 	"github.com/liuxd6825/dapr/pkg/apis/common"
 	"github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	"github.com/liuxd6825/dapr/pkg/outbox"

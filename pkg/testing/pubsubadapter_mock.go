@@ -18,8 +18,8 @@ package testing
 import (
 	"context"
 
-	"github.com/liuxd6825/components-contrib/pubsub"
-	state "github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/pubsub"
+	state "github.com/liuxd6825/dapr-components-contrib/state"
 	"github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	"github.com/liuxd6825/dapr/pkg/outbox"
 )

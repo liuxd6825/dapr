@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	configPostgres "github.com/liuxd6825/components-contrib/configuration/postgres"
+	configPostgres "github.com/liuxd6825/dapr-components-contrib/configuration/postgres"
 	configurationLoader "github.com/liuxd6825/dapr/pkg/components/configuration"
 )
 

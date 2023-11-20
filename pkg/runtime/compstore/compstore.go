@@ -14,17 +14,17 @@ limitations under the License.
 package compstore
 
 import (
-	"github.com/liuxd6825/components-contrib/liuxd/applog"
-	"github.com/liuxd6825/components-contrib/liuxd/eventstorage"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/applog"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage"
 	"sync"
 
-	"github.com/liuxd6825/components-contrib/bindings"
-	"github.com/liuxd6825/components-contrib/configuration"
-	"github.com/liuxd6825/components-contrib/crypto"
-	"github.com/liuxd6825/components-contrib/lock"
-	"github.com/liuxd6825/components-contrib/secretstores"
-	"github.com/liuxd6825/components-contrib/state"
-	"github.com/liuxd6825/components-contrib/workflows"
+	"github.com/liuxd6825/dapr-components-contrib/bindings"
+	"github.com/liuxd6825/dapr-components-contrib/configuration"
+	"github.com/liuxd6825/dapr-components-contrib/crypto"
+	"github.com/liuxd6825/dapr-components-contrib/lock"
+	"github.com/liuxd6825/dapr-components-contrib/secretstores"
+	"github.com/liuxd6825/dapr-components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/workflows"
 	compsv1alpha1 "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	httpEndpointV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/httpEndpoint/v1alpha1"
 	"github.com/liuxd6825/dapr/pkg/config"

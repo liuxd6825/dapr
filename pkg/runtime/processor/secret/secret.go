@@ -18,7 +18,7 @@ import (
 	"io"
 	"sync"
 
-	"github.com/liuxd6825/components-contrib/secretstores"
+	"github.com/liuxd6825/dapr-components-contrib/secretstores"
 	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	compsecret "github.com/liuxd6825/dapr/pkg/components/secretstores"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"

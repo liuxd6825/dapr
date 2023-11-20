@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/state/hashicorp/consul"
+	"github.com/liuxd6825/dapr-components-contrib/state/hashicorp/consul"
 	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
 )
 

@@ -19,7 +19,7 @@ import (
 	"errors"
 	"fmt"
 
-	contribContentType "github.com/liuxd6825/components-contrib/contenttype"
+	contribContentType "github.com/liuxd6825/dapr-components-contrib/contenttype"
 )
 
 var errContentTypeMismatch = errors.New("error: mismatch between contentType and event")

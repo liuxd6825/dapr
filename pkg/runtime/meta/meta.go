@@ -19,7 +19,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/liuxd6825/components-contrib/metadata"
+	"github.com/liuxd6825/dapr-components-contrib/metadata"
 	"github.com/liuxd6825/dapr/pkg/apis/common"
 	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	"github.com/liuxd6825/dapr/pkg/components"

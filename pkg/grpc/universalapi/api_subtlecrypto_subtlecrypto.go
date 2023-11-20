@@ -28,7 +28,7 @@ import (
 	"github.com/lestrrat-go/jwx/v2/jwk"
 
 	kitCrypto "github.com/dapr/kit/crypto"
-	contribCrypto "github.com/liuxd6825/components-contrib/crypto"
+	contribCrypto "github.com/liuxd6825/dapr-components-contrib/crypto"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
 	"github.com/liuxd6825/dapr/pkg/messages"
 	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"

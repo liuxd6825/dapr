@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/crypto/jwks"
+	"github.com/liuxd6825/dapr-components-contrib/crypto/jwks"
 	cryptoLoader "github.com/liuxd6825/dapr/pkg/components/crypto"
 )
 

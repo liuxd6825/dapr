@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	pubsubGcp "github.com/liuxd6825/components-contrib/pubsub/gcp/pubsub"
+	pubsubGcp "github.com/liuxd6825/dapr-components-contrib/pubsub/gcp/pubsub"
 	pubsubLoader "github.com/liuxd6825/dapr/pkg/components/pubsub"
 )
 

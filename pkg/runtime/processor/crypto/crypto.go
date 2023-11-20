@@ -18,7 +18,7 @@ import (
 	"io"
 	"sync"
 
-	contribcrypto "github.com/liuxd6825/components-contrib/crypto"
+	contribcrypto "github.com/liuxd6825/dapr-components-contrib/crypto"
 	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	compcrypto "github.com/liuxd6825/dapr/pkg/components/crypto"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"

@@ -17,8 +17,8 @@ package components
 
 import (
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/bindings"
-	mqtt "github.com/liuxd6825/components-contrib/bindings/mqtt3"
+	"github.com/liuxd6825/dapr-components-contrib/bindings"
+	mqtt "github.com/liuxd6825/dapr-components-contrib/bindings/mqtt3"
 	bindingsLoader "github.com/liuxd6825/dapr/pkg/components/bindings"
 )
 

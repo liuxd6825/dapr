@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/configuration/azure/appconfig"
+	"github.com/liuxd6825/dapr-components-contrib/configuration/azure/appconfig"
 	configurationLoader "github.com/liuxd6825/dapr/pkg/components/configuration"
 )
 

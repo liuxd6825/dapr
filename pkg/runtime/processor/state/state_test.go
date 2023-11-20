@@ -24,8 +24,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/metadata"
-	contribstate "github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/metadata"
+	contribstate "github.com/liuxd6825/dapr-components-contrib/state"
 	"github.com/liuxd6825/dapr/pkg/apis/common"
 	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"

@@ -18,7 +18,7 @@ import (
 	"io"
 	"sync"
 
-	contribconfig "github.com/liuxd6825/components-contrib/configuration"
+	contribconfig "github.com/liuxd6825/dapr-components-contrib/configuration"
 	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	compconfig "github.com/liuxd6825/dapr/pkg/components/configuration"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"

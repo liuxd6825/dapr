@@ -20,7 +20,7 @@ import (
 
 	"github.com/cenkalti/backoff/v4"
 
-	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/state"
 	"github.com/liuxd6825/dapr/pkg/resiliency"
 )
 

@@ -24,7 +24,7 @@ import (
 
 	"github.com/dapr/kit/logger"
 	"github.com/dapr/kit/ptr"
-	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	contribpubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
 	resiliencyV1alpha "github.com/liuxd6825/dapr/pkg/apis/resiliency/v1alpha1"
 	channelt "github.com/liuxd6825/dapr/pkg/channel/testing"
 	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"

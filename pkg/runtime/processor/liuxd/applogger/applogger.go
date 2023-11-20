@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/liuxd/common"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/common"
 	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	comps "github.com/liuxd6825/dapr/pkg/components/liuxd/applogger"
 	compstate "github.com/liuxd6825/dapr/pkg/components/state"

@@ -18,7 +18,7 @@ import (
 	"strings"
 
 	"github.com/dapr/kit/logger"
-	nr "github.com/liuxd6825/components-contrib/nameresolution"
+	nr "github.com/liuxd6825/dapr-components-contrib/nameresolution"
 	"github.com/liuxd6825/dapr/pkg/components"
 )
 

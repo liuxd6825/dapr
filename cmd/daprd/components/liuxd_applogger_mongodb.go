@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/liuxd/applog/mongo"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/applog/mongo"
 	applogLoader "github.com/liuxd6825/dapr/pkg/components/liuxd/applogger"
 )
 

@@ -32,7 +32,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/middleware"
+	"github.com/liuxd6825/dapr-components-contrib/middleware"
 	commonapi "github.com/liuxd6825/dapr/pkg/apis/common"
 	componentsapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	httpendpapi "github.com/liuxd6825/dapr/pkg/apis/httpEndpoint/v1alpha1"

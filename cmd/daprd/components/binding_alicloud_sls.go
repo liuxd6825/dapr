@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/bindings/alicloud/sls"
+	"github.com/liuxd6825/dapr-components-contrib/bindings/alicloud/sls"
 	bindingsLoader "github.com/liuxd6825/dapr/pkg/components/bindings"
 )
 

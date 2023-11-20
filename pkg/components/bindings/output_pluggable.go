@@ -17,7 +17,7 @@ import (
 	"context"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/bindings"
+	"github.com/liuxd6825/dapr-components-contrib/bindings"
 	"github.com/liuxd6825/dapr/pkg/components/pluggable"
 	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
 )

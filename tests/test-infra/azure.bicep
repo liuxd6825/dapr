@@ -70,7 +70,7 @@ module serviceBusModule './azure-servicebus.bicep' = if (enableServiceBus) {
 }
 
 // This is temporarily turned off while we fix issues with Cosmos DB and RBAC
-// See: https://github.com/liuxd6825/components-contrib/issues/1603
+// See: https://github.com/liuxd6825/dapr-components-contrib/issues/1603
 /*
 // Deploy RBAC roles to allow the AKS cluster to access resources in the Cosmos DB account
 module cosmosdbRbacModule './azure-cosmosdb-rbac.bicep' = {

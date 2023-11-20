@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/secretstores/tencentcloud/ssm"
+	"github.com/liuxd6825/dapr-components-contrib/secretstores/tencentcloud/ssm"
 	secretstoresLoader "github.com/liuxd6825/dapr/pkg/components/secretstores"
 )
 

@@ -19,8 +19,8 @@ import (
 	"context"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/middleware"
-	"github.com/liuxd6825/components-contrib/middleware/http/opa"
+	"github.com/liuxd6825/dapr-components-contrib/middleware"
+	"github.com/liuxd6825/dapr-components-contrib/middleware/http/opa"
 	httpMiddlewareLoader "github.com/liuxd6825/dapr/pkg/components/middleware/http"
 	httpMiddleware "github.com/liuxd6825/dapr/pkg/middleware/http"
 )

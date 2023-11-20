@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/pubsub/aws/snssqs"
+	"github.com/liuxd6825/dapr-components-contrib/pubsub/aws/snssqs"
 	pubsubLoader "github.com/liuxd6825/dapr/pkg/components/pubsub"
 )
 

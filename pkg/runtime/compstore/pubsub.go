@@ -14,7 +14,7 @@ limitations under the License.
 package compstore
 
 import (
-	"github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/pubsub"
 	rtpubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 )
 

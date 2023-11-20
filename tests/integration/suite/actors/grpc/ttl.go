@@ -29,7 +29,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/types/known/anypb"
 
-	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/state"
 	rtv1 "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
 	"github.com/liuxd6825/dapr/tests/integration/framework"
 	"github.com/liuxd6825/dapr/tests/integration/framework/process/daprd"

@@ -19,7 +19,7 @@ import (
 	"github.com/dapr-sandbox/components-go-sdk/bindings/v1"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/bindings/kafka"
+	"github.com/liuxd6825/dapr-components-contrib/bindings/kafka"
 )
 
 var log = logger.NewLogger("kafka-bindings-pluggable")

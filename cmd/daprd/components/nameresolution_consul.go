@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/nameresolution/consul"
+	"github.com/liuxd6825/dapr-components-contrib/nameresolution/consul"
 	nrLoader "github.com/liuxd6825/dapr/pkg/components/nameresolution"
 )
 

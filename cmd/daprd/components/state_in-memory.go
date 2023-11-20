@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	inmemory "github.com/liuxd6825/components-contrib/state/in-memory"
+	inmemory "github.com/liuxd6825/dapr-components-contrib/state/in-memory"
 	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
 )
 

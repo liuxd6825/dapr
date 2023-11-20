@@ -14,7 +14,7 @@ limitations under the License.
 package compstore
 
 import (
-	"github.com/liuxd6825/components-contrib/configuration"
+	"github.com/liuxd6825/dapr-components-contrib/configuration"
 	"github.com/liuxd6825/dapr/pkg/config"
 )
 

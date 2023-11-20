@@ -312,7 +312,7 @@ func generateStateTransactionCases(protocolType string) testStateTransactionCase
 	testStateTransactionCase := testStateTransactionCase{
 		[]stateTransactionTestStep{
 			{
-				// Transaction order should be tested in conformance tests: https://github.com/liuxd6825/components-contrib/issues/1210
+				// Transaction order should be tested in conformance tests: https://github.com/liuxd6825/dapr-components-contrib/issues/1210
 				"transact",
 				newStateTransactionRequestResponse(
 					utils.StateTransactionKeyValue{testCase1Key, testCase1Value, "upsert"},

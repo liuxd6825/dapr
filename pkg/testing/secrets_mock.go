@@ -17,7 +17,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/liuxd6825/components-contrib/secretstores"
+	"github.com/liuxd6825/dapr-components-contrib/secretstores"
 )
 
 type FakeSecretStore struct{}

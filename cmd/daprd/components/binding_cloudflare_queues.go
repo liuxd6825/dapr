@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	cfqueues "github.com/liuxd6825/components-contrib/bindings/cloudflare/queues"
+	cfqueues "github.com/liuxd6825/dapr-components-contrib/bindings/cloudflare/queues"
 	bindingsLoader "github.com/liuxd6825/dapr/pkg/components/bindings"
 )
 

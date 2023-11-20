@@ -34,7 +34,7 @@ import (
 	"google.golang.org/grpc"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/state"
 	"github.com/liuxd6825/dapr/pkg/actors"
 	"github.com/liuxd6825/dapr/pkg/config"
 	"github.com/liuxd6825/dapr/pkg/resiliency"

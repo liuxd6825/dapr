@@ -17,7 +17,7 @@ import (
 	"context"
 	"sync/atomic"
 
-	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
+	contribPubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
 	"github.com/liuxd6825/dapr/pkg/resiliency"
 	"github.com/liuxd6825/dapr/utils"
 )

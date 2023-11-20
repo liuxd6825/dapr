@@ -33,7 +33,7 @@ import (
 	"k8s.io/utils/clock"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/state"
 	actorerrors "github.com/liuxd6825/dapr/pkg/actors/errors"
 	"github.com/liuxd6825/dapr/pkg/actors/internal"
 	"github.com/liuxd6825/dapr/pkg/actors/placement"

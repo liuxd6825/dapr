@@ -22,7 +22,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
+	contribPubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
 	daprt "github.com/liuxd6825/dapr/pkg/testing"
 )
 

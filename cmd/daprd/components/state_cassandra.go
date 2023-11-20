@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/state/cassandra"
+	"github.com/liuxd6825/dapr-components-contrib/state/cassandra"
 	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
 )
 

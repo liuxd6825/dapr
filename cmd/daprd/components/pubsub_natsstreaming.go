@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/pubsub/natsstreaming"
+	"github.com/liuxd6825/dapr-components-contrib/pubsub/natsstreaming"
 	pubsubLoader "github.com/liuxd6825/dapr/pkg/components/pubsub"
 )
 

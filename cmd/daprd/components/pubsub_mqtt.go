@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	mqtt "github.com/liuxd6825/components-contrib/pubsub/mqtt3"
+	mqtt "github.com/liuxd6825/dapr-components-contrib/pubsub/mqtt3"
 	pubsubLoader "github.com/liuxd6825/dapr/pkg/components/pubsub"
 )
 

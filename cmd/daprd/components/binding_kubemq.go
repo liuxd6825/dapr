@@ -17,8 +17,8 @@ package components
 
 import (
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/bindings"
-	"github.com/liuxd6825/components-contrib/bindings/kubemq"
+	"github.com/liuxd6825/dapr-components-contrib/bindings"
+	"github.com/liuxd6825/dapr-components-contrib/bindings/kubemq"
 	bindingsLoader "github.com/liuxd6825/dapr/pkg/components/bindings"
 )
 

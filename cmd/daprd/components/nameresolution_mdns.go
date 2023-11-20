@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	mdns "github.com/liuxd6825/components-contrib/nameresolution/mdns"
+	mdns "github.com/liuxd6825/dapr-components-contrib/nameresolution/mdns"
 	nrLoader "github.com/liuxd6825/dapr/pkg/components/nameresolution"
 )
 

@@ -1,6 +1,6 @@
 package compstore
 
-import "github.com/liuxd6825/components-contrib/liuxd/applog"
+import "github.com/liuxd6825/dapr-components-contrib/liuxd/applog"
 
 func (c *ComponentStore) AddAppLogger(name string, appLog applog.Logger) {
 	c.lock.Lock()

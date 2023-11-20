@@ -18,7 +18,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/bindings/kitex"
+	"github.com/liuxd6825/dapr-components-contrib/bindings/kitex"
 	bindingsLoader "github.com/liuxd6825/dapr/pkg/components/bindings"
 )
 

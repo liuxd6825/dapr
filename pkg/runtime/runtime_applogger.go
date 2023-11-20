@@ -2,7 +2,7 @@ package runtime
 
 import (
 	"context"
-	"github.com/liuxd6825/components-contrib/liuxd/common"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/common"
 	components_v1alpha1 "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
 	pubsub_adapter "github.com/liuxd6825/dapr/pkg/runtime/pubsub"

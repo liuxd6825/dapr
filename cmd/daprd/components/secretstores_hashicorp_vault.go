@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/secretstores/hashicorp/vault"
+	"github.com/liuxd6825/dapr-components-contrib/secretstores/hashicorp/vault"
 	secretstoresLoader "github.com/liuxd6825/dapr/pkg/components/secretstores"
 )
 

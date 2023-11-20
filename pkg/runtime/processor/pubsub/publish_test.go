@@ -33,8 +33,8 @@ import (
 
 	"github.com/dapr/kit/logger"
 	"github.com/dapr/kit/ptr"
-	"github.com/liuxd6825/components-contrib/contenttype"
-	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/contenttype"
+	contribpubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
 	channelt "github.com/liuxd6825/dapr/pkg/channel/testing"
 	"github.com/liuxd6825/dapr/pkg/config"
 	"github.com/liuxd6825/dapr/pkg/grpc/manager"

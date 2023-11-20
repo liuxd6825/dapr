@@ -19,8 +19,8 @@ package mock
 import (
 	"context"
 
-	"github.com/liuxd6825/components-contrib/bindings"
-	"github.com/liuxd6825/components-contrib/secretstores"
+	"github.com/liuxd6825/dapr-components-contrib/bindings"
+	"github.com/liuxd6825/dapr-components-contrib/secretstores"
 )
 
 type SecretStore struct {

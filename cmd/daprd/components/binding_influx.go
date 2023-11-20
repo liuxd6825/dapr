@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/bindings/influx"
+	"github.com/liuxd6825/dapr-components-contrib/bindings/influx"
 	bindingsLoader "github.com/liuxd6825/dapr/pkg/components/bindings"
 )
 

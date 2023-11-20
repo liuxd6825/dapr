@@ -30,7 +30,7 @@ import (
 	clocktesting "k8s.io/utils/clock/testing"
 
 	"github.com/dapr/kit/ptr"
-	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/state"
 	"github.com/liuxd6825/dapr/pkg/actors/internal"
 	"github.com/liuxd6825/dapr/pkg/apis/resiliency/v1alpha1"
 	"github.com/liuxd6825/dapr/pkg/channel"

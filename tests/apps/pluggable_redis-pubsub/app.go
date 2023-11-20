@@ -20,8 +20,8 @@ import (
 	sdkPubSub "github.com/dapr-sandbox/components-go-sdk/pubsub/v1"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/pubsub"
-	"github.com/liuxd6825/components-contrib/pubsub/redis"
+	"github.com/liuxd6825/dapr-components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/pubsub/redis"
 )
 
 type redisPb struct {

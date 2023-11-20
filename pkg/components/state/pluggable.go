@@ -21,9 +21,9 @@ import (
 	"strconv"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/state"
-	"github.com/liuxd6825/components-contrib/state/query"
-	"github.com/liuxd6825/components-contrib/state/utils"
+	"github.com/liuxd6825/dapr-components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/state/query"
+	"github.com/liuxd6825/dapr-components-contrib/state/utils"
 	"github.com/liuxd6825/dapr/pkg/components/pluggable"
 	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
 

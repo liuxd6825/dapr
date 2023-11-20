@@ -18,7 +18,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/liuxd6825/components-contrib/liuxd/applog"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/applog"
 	"io"
 	"strconv"
 	"sync"
@@ -32,12 +32,12 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/liuxd6825/components-contrib/bindings"
-	"github.com/liuxd6825/components-contrib/configuration"
-	"github.com/liuxd6825/components-contrib/contenttype"
-	contribMetadata "github.com/liuxd6825/components-contrib/metadata"
-	"github.com/liuxd6825/components-contrib/pubsub"
-	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/bindings"
+	"github.com/liuxd6825/dapr-components-contrib/configuration"
+	"github.com/liuxd6825/dapr-components-contrib/contenttype"
+	contribMetadata "github.com/liuxd6825/dapr-components-contrib/metadata"
+	"github.com/liuxd6825/dapr-components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/state"
 	"github.com/liuxd6825/dapr/pkg/actors"
 	actorerrors "github.com/liuxd6825/dapr/pkg/actors/errors"
 	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
@@ -58,7 +58,7 @@ import (
 	runtimePubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 	"github.com/liuxd6825/dapr/utils"
 
-	"github.com/liuxd6825/components-contrib/liuxd/eventstorage"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage"
 )
 
 const daprHTTPStatusHeader = "dapr-http-status"

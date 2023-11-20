@@ -16,8 +16,8 @@ package pubsub
 import (
 	"github.com/mitchellh/mapstructure"
 
-	contribContenttype "github.com/liuxd6825/components-contrib/contenttype"
-	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
+	contribContenttype "github.com/liuxd6825/dapr-components-contrib/contenttype"
+	contribPubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
 )
 
 // CloudEvent is a request object to create a Dapr compliant cloudevent.

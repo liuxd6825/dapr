@@ -29,7 +29,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/bindings"
+	"github.com/liuxd6825/dapr-components-contrib/bindings"
 	commonapi "github.com/liuxd6825/dapr/pkg/apis/common"
 	componentsV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	channelt "github.com/liuxd6825/dapr/pkg/channel/testing"

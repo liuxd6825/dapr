@@ -20,7 +20,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/workflows"
+	"github.com/liuxd6825/dapr-components-contrib/workflows"
 	"github.com/liuxd6825/dapr/pkg/messages"
 	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
 	"github.com/liuxd6825/dapr/pkg/resiliency"

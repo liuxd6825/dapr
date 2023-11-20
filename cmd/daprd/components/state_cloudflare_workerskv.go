@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	cfkv "github.com/liuxd6825/components-contrib/state/cloudflare/workerskv"
+	cfkv "github.com/liuxd6825/dapr-components-contrib/state/cloudflare/workerskv"
 	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
 )
 

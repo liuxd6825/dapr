@@ -20,7 +20,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"golang.org/x/exp/maps"
 
-	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/state"
 	"github.com/liuxd6825/dapr/pkg/config"
 )
 

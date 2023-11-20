@@ -21,8 +21,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/liuxd6825/components-contrib/bindings"
-	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/bindings"
+	contribpubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
 	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 	"github.com/liuxd6825/dapr/pkg/components"
 	"github.com/liuxd6825/dapr/pkg/config"

@@ -18,7 +18,7 @@ import (
 	"strings"
 
 	"github.com/dapr/kit/logger"
-	"github.com/liuxd6825/components-contrib/secretstores"
+	"github.com/liuxd6825/dapr-components-contrib/secretstores"
 	"github.com/liuxd6825/dapr/pkg/components"
 )
 

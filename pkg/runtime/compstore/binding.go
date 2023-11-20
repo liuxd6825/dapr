@@ -13,7 +13,7 @@ limitations under the License.
 
 package compstore
 
-import "github.com/liuxd6825/components-contrib/bindings"
+import "github.com/liuxd6825/dapr-components-contrib/bindings"
 
 func (c *ComponentStore) AddInputBinding(name string, binding bindings.InputBinding) {
 	c.lock.Lock()

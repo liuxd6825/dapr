@@ -31,9 +31,9 @@ import (
 	"google.golang.org/grpc/status"
 
 	"github.com/dapr/kit/logger"
-	contribMetadata "github.com/liuxd6825/components-contrib/metadata"
-	"github.com/liuxd6825/components-contrib/state"
-	"github.com/liuxd6825/components-contrib/state/query"
+	contribMetadata "github.com/liuxd6825/dapr-components-contrib/metadata"
+	"github.com/liuxd6825/dapr-components-contrib/state"
+	"github.com/liuxd6825/dapr-components-contrib/state/query"
 	"github.com/liuxd6825/dapr/pkg/components/pluggable"
 	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
 	testingGrpc "github.com/liuxd6825/dapr/pkg/testing/grpc"

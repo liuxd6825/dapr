@@ -28,9 +28,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/liuxd6825/components-contrib/contenttype"
-	"github.com/liuxd6825/components-contrib/metadata"
-	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr-components-contrib/contenttype"
+	"github.com/liuxd6825/dapr-components-contrib/metadata"
+	contribpubsub "github.com/liuxd6825/dapr-components-contrib/pubsub"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
 	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
 	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"

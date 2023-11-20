@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	"github.com/liuxd6825/components-contrib/nameresolution/kubernetes"
+	"github.com/liuxd6825/dapr-components-contrib/nameresolution/kubernetes"
 	nrLoader "github.com/liuxd6825/dapr/pkg/components/nameresolution"
 )
 

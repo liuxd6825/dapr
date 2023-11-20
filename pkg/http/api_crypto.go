@@ -22,7 +22,7 @@ import (
 
 	"github.com/dapr/kit/ptr"
 	encv1 "github.com/dapr/kit/schemes/enc/v1"
-	contribCrypto "github.com/liuxd6825/components-contrib/crypto"
+	contribCrypto "github.com/liuxd6825/dapr-components-contrib/crypto"
 	"github.com/liuxd6825/dapr/pkg/messages"
 	"github.com/liuxd6825/dapr/utils"
 )
