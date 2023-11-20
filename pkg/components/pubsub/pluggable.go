@@ -20,10 +20,10 @@ import (
 	"io"
 	"sync"
 
-	"github.com/dapr/components-contrib/pubsub"
-	"github.com/dapr/dapr/pkg/components/pluggable"
-	proto "github.com/dapr/dapr/pkg/proto/components/v1"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr/pkg/components/pluggable"
+	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
 )
 
 // grpcPubSub is a implementation of a pubsub over a gRPC Protocol.

@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	"github.com/dapr/components-contrib/crypto/azure/keyvault"
-	cryptoLoader "github.com/dapr/dapr/pkg/components/crypto"
+	"github.com/liuxd6825/components-contrib/crypto/azure/keyvault"
+	cryptoLoader "github.com/liuxd6825/dapr/pkg/components/crypto"
 )
 
 func init() {

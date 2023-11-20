@@ -25,7 +25,7 @@ import (
 	"github.com/stretchr/testify/require"
 	clocktesting "k8s.io/utils/clock/testing"
 
-	"github.com/dapr/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/config"
 )
 
 func TestAppHealth_setResult(t *testing.T) {

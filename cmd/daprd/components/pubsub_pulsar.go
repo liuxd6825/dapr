@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	"github.com/dapr/components-contrib/pubsub/pulsar"
-	pubsubLoader "github.com/dapr/dapr/pkg/components/pubsub"
+	"github.com/liuxd6825/components-contrib/pubsub/pulsar"
+	pubsubLoader "github.com/liuxd6825/dapr/pkg/components/pubsub"
 )
 
 func init() {

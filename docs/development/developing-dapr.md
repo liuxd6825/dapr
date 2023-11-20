@@ -14,7 +14,7 @@ Contributing to Dapr often requires working with multiple repositories at once. 
 
 ```sh
 mkdir dapr
-git clone https://github.com/dapr/dapr.git dapr/dapr
+git clone https://github.com/liuxd6825/dapr.git dapr/dapr
 ```
 
 ## Build the Dapr binaries
@@ -25,7 +25,7 @@ You can build Dapr binaries with the `make` tool.
 >
 > These instructions also require that a `make` alias has been created for `mingw32-make.exe` according to the [setup instructions](./setup-dapr-development-env.md#installing-make).
 
-- When running `make`, you need to be at the root of the `dapr/dapr` repo directory, for example: `$GOPATH/src/github.com/dapr/dapr`.
+- When running `make`, you need to be at the root of the `dapr/dapr` repo directory, for example: `$GOPATH/src/github.com/liuxd6825/dapr`.
 
 - Once built, the release binaries will be found in `./dist/{os}_{arch}/release/`, where `{os}_{arch}` is your current OS and architecture.
 
@@ -204,4 +204,4 @@ Refer to the [Dapr Docs](https://docs.dapr.io/developing-applications/debugging/
 
 ## See also
 
-- Setting up a development environment [for building Dapr components](https://github.com/dapr/components-contrib/blob/master/docs/developing-component.md)
+- Setting up a development environment [for building Dapr components](https://github.com/liuxd6825/components-contrib/blob/master/docs/developing-component.md)

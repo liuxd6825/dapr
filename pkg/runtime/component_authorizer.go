@@ -16,7 +16,7 @@ package runtime
 import (
 	"strings"
 
-	componentsV1alpha1 "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
+	componentsV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 )
 
 type componentDenyList struct {

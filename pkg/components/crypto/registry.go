@@ -17,9 +17,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dapr/components-contrib/crypto"
-	"github.com/dapr/dapr/pkg/components"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/crypto"
+	"github.com/liuxd6825/dapr/pkg/components"
 )
 
 // Registry is used to get registered crypto provider implementations.

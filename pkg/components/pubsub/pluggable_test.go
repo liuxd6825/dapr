@@ -29,12 +29,12 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc"
 
-	contribMetadata "github.com/dapr/components-contrib/metadata"
-	"github.com/dapr/components-contrib/pubsub"
-	"github.com/dapr/dapr/pkg/components/pluggable"
-	proto "github.com/dapr/dapr/pkg/proto/components/v1"
-	testingGrpc "github.com/dapr/dapr/pkg/testing/grpc"
 	"github.com/dapr/kit/logger"
+	contribMetadata "github.com/liuxd6825/components-contrib/metadata"
+	"github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr/pkg/components/pluggable"
+	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
+	testingGrpc "github.com/liuxd6825/dapr/pkg/testing/grpc"
 )
 
 var testLogger = logger.NewLogger("pubsub-pluggable-test")

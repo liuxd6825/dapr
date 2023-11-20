@@ -32,7 +32,7 @@ import (
 	"k8s.io/apimachinery/pkg/util/uuid"
 	kubernetesfake "k8s.io/client-go/kubernetes/fake"
 
-	"github.com/dapr/dapr/pkg/client/clientset/versioned/fake"
+	"github.com/liuxd6825/dapr/pkg/client/clientset/versioned/fake"
 )
 
 func TestHandleRequest(t *testing.T) {

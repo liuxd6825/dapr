@@ -14,7 +14,7 @@ limitations under the License.
 package internal
 
 import (
-	"github.com/dapr/components-contrib/state"
+	"github.com/liuxd6825/components-contrib/state"
 )
 
 // TransactionalStateStore is an interface that includes both state.Store and state.TransactionalStore

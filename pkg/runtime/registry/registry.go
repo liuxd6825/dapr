@@ -14,18 +14,20 @@ limitations under the License.
 package registry
 
 import (
-	"github.com/dapr/dapr/pkg/components/bindings"
-	"github.com/dapr/dapr/pkg/components/configuration"
-	"github.com/dapr/dapr/pkg/components/crypto"
-	"github.com/dapr/dapr/pkg/components/lock"
-	"github.com/dapr/dapr/pkg/components/middleware/http"
-	"github.com/dapr/dapr/pkg/components/nameresolution"
-	"github.com/dapr/dapr/pkg/components/pubsub"
-	"github.com/dapr/dapr/pkg/components/secretstores"
-	"github.com/dapr/dapr/pkg/components/state"
-	"github.com/dapr/dapr/pkg/components/workflows"
-	messagingv1 "github.com/dapr/dapr/pkg/messaging/v1"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
+	"github.com/liuxd6825/dapr/pkg/components/bindings"
+	"github.com/liuxd6825/dapr/pkg/components/configuration"
+	"github.com/liuxd6825/dapr/pkg/components/crypto"
+	"github.com/liuxd6825/dapr/pkg/components/liuxd/applogger"
+	"github.com/liuxd6825/dapr/pkg/components/liuxd/eventstorage"
+	"github.com/liuxd6825/dapr/pkg/components/lock"
+	"github.com/liuxd6825/dapr/pkg/components/middleware/http"
+	"github.com/liuxd6825/dapr/pkg/components/nameresolution"
+	"github.com/liuxd6825/dapr/pkg/components/pubsub"
+	"github.com/liuxd6825/dapr/pkg/components/secretstores"
+	"github.com/liuxd6825/dapr/pkg/components/state"
+	"github.com/liuxd6825/dapr/pkg/components/workflows"
+	messagingv1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
 )
 
 type ComponentsCallback func(components ComponentRegistry) error
@@ -47,7 +49,11 @@ type Registry struct {
 	httpMiddleware *http.Registry
 	workflow       *workflows.Registry
 	crypto         *crypto.Registry
-	componentCb    ComponentsCallback
+
+	eventStorage *eventstorage.Registry
+	appLogger    *applogger.Registry
+
+	componentCb ComponentsCallback
 }
 
 func New(opts *Options) *Registry {
@@ -62,7 +68,11 @@ func New(opts *Options) *Registry {
 		httpMiddleware: opts.httpMiddleware,
 		workflow:       opts.workflow,
 		crypto:         opts.crypto,
-		componentCb:    opts.componentsCallback,
+
+		eventStorage: opts.eventStorage,
+		appLogger:    opts.appLogger,
+
+		componentCb: opts.componentsCallback,
 	}
 }
 
@@ -104,6 +114,14 @@ func (r *Registry) Workflows() *workflows.Registry {
 
 func (r *Registry) Crypto() *crypto.Registry {
 	return r.crypto
+}
+
+func (r *Registry) EventStorage() *eventstorage.Registry {
+	return r.eventStorage
+}
+
+func (r *Registry) AppLogger() *applogger.Registry {
+	return r.appLogger
 }
 
 func (r *Registry) ComponentsCallback() ComponentsCallback {

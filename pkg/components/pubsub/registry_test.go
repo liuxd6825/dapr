@@ -20,9 +20,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/dapr/components-contrib/pubsub"
-	daprt "github.com/dapr/dapr/pkg/testing"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/pubsub"
+	daprt "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 func TestCreateFullName(t *testing.T) {

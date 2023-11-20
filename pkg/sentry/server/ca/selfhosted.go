@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/dapr/dapr/pkg/sentry/config"
+	"github.com/liuxd6825/dapr/pkg/sentry/config"
 )
 
 // selfSigned is a store that uses the file system as the secret store.

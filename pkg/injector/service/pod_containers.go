@@ -19,7 +19,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/dapr/dapr/pkg/injector/patcher"
+	"github.com/liuxd6825/dapr/pkg/injector/patcher"
 )
 
 // getInjectedComponentContainers implements GetInjectedComponentContainersFn and returns the list of injected component.

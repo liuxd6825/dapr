@@ -30,11 +30,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/pkg/cors"
-	httpMiddleware "github.com/dapr/dapr/pkg/middleware/http"
-	dapr_testing "github.com/dapr/dapr/pkg/testing"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/cors"
+	httpMiddleware "github.com/liuxd6825/dapr/pkg/middleware/http"
+	dapr_testing "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 func newServer() server {

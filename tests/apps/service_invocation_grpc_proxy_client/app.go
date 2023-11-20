@@ -22,8 +22,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dapr/dapr/tests/apps/utils"
 	"github.com/gorilla/mux"
+	"github.com/liuxd6825/dapr/tests/apps/utils"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	pb "google.golang.org/grpc/examples/helloworld/helloworld"

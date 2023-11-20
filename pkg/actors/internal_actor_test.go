@@ -25,12 +25,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/dapr/dapr/pkg/actors/internal"
-	"github.com/dapr/dapr/pkg/config"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	"github.com/dapr/dapr/pkg/security/fake"
+	"github.com/liuxd6825/dapr/pkg/actors/internal"
+	"github.com/liuxd6825/dapr/pkg/config"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	"github.com/liuxd6825/dapr/pkg/security/fake"
 )
 
 type mockInternalActor struct {

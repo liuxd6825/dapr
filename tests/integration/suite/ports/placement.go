@@ -23,9 +23,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/dapr/dapr/tests/integration/framework"
-	procplace "github.com/dapr/dapr/tests/integration/framework/process/placement"
-	"github.com/dapr/dapr/tests/integration/suite"
+	"github.com/liuxd6825/dapr/tests/integration/framework"
+	procplace "github.com/liuxd6825/dapr/tests/integration/framework/process/placement"
+	"github.com/liuxd6825/dapr/tests/integration/suite"
 )
 
 func init() {

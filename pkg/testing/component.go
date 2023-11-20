@@ -18,8 +18,8 @@ import (
 
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-	commonapi "github.com/dapr/dapr/pkg/apis/common"
-	"github.com/dapr/dapr/pkg/scopes"
+	commonapi "github.com/liuxd6825/dapr/pkg/apis/common"
+	"github.com/liuxd6825/dapr/pkg/scopes"
 )
 
 const (

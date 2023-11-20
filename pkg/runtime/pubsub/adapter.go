@@ -16,8 +16,8 @@ package pubsub
 import (
 	"context"
 
-	contribPubsub "github.com/dapr/components-contrib/pubsub"
-	"github.com/dapr/dapr/pkg/outbox"
+	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr/pkg/outbox"
 )
 
 // Adapter is the interface for message buses.

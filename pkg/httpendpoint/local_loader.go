@@ -14,8 +14,8 @@ limitations under the License.
 package httpendpoint
 
 import (
-	httpEndpointsV1alpha1 "github.com/dapr/dapr/pkg/apis/httpEndpoint/v1alpha1"
-	"github.com/dapr/dapr/pkg/components"
+	httpEndpointsV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/httpEndpoint/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/components"
 )
 
 // LocalHTTPEndpoints loads http endpoints from a given directory.

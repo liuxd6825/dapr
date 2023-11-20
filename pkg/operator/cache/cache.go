@@ -8,7 +8,7 @@ import (
 	"k8s.io/apimachinery/pkg/util/rand"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 
-	operatormeta "github.com/dapr/dapr/pkg/operator/meta"
+	operatormeta "github.com/liuxd6825/dapr/pkg/operator/meta"
 )
 
 var (

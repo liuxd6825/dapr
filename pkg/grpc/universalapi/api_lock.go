@@ -16,11 +16,11 @@ package universalapi
 import (
 	"context"
 
-	"github.com/dapr/components-contrib/lock"
-	lockLoader "github.com/dapr/dapr/pkg/components/lock"
-	"github.com/dapr/dapr/pkg/messages"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
+	"github.com/liuxd6825/components-contrib/lock"
+	lockLoader "github.com/liuxd6825/dapr/pkg/components/lock"
+	"github.com/liuxd6825/dapr/pkg/messages"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
 )
 
 func (a *UniversalAPI) TryLockAlpha1(ctx context.Context, req *runtimev1pb.TryLockRequest) (*runtimev1pb.TryLockResponse, error) {

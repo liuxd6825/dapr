@@ -3,7 +3,7 @@ package meta
 import (
 	"testing"
 
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
 )
 
 func TestIsSidecarPresent(t *testing.T) {

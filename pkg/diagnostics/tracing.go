@@ -23,8 +23,8 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/dapr/dapr/pkg/config"
-	diagUtils "github.com/dapr/dapr/pkg/diagnostics/utils"
+	"github.com/liuxd6825/dapr/pkg/config"
+	diagUtils "github.com/liuxd6825/dapr/pkg/diagnostics/utils"
 
 	// We currently don't depend on the Otel SDK since it has not GAed.
 	// This package, however, only contains the conventions from the Otel Spec,

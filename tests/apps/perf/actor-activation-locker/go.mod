@@ -1,10 +1,10 @@
-module github.com/dapr/dapr/tests/apps/perf/actor-activation-locker
+module github.com/liuxd6825/dapr/tests/apps/perf/actor-activation-locker
 
 go 1.20
 
 require (
 	github.com/bsm/redislock v0.8.2
-	github.com/dapr/go-sdk v1.8.0
+	github.com/liuxd6825/go-sdk v1.8.0
 	github.com/go-redis/redis/v9 v9.0.0-rc.1
 )
 

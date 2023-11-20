@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	"github.com/dapr/components-contrib/bindings/zeebe/command"
-	bindingsLoader "github.com/dapr/dapr/pkg/components/bindings"
+	"github.com/liuxd6825/components-contrib/bindings/zeebe/command"
+	bindingsLoader "github.com/liuxd6825/dapr/pkg/components/bindings"
 )
 
 func init() {

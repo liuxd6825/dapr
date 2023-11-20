@@ -11,7 +11,7 @@ import (
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/tag"
 
-	"github.com/dapr/dapr/utils"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 // NewTag is a helper to create an opencensus tag that can be used in the different helpers here

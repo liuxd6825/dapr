@@ -23,8 +23,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/dapr/dapr/pkg/buildinfo"
 	"github.com/dapr/kit/ptr"
+	"github.com/liuxd6825/dapr/pkg/buildinfo"
 )
 
 func TestLoadStandaloneConfiguration(t *testing.T) {

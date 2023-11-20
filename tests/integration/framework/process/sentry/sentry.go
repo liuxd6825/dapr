@@ -34,11 +34,11 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc"
 
-	"github.com/dapr/dapr/pkg/sentry/server/ca"
-	"github.com/dapr/dapr/tests/integration/framework/binary"
-	"github.com/dapr/dapr/tests/integration/framework/process"
-	"github.com/dapr/dapr/tests/integration/framework/process/exec"
-	"github.com/dapr/dapr/tests/integration/framework/util"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/ca"
+	"github.com/liuxd6825/dapr/tests/integration/framework/binary"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process/exec"
+	"github.com/liuxd6825/dapr/tests/integration/framework/util"
 )
 
 type Sentry struct {

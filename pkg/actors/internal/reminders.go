@@ -18,7 +18,7 @@ import (
 	"errors"
 	"io"
 
-	"github.com/dapr/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
 )
 
 // ErrReminderCanceled is returned when the reminder has been canceled.

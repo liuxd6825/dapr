@@ -24,8 +24,8 @@ import (
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/tag"
 
-	diagUtils "github.com/dapr/dapr/pkg/diagnostics/utils"
-	"github.com/dapr/dapr/utils/responsewriter"
+	diagUtils "github.com/liuxd6825/dapr/pkg/diagnostics/utils"
+	"github.com/liuxd6825/dapr/utils/responsewriter"
 )
 
 // To track the metrics for fasthttp using opencensus, this implementation is inspired by

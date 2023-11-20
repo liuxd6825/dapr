@@ -17,9 +17,9 @@ import (
 	"context"
 	"sync/atomic"
 
-	contribPubsub "github.com/dapr/components-contrib/pubsub"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/utils"
+	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 func ApplyBulkPublishResiliency(ctx context.Context, req *contribPubsub.BulkPublishRequest,

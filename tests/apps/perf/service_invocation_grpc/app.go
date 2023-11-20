@@ -17,8 +17,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/dapr/go-sdk/service/common"
-	daprd "github.com/dapr/go-sdk/service/grpc"
+	"github.com/liuxd6825/go-sdk/service/common"
+	daprd "github.com/liuxd6825/go-sdk/service/grpc"
 )
 
 func main() {

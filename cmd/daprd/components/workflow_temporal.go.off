@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	"github.com/dapr/components-contrib/workflows/temporal"
-	workflowLoader "github.com/dapr/dapr/pkg/components/workflows"
+	"github.com/liuxd6825/components-contrib/workflows/temporal"
+	workflowLoader "github.com/liuxd6825/dapr/pkg/components/workflows"
 )
 
 func init() {

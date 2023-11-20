@@ -29,9 +29,9 @@ import (
 	"google.golang.org/grpc/status"
 	clocktesting "k8s.io/utils/clock/testing"
 
-	"github.com/dapr/dapr/pkg/placement/raft"
-	v1pb "github.com/dapr/dapr/pkg/proto/placement/v1"
-	securityfake "github.com/dapr/dapr/pkg/security/fake"
+	"github.com/liuxd6825/dapr/pkg/placement/raft"
+	v1pb "github.com/liuxd6825/dapr/pkg/proto/placement/v1"
+	securityfake "github.com/liuxd6825/dapr/pkg/security/fake"
 )
 
 const testStreamSendLatency = time.Second

@@ -24,9 +24,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/dapr/dapr/tests/e2e/utils"
-	kube "github.com/dapr/dapr/tests/platforms/kubernetes"
-	"github.com/dapr/dapr/tests/runner"
+	"github.com/liuxd6825/dapr/tests/e2e/utils"
+	kube "github.com/liuxd6825/dapr/tests/platforms/kubernetes"
+	"github.com/liuxd6825/dapr/tests/runner"
 	"github.com/stretchr/testify/require"
 )
 
@@ -96,7 +96,7 @@ func TestMain(m *testing.M) {
 				AppMemoryRequest:    "200Mi",
 			},
 			// Disables PHP test for Windows temporarily due to issues with its Windows container.
-			// See https://github.com/dapr/dapr/issues/2953
+			// See https://github.com/liuxd6825/dapr/issues/2953
 			kube.AppDescription{
 				AppName:             "actorphp",
 				DaprEnabled:         true,
@@ -122,7 +122,7 @@ func TestActorInvocationCrossSDKs(t *testing.T) {
 			// Disables Java test on Windows due to poor support for Java on Windows containers.
 			"JavaCarActor",
 			// Disables PHP test for Windows temporarily due to issues with its Windows container.
-			// See https://github.com/dapr/dapr/issues/2953
+			// See https://github.com/liuxd6825/dapr/issues/2953
 			"PHPCarActor",
 		)
 	}

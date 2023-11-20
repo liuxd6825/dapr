@@ -23,12 +23,12 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/dapr/dapr/pkg/messages"
-	"github.com/dapr/dapr/pkg/messaging"
-	commonv1pb "github.com/dapr/dapr/pkg/proto/common/v1"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
 	"github.com/dapr/kit/ptr"
 	encv1 "github.com/dapr/kit/schemes/enc/v1"
+	"github.com/liuxd6825/dapr/pkg/messages"
+	"github.com/liuxd6825/dapr/pkg/messaging"
+	commonv1pb "github.com/liuxd6825/dapr/pkg/proto/common/v1"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
 )
 
 // Timeout for waiting for the first message in the stream for Encrypt/Decrypt requests.

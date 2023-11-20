@@ -24,10 +24,10 @@ import (
 	"github.com/microsoft/durabletask-go/backend"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/dapr/components-contrib/workflows"
-	commonapi "github.com/dapr/dapr/pkg/apis/common"
-	componentsV1alpha1 "github.com/dapr/dapr/pkg/apis/components/v1alpha1" // This will be removed
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/workflows"
+	commonapi "github.com/liuxd6825/dapr/pkg/apis/common"
+	componentsV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1" // This will be removed
 )
 
 var ComponentDefinition = componentsV1alpha1.Component{

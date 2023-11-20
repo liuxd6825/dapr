@@ -40,12 +40,12 @@ import (
 	"google.golang.org/grpc/credentials"
 	"k8s.io/utils/clock"
 
-	"github.com/dapr/dapr/pkg/diagnostics"
-	"github.com/dapr/dapr/pkg/modes"
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
-	"github.com/dapr/dapr/pkg/security/legacy"
-	secpem "github.com/dapr/dapr/pkg/security/pem"
-	sentryToken "github.com/dapr/dapr/pkg/security/token"
+	"github.com/liuxd6825/dapr/pkg/diagnostics"
+	"github.com/liuxd6825/dapr/pkg/modes"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
+	"github.com/liuxd6825/dapr/pkg/security/legacy"
+	secpem "github.com/liuxd6825/dapr/pkg/security/pem"
+	sentryToken "github.com/liuxd6825/dapr/pkg/security/token"
 )
 
 const (

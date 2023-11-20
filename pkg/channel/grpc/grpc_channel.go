@@ -26,14 +26,14 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/dapr/dapr/pkg/apphealth"
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/pkg/messages"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	internalv1pb "github.com/dapr/dapr/pkg/proto/internals/v1"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/pkg/security"
-	securityConsts "github.com/dapr/dapr/pkg/security/consts"
+	"github.com/liuxd6825/dapr/pkg/apphealth"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/messages"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	internalv1pb "github.com/liuxd6825/dapr/pkg/proto/internals/v1"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/security"
+	securityConsts "github.com/liuxd6825/dapr/pkg/security/consts"
 )
 
 // Channel is a concrete AppChannel implementation for interacting with gRPC based user code.

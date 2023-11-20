@@ -5,7 +5,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/dapr/dapr/pkg/injector/annotations"
+	"github.com/liuxd6825/dapr/pkg/injector/annotations"
 )
 
 type resourceOpts struct {

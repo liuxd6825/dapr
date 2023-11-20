@@ -22,7 +22,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"github.com/dapr/dapr/pkg/apis/common"
+	"github.com/liuxd6825/dapr/pkg/apis/common"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 

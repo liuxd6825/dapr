@@ -17,14 +17,14 @@ import (
 	"context"
 	"sync"
 
-	"github.com/dapr/components-contrib/workflows"
-	compapi "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	compworkflow "github.com/dapr/dapr/pkg/components/workflows"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	rterrors "github.com/dapr/dapr/pkg/runtime/errors"
-	"github.com/dapr/dapr/pkg/runtime/meta"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/workflows"
+	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	compworkflow "github.com/liuxd6825/dapr/pkg/components/workflows"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	rterrors "github.com/liuxd6825/dapr/pkg/runtime/errors"
+	"github.com/liuxd6825/dapr/pkg/runtime/meta"
 )
 
 var log = logger.NewLogger("dapr.runtime.processor.workflow")

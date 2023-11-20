@@ -23,7 +23,7 @@ import (
 
 	"github.com/microsoft/durabletask-go/backend"
 
-	"github.com/dapr/dapr/pkg/actors"
+	"github.com/liuxd6825/dapr/pkg/actors"
 )
 
 const (

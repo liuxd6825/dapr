@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	cfkv "github.com/dapr/components-contrib/state/cloudflare/workerskv"
-	stateLoader "github.com/dapr/dapr/pkg/components/state"
+	cfkv "github.com/liuxd6825/components-contrib/state/cloudflare/workerskv"
+	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
 )
 
 func init() {

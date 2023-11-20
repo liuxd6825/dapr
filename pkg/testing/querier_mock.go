@@ -5,7 +5,7 @@ package testing
 import (
 	"context"
 
-	state "github.com/dapr/components-contrib/state"
+	state "github.com/liuxd6825/components-contrib/state"
 
 	mock "github.com/stretchr/testify/mock"
 )

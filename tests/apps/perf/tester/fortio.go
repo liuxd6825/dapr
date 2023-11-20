@@ -24,7 +24,7 @@ import (
 	"strconv"
 )
 
-// TODO: change to take from "github.com/dapr/dapr/tests/perf" once in repository. otherwise fails on go get step in Dockerfile.
+// TODO: change to take from "github.com/liuxd6825/dapr/tests/perf" once in repository. otherwise fails on go get step in Dockerfile.
 type TestParameters struct {
 	QPS               int    `json:"qps"`
 	ClientConnections int    `json:"clientConnections"`

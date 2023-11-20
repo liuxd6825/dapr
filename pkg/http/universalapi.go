@@ -23,7 +23,7 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/dapr/dapr/pkg/messages"
+	"github.com/liuxd6825/dapr/pkg/messages"
 )
 
 // Object containing options for the UniversalHTTPHandler method.

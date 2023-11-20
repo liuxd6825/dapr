@@ -23,7 +23,7 @@ import (
 	"github.com/google/uuid"
 	"golang.org/x/exp/maps"
 
-	state "github.com/dapr/components-contrib/state"
+	state "github.com/liuxd6825/components-contrib/state"
 )
 
 type FakeStateStoreItem struct {
@@ -220,7 +220,7 @@ func (f *FakeStateStore) MultiMaxSize() int {
 	return f.MaxOperations
 }
 
-// Adapted from https://github.com/dapr/components-contrib/blob/a4b27ae49b7c99820c6e921d3891f03334692714/state/utils/utils.go#L16
+// Adapted from https://github.com/liuxd6825/components-contrib/blob/a4b27ae49b7c99820c6e921d3891f03334692714/state/utils/utils.go#L16
 func marshal(val interface{}) ([]byte, error) {
 	var err error = nil
 	bt, ok := val.([]byte)

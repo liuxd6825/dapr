@@ -18,7 +18,7 @@ import (
 
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
 )
 
 // Validator is used to validate the identity of a certificate requester by

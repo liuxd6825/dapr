@@ -27,9 +27,9 @@ import (
 	"fortio.org/fortio/stats"
 	"github.com/google/uuid"
 
-	actorClient "github.com/dapr/dapr/tests/apps/actorload/pkg/actor/client"
-	httpClient "github.com/dapr/dapr/tests/apps/actorload/pkg/actor/client/http"
-	telemetry "github.com/dapr/dapr/tests/apps/actorload/pkg/telemetry"
+	actorClient "github.com/liuxd6825/dapr/tests/apps/actorload/pkg/actor/client"
+	httpClient "github.com/liuxd6825/dapr/tests/apps/actorload/pkg/actor/client/http"
+	telemetry "github.com/liuxd6825/dapr/tests/apps/actorload/pkg/telemetry"
 )
 
 const (

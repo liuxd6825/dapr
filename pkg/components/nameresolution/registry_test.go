@@ -20,9 +20,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	nr "github.com/dapr/components-contrib/nameresolution"
-	"github.com/dapr/dapr/pkg/components/nameresolution"
 	"github.com/dapr/kit/logger"
+	nr "github.com/liuxd6825/components-contrib/nameresolution"
+	"github.com/liuxd6825/dapr/pkg/components/nameresolution"
 )
 
 type mockResolver struct {

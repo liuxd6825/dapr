@@ -27,7 +27,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc/test/bufconn"
 
-	"github.com/dapr/dapr/pkg/security/consts"
+	"github.com/liuxd6825/dapr/pkg/security/consts"
 )
 
 func TestAPITokenAuthMiddleware(t *testing.T) {

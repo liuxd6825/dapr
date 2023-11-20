@@ -8,8 +8,8 @@ import (
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/dapr/dapr/pkg/apis/configuration/v1alpha1"
-	"github.com/dapr/dapr/pkg/security"
+	"github.com/liuxd6825/dapr/pkg/apis/configuration/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/security"
 )
 
 // Config returns an operator config options.

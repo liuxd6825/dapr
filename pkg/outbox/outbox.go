@@ -16,8 +16,8 @@ package outbox
 import (
 	"context"
 
-	"github.com/dapr/components-contrib/state"
-	"github.com/dapr/dapr/pkg/apis/components/v1alpha1"
+	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 )
 
 // Outbox defines the interface for all Outbox pattern operations combining state and pubsub.

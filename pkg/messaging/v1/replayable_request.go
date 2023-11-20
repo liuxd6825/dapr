@@ -18,8 +18,8 @@ import (
 	"io"
 	"sync"
 
-	"github.com/dapr/dapr/utils"
-	streamutils "github.com/dapr/dapr/utils/streams"
+	"github.com/liuxd6825/dapr/utils"
+	streamutils "github.com/liuxd6825/dapr/utils/streams"
 )
 
 // Minimum capacity for the slices is 2KB

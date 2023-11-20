@@ -24,7 +24,7 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/svid/x509svid"
 
-	"github.com/dapr/dapr/pkg/security/consts"
+	"github.com/liuxd6825/dapr/pkg/security/consts"
 )
 
 // NewServer returns a `tls.Config` intended for network servers. Because

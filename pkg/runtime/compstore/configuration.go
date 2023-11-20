@@ -14,8 +14,8 @@ limitations under the License.
 package compstore
 
 import (
-	"github.com/dapr/components-contrib/configuration"
-	"github.com/dapr/dapr/pkg/config"
+	"github.com/liuxd6825/components-contrib/configuration"
+	"github.com/liuxd6825/dapr/pkg/config"
 )
 
 func (c *ComponentStore) AddConfiguration(name string, store configuration.Store) {

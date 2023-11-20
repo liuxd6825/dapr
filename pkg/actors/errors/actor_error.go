@@ -19,7 +19,7 @@ import (
 
 	"google.golang.org/grpc/codes"
 
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
 )
 
 // ActorError is an error returned by an Actor via a header + body in the method's response.

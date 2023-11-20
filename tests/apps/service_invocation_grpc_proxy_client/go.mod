@@ -1,10 +1,10 @@
-module github.com/dapr/dapr/tests/apps/service_invocation_grpc_proxy_client
+module github.com/liuxd6825/dapr/tests/apps/service_invocation_grpc_proxy_client
 
-go 1.20
+go 1.21.4
 
 require (
-	github.com/dapr/dapr v0.0.0-00010101000000-000000000000
 	github.com/gorilla/mux v1.8.0
+	github.com/liuxd6825/dapr v0.0.0-00010101000000-000000000000
 	google.golang.org/grpc v1.57.0
 	google.golang.org/grpc/examples v0.0.0-20210610163306-6351a55c3895
 )
@@ -19,4 +19,4 @@ require (
 	google.golang.org/protobuf v1.31.0 // indirect
 )
 
-replace github.com/dapr/dapr => ../../../
+replace github.com/liuxd6825/dapr => ../../../

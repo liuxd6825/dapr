@@ -9,7 +9,7 @@ E2E tests are designed for verifying the functional correctness by replicating e
 
 ### Prerequisites
 
-1. Set up [Dapr development environment](https://github.com/dapr/dapr/blob/master/docs/development/setup-dapr-development-env.md)
+1. Set up [Dapr development environment](https://github.com/liuxd6825/dapr/blob/master/docs/development/setup-dapr-development-env.md)
 2. [Install the latest Helm v3](https://helm.sh/docs/intro/install/)
 3. Get a Docker container registry:
    - If using Docker Hub, create your Docker Hub ID
@@ -89,7 +89,7 @@ If you are starting from scratch and just want to build dapr, deploy it, and run
    make delete-test-namespace
    ```
 
-    > Note: please make sure that you have executed helm uninstall command before you deleted dapr test namespace. Otherwise if you directly deleted the dapr test namespace without helm uninstall command and re-installed dapr control plane, the dapr sidecar injector won't work and fail for "bad certificate". And you have already run into this problem, you can recover by helm uninstall command. See https://github.com/dapr/dapr/issues/4612
+    > Note: please make sure that you have executed helm uninstall command before you deleted dapr test namespace. Otherwise if you directly deleted the dapr test namespace without helm uninstall command and re-installed dapr control plane, the dapr sidecar injector won't work and fail for "bad certificate". And you have already run into this problem, you can recover by helm uninstall command. See https://github.com/liuxd6825/dapr/issues/4612
 
 3. Build, deploy, run tests from start to finish
 
@@ -196,7 +196,7 @@ make delete-test-namespace
 
 ## Run E2E tests through GitHub Actions
 
-To keep the build infrastructure simple, Dapr uses [dapr-test GitHub Actions Workflow](https://github.com/dapr/dapr/actions?query=workflow%3Adapr-test) to run e2e tests using one of [AKS clusters](https://github.com/dapr/dapr/blob/4cd61680a3129f729deae24a51da241d0701376c/tests/test-infra/find_cluster.sh#L12-L17). A separate workflow also runs E2E in [KinD](https://kind.sigs.k8s.io/) clusters.
+To keep the build infrastructure simple, Dapr uses [dapr-test GitHub Actions Workflow](https://github.com/liuxd6825/dapr/actions?query=workflow%3Adapr-test) to run e2e tests using one of [AKS clusters](https://github.com/liuxd6825/dapr/blob/4cd61680a3129f729deae24a51da241d0701376c/tests/test-infra/find_cluster.sh#L12-L17). A separate workflow also runs E2E in [KinD](https://kind.sigs.k8s.io/) clusters.
 
 Once a contributor creates a pull request, E2E tests on KinD clusters are automatically executed for faster feedback. In order to run the E2E tests on AKS, ask a maintainer or approver to add `/ok-to-test` comment to the Pull Request.
 

@@ -27,13 +27,13 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc"
 
-	v1pb "github.com/dapr/dapr/pkg/proto/placement/v1"
-	"github.com/dapr/dapr/pkg/security"
-	"github.com/dapr/dapr/tests/integration/framework"
-	"github.com/dapr/dapr/tests/integration/framework/process/placement"
-	"github.com/dapr/dapr/tests/integration/framework/process/sentry"
-	"github.com/dapr/dapr/tests/integration/framework/util"
-	"github.com/dapr/dapr/tests/integration/suite"
+	v1pb "github.com/liuxd6825/dapr/pkg/proto/placement/v1"
+	"github.com/liuxd6825/dapr/pkg/security"
+	"github.com/liuxd6825/dapr/tests/integration/framework"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process/placement"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process/sentry"
+	"github.com/liuxd6825/dapr/tests/integration/framework/util"
+	"github.com/liuxd6825/dapr/tests/integration/suite"
 )
 
 func init() {

@@ -27,12 +27,12 @@ import (
 
 	"github.com/lestrrat-go/jwx/v2/jwk"
 
-	contribCrypto "github.com/dapr/components-contrib/crypto"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	"github.com/dapr/dapr/pkg/messages"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
 	kitCrypto "github.com/dapr/kit/crypto"
+	contribCrypto "github.com/liuxd6825/components-contrib/crypto"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	"github.com/liuxd6825/dapr/pkg/messages"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
 )
 
 // SubtleGetKeyAlpha1 returns the public part of an asymmetric key stored in the vault.

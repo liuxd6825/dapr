@@ -17,8 +17,8 @@ import (
 	dapr "github.com/dapr-sandbox/components-go-sdk"
 	"github.com/dapr-sandbox/components-go-sdk/state/v1"
 
-	"github.com/dapr/components-contrib/state/redis"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/state/redis"
 )
 
 var log = logger.NewLogger("redis-pluggable")

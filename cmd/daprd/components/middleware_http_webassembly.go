@@ -18,12 +18,12 @@ package components
 import (
 	"context"
 
-	"github.com/dapr/components-contrib/middleware"
-	"github.com/dapr/components-contrib/middleware/http/wasm"
-	"github.com/dapr/dapr/pkg/components"
-	httpMiddlewareLoader "github.com/dapr/dapr/pkg/components/middleware/http"
-	httpMiddleware "github.com/dapr/dapr/pkg/middleware/http"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/middleware"
+	"github.com/liuxd6825/components-contrib/middleware/http/wasm"
+	"github.com/liuxd6825/dapr/pkg/components"
+	httpMiddlewareLoader "github.com/liuxd6825/dapr/pkg/components/middleware/http"
+	httpMiddleware "github.com/liuxd6825/dapr/pkg/middleware/http"
 )
 
 func init() {

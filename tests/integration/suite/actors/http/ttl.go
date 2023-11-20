@@ -27,12 +27,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/dapr/dapr/tests/integration/framework"
-	"github.com/dapr/dapr/tests/integration/framework/process/daprd"
-	prochttp "github.com/dapr/dapr/tests/integration/framework/process/http"
-	"github.com/dapr/dapr/tests/integration/framework/process/placement"
-	"github.com/dapr/dapr/tests/integration/framework/util"
-	"github.com/dapr/dapr/tests/integration/suite"
+	"github.com/liuxd6825/dapr/tests/integration/framework"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process/daprd"
+	prochttp "github.com/liuxd6825/dapr/tests/integration/framework/process/http"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process/placement"
+	"github.com/liuxd6825/dapr/tests/integration/framework/util"
+	"github.com/liuxd6825/dapr/tests/integration/suite"
 )
 
 func init() {

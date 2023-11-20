@@ -19,7 +19,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	v1pb "github.com/dapr/dapr/pkg/proto/placement/v1"
+	v1pb "github.com/liuxd6825/dapr/pkg/proto/placement/v1"
 )
 
 // placementClient implements the best practices when handling grpc streams

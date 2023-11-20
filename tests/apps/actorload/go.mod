@@ -1,4 +1,4 @@
-module github.com/dapr/dapr/tests/apps/actorload
+module github.com/liuxd6825/dapr/tests/apps/actorload
 
 go 1.20
 

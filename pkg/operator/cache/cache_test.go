@@ -13,9 +13,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
-	operatormeta "github.com/dapr/dapr/pkg/operator/meta"
-	"github.com/dapr/dapr/pkg/operator/testobjects"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
+	operatormeta "github.com/liuxd6825/dapr/pkg/operator/meta"
+	"github.com/liuxd6825/dapr/pkg/operator/testobjects"
 )
 
 // convertToByGVK exposed/modified from sigs.k8s.io/controller-runtime/pkg/cache/cache.go:427

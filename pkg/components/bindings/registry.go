@@ -17,9 +17,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dapr/components-contrib/bindings"
-	"github.com/dapr/dapr/pkg/components"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/bindings"
+	"github.com/liuxd6825/dapr/pkg/components"
 )
 
 // Registry is the interface of a components that allows callers to get registered instances of input and output bindings.

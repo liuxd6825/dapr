@@ -14,8 +14,8 @@ limitations under the License.
 package actors
 
 import (
-	_ "github.com/dapr/dapr/tests/integration/suite/actors/grpc"
-	_ "github.com/dapr/dapr/tests/integration/suite/actors/healthz"
-	_ "github.com/dapr/dapr/tests/integration/suite/actors/http"
-	_ "github.com/dapr/dapr/tests/integration/suite/actors/reminders"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/actors/grpc"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/actors/healthz"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/actors/http"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/actors/reminders"
 )

@@ -20,8 +20,8 @@ import (
 
 	"github.com/cenkalti/backoff/v4"
 
-	"github.com/dapr/components-contrib/state"
-	"github.com/dapr/dapr/pkg/resiliency"
+	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
 )
 
 type stateRequestConstraint interface {

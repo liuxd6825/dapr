@@ -14,7 +14,7 @@ limitations under the License.
 package consts
 
 import (
-	"github.com/dapr/dapr/pkg/modes"
+	"github.com/liuxd6825/dapr/pkg/modes"
 )
 
 // DaprMode is the runtime mode for Dapr.

@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	"github.com/dapr/components-contrib/lock/redis"
-	lockLoader "github.com/dapr/dapr/pkg/components/lock"
+	"github.com/liuxd6825/components-contrib/lock/redis"
+	lockLoader "github.com/liuxd6825/dapr/pkg/components/lock"
 )
 
 func init() {

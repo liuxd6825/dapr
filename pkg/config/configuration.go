@@ -22,7 +22,7 @@ import (
 	"strings"
 	"time"
 
-	env "github.com/dapr/dapr/pkg/config/env"
+	env "github.com/liuxd6825/dapr/pkg/config/env"
 
 	grpcRetry "github.com/grpc-ecosystem/go-grpc-middleware/retry"
 	"github.com/spf13/cast"
@@ -30,10 +30,10 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
 
-	"github.com/dapr/dapr/pkg/buildinfo"
-	operatorv1pb "github.com/dapr/dapr/pkg/proto/operator/v1"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/ptr"
+	"github.com/liuxd6825/dapr/pkg/buildinfo"
+	operatorv1pb "github.com/liuxd6825/dapr/pkg/proto/operator/v1"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 // Feature Flags section

@@ -139,7 +139,7 @@ HELM_REGISTRY?=daprio.azurecr.io
 ################################################################################
 # Go build details                                                             #
 ################################################################################
-BASE_PACKAGE_NAME := github.com/dapr/dapr
+BASE_PACKAGE_NAME := github.com/liuxd6825/dapr
 LOGGER_PACKAGE_NAME := github.com/dapr/kit/logger
 
 # Comma-separated list of features to enable
@@ -414,7 +414,7 @@ modtidy:
 ################################################################################
 .PHONY: format
 format: modtidy-all
-	gofumpt -l -w . && goimports -local github.com/dapr/ -w $(shell find ./pkg -type f -name '*.go' -not -path "./pkg/proto/*")
+	gofumpt -l -w . && goimports -local github.com/liuxd6825/ -w $(shell find ./pkg -type f -name '*.go' -not -path "./pkg/proto/*")
 
 ################################################################################
 # Target: check                                                              #
@@ -435,7 +435,7 @@ init-proto:
 # Target: gen-proto                                                            #
 ################################################################################
 GRPC_PROTOS:=common internals operator placement runtime sentry components
-PROTO_PREFIX:=github.com/dapr/dapr
+PROTO_PREFIX:=github.com/liuxd6825/dapr
 
 # Generate archive files for each binary
 # $(1): the binary name to be archived
@@ -457,7 +457,7 @@ gen-proto: check-proto-version $(GEN_PROTOS) modtidy
 ################################################################################
 .PHONY: get-components-contrib
 get-components-contrib:
-	go get github.com/dapr/components-contrib@master
+	go get github.com/liuxd6825/components-contrib@master
 	make modtidy-all
 
 ################################################################################
@@ -474,13 +474,13 @@ check-diff:
 .PHONY: check-proto-version
 check-proto-version: ## Checking the version of proto related tools
 	@test "$(shell protoc --version)" = "libprotoc $(PROTOC_VERSION)" \
-	|| { echo "please use protoc $(PROTOC_VERSION) (protobuf $(PROTOBUF_SUITE_VERSION)) to generate proto, see https://github.com/dapr/dapr/blob/master/dapr/README.md#proto-client-generation"; exit 1; }
+	|| { echo "please use protoc $(PROTOC_VERSION) (protobuf $(PROTOBUF_SUITE_VERSION)) to generate proto, see https://github.com/liuxd6825/dapr/blob/master/dapr/README.md#proto-client-generation"; exit 1; }
 
 	@test "$(shell protoc-gen-go-grpc --version)" = "protoc-gen-go-grpc $(PROTOC_GEN_GO_GRPC_VERSION)" \
-	|| { echo "please use protoc-gen-go-grpc $(PROTOC_GEN_GO_GRPC_VERSION) to generate proto, see https://github.com/dapr/dapr/blob/master/dapr/README.md#proto-client-generation"; exit 1; }
+	|| { echo "please use protoc-gen-go-grpc $(PROTOC_GEN_GO_GRPC_VERSION) to generate proto, see https://github.com/liuxd6825/dapr/blob/master/dapr/README.md#proto-client-generation"; exit 1; }
 
 	@test "$(shell protoc-gen-go --version 2>&1)" = "$(PROTOC_GEN_GO_NAME)" \
-	|| { echo "please use protoc-gen-go $(PROTOC_GEN_GO_VERSION) to generate proto, see https://github.com/dapr/dapr/blob/master/dapr/README.md#proto-client-generation"; exit 1; }
+	|| { echo "please use protoc-gen-go $(PROTOC_GEN_GO_VERSION) to generate proto, see https://github.com/liuxd6825/dapr/blob/master/dapr/README.md#proto-client-generation"; exit 1; }
 
 ################################################################################
 # Target: check-proto-diff                                                           #
@@ -532,7 +532,7 @@ prettier:
 .PHONY: update-components-contrib
 # Branch or tag to pin
 COMPONENTS_CONTRIB_BRANCH ?= master
-COMPONENTS_CONTRIB_REPO ?= github.com/dapr/components-contrib
+COMPONENTS_CONTRIB_REPO ?= github.com/liuxd6825/components-contrib
 update-components-contrib:
 	go get -u $(COMPONENTS_CONTRIB_REPO)@$(COMPONENTS_CONTRIB_BRANCH)
 	make modtidy-all

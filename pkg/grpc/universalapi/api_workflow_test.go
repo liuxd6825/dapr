@@ -19,13 +19,13 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/dapr/components-contrib/workflows"
-	"github.com/dapr/dapr/pkg/messages"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	daprt "github.com/dapr/dapr/pkg/testing"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/workflows"
+	"github.com/liuxd6825/dapr/pkg/messages"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	daprt "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 const (

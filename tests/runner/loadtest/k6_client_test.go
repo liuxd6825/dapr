@@ -20,7 +20,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/dapr/dapr/pkg/client/clientset/versioned/scheme"
+	"github.com/liuxd6825/dapr/pkg/client/clientset/versioned/scheme"
 
 	v1 "github.com/grafana/k6-operator/api/v1alpha1"
 	"github.com/stretchr/testify/assert"

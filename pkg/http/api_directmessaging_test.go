@@ -28,14 +28,14 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/anypb"
 
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/pkg/grpc/universalapi"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	commonv1 "github.com/dapr/dapr/pkg/proto/common/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	daprt "github.com/dapr/dapr/pkg/testing"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/grpc/universalapi"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	commonv1 "github.com/liuxd6825/dapr/pkg/proto/common/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	daprt "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 func TestV1DirectMessagingEndpoints(t *testing.T) {

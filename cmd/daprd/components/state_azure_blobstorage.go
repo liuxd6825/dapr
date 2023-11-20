@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	"github.com/dapr/components-contrib/state/azure/blobstorage"
-	stateLoader "github.com/dapr/dapr/pkg/components/state"
+	"github.com/liuxd6825/components-contrib/state/azure/blobstorage"
+	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
 )
 
 func init() {

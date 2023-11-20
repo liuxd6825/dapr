@@ -1,0 +1,14 @@
+/* dapr */
+
+use dev_dapr_applog
+db.createUser({user:"dapr",pwd:"123456",roles:[{role:"userAdmin",db:"dev_dapr_applog"},{role:"dbAdmin",db:"dev_dapr_applog"},{role:"readWrite",db:"dev_dapr_applog"}]});
+
+use dev_dapr_esdb
+db.createUser({user:"dapr",pwd:"123456",roles:[{role:"userAdmin",db:"dev_dapr_esdb"},{role:"dbAdmin",db:"dev_dapr_esdb"},{role:"readWrite",db:"dev_dapr_esdb"}]});
+db.createCollection("test_event")
+db.createCollection("test_snapshot")
+db.createCollection("test_aggregate")
+db.createCollection("test_relation")
+db.createCollection("test_message")
+
+

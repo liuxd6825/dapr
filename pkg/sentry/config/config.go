@@ -23,10 +23,10 @@ import (
 
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	scheme "github.com/dapr/dapr/pkg/client/clientset/versioned"
-	daprGlobalConfig "github.com/dapr/dapr/pkg/config"
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
-	"github.com/dapr/dapr/utils"
+	scheme "github.com/liuxd6825/dapr/pkg/client/clientset/versioned"
+	daprGlobalConfig "github.com/liuxd6825/dapr/pkg/config"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 const (

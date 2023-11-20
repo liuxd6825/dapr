@@ -23,10 +23,10 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	scheme "github.com/dapr/dapr/pkg/client/clientset/versioned"
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
-	"github.com/dapr/dapr/pkg/injector/patcher"
-	"github.com/dapr/dapr/pkg/security/token"
+	scheme "github.com/liuxd6825/dapr/pkg/client/clientset/versioned"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
+	"github.com/liuxd6825/dapr/pkg/injector/patcher"
+	"github.com/liuxd6825/dapr/pkg/security/token"
 )
 
 const (

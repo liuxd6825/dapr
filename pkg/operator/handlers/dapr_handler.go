@@ -17,12 +17,12 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
-	"github.com/dapr/dapr/pkg/injector/annotations"
-	"github.com/dapr/dapr/pkg/operator/meta"
-	"github.com/dapr/dapr/pkg/operator/monitoring"
-	"github.com/dapr/dapr/pkg/validation"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/injector/annotations"
+	"github.com/liuxd6825/dapr/pkg/operator/meta"
+	"github.com/liuxd6825/dapr/pkg/operator/monitoring"
+	"github.com/liuxd6825/dapr/pkg/validation"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 const (

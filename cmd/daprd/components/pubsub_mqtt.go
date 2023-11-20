@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	mqtt "github.com/dapr/components-contrib/pubsub/mqtt3"
-	pubsubLoader "github.com/dapr/dapr/pkg/components/pubsub"
+	mqtt "github.com/liuxd6825/components-contrib/pubsub/mqtt3"
+	pubsubLoader "github.com/liuxd6825/dapr/pkg/components/pubsub"
 )
 
 func init() {

@@ -29,13 +29,13 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	diagUtils "github.com/dapr/dapr/pkg/diagnostics/utils"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	"github.com/dapr/dapr/tests/e2e/utils"
-	kube "github.com/dapr/dapr/tests/platforms/kubernetes"
-	"github.com/dapr/dapr/tests/runner"
-	"github.com/dapr/dapr/tests/util"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	diagUtils "github.com/liuxd6825/dapr/pkg/diagnostics/utils"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	"github.com/liuxd6825/dapr/tests/e2e/utils"
+	kube "github.com/liuxd6825/dapr/tests/platforms/kubernetes"
+	"github.com/liuxd6825/dapr/tests/runner"
+	"github.com/liuxd6825/dapr/tests/util"
 	apiv1 "k8s.io/api/core/v1"
 )
 

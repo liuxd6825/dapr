@@ -17,9 +17,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/dapr/dapr/tests/integration/framework"
-	procdaprd "github.com/dapr/dapr/tests/integration/framework/process/daprd"
-	"github.com/dapr/dapr/tests/integration/suite"
+	"github.com/liuxd6825/dapr/tests/integration/framework"
+	procdaprd "github.com/liuxd6825/dapr/tests/integration/framework/process/daprd"
+	"github.com/liuxd6825/dapr/tests/integration/suite"
 )
 
 func init() {

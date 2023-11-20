@@ -20,10 +20,10 @@ import (
 	"os"
 	"strings"
 
-	serve "github.com/dapr/dapr/tests/apps/actorload/cmd/stateactor/service"
-	cl "github.com/dapr/dapr/tests/apps/actorload/pkg/actor/client"
-	httpClient "github.com/dapr/dapr/tests/apps/actorload/pkg/actor/client/http"
-	rt "github.com/dapr/dapr/tests/apps/actorload/pkg/actor/runtime"
+	serve "github.com/liuxd6825/dapr/tests/apps/actorload/cmd/stateactor/service"
+	cl "github.com/liuxd6825/dapr/tests/apps/actorload/pkg/actor/client"
+	httpClient "github.com/liuxd6825/dapr/tests/apps/actorload/pkg/actor/client/http"
+	rt "github.com/liuxd6825/dapr/tests/apps/actorload/pkg/actor/runtime"
 )
 
 const (

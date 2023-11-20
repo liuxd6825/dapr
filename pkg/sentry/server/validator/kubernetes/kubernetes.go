@@ -32,13 +32,13 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	configv1alpha1 "github.com/dapr/dapr/pkg/apis/configuration/v1alpha1"
-	"github.com/dapr/dapr/pkg/injector/annotations"
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
-	"github.com/dapr/dapr/pkg/security/consts"
-	"github.com/dapr/dapr/pkg/sentry/server/validator"
-	"github.com/dapr/dapr/pkg/sentry/server/validator/internal"
 	"github.com/dapr/kit/logger"
+	configv1alpha1 "github.com/liuxd6825/dapr/pkg/apis/configuration/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/injector/annotations"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
+	"github.com/liuxd6825/dapr/pkg/security/consts"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/validator"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/validator/internal"
 )
 
 const (

@@ -25,10 +25,10 @@ import (
 
 	mock "github.com/stretchr/testify/mock"
 
-	"github.com/dapr/dapr/pkg/actors/internal"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	daprt "github.com/dapr/dapr/pkg/testing"
+	"github.com/liuxd6825/dapr/pkg/actors/internal"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	daprt "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 type (

@@ -8,7 +8,7 @@ Dapr uses [GitHub Actions](https://github.com/features/actions) for continuous i
 
 ## How to set up GitHub Actions in your account
 
-1. Fork the [dapr/dapr repo](https://github.com/dapr/dapr) to your GitHub Account
+1. Fork the [dapr/dapr repo](https://github.com/liuxd6825/dapr) to your GitHub Account
 
 2. Go to `Settings` in the forked repo and click Secrets
 

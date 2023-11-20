@@ -13,7 +13,7 @@ limitations under the License.
 
 package compstore
 
-import "github.com/dapr/components-contrib/lock"
+import "github.com/liuxd6825/components-contrib/lock"
 
 func (c *ComponentStore) AddLock(name string, store lock.Store) {
 	c.lock.Lock()

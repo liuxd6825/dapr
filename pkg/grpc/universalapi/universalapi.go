@@ -19,11 +19,11 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/dapr/dapr/pkg/actors"
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/actors"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
 )
 
 // UniversalAPI contains the implementation of gRPC APIs that are also used by the HTTP server.

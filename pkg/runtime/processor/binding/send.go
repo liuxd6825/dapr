@@ -27,16 +27,16 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/dapr/components-contrib/bindings"
-	"github.com/dapr/components-contrib/state"
-	componentsV1alpha1 "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	"github.com/dapr/dapr/pkg/components"
-	stateLoader "github.com/dapr/dapr/pkg/components/state"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	diagUtils "github.com/dapr/dapr/pkg/diagnostics/utils"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
+	"github.com/liuxd6825/components-contrib/bindings"
+	"github.com/liuxd6825/components-contrib/state"
+	componentsV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/components"
+	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	diagUtils "github.com/liuxd6825/dapr/pkg/diagnostics/utils"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
 )
 
 func (b *binding) StartReadingFromBindings(ctx context.Context) error {
@@ -243,7 +243,7 @@ func (b *binding) sendBindingEventToApp(ctx context.Context, bindingName string,
 		// Add workaround to fallback on checking traceparent header.
 		// As grpc-trace-bin is not yet there in OpenTelemetry unlike OpenCensus, tracking issue https://github.com/open-telemetry/opentelemetry-specification/issues/639
 		// and grpc-dotnet client adheres to OpenTelemetry Spec which only supports http based traceparent header in gRPC path.
-		// TODO: Remove this workaround fix once grpc-dotnet supports grpc-trace-bin header. Tracking issue https://github.com/dapr/dapr/issues/1827.
+		// TODO: Remove this workaround fix once grpc-dotnet supports grpc-trace-bin header. Tracking issue https://github.com/liuxd6825/dapr/issues/1827.
 		if validTraceparent && span != nil {
 			spanContextHeaders := make(map[string]string, 2)
 			diag.SpanContextToHTTPHeaders(span.SpanContext(), func(key string, val string) {

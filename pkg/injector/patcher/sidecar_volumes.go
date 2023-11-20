@@ -19,9 +19,9 @@ import (
 	jsonpatch "github.com/evanphx/json-patch/v5"
 	corev1 "k8s.io/api/core/v1"
 
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
-	securityConsts "github.com/dapr/dapr/pkg/security/consts"
 	"github.com/dapr/kit/ptr"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
+	securityConsts "github.com/liuxd6825/dapr/pkg/security/consts"
 )
 
 // getVolumeMounts returns the list of VolumeMount's for the sidecar container.

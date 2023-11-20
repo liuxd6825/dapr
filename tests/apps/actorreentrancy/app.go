@@ -24,8 +24,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/tests/apps/utils"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/tests/apps/utils"
 )
 
 const (

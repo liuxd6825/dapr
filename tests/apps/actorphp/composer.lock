@@ -11,7 +11,7 @@
             "version": "v1.0.0-rc.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/dapr/php-sdk.git",
+                "url": "https://github.com/liuxd6825/php-sdk.git",
                 "reference": "8d7d78713b9cfdee938d1a9566ef4ed9ca35416d"
             },
             "dist": {
@@ -59,8 +59,8 @@
             ],
             "description": "Dapr Implementation in PHP",
             "support": {
-                "issues": "https://github.com/dapr/php-sdk/issues",
-                "source": "https://github.com/dapr/php-sdk/tree/v1.0.0-rc.4"
+                "issues": "https://github.com/liuxd6825/php-sdk/issues",
+                "source": "https://github.com/liuxd6825/php-sdk/tree/v1.0.0-rc.4"
             },
             "time": "2021-02-12T12:13:32+00:00"
         },

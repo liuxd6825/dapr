@@ -19,8 +19,8 @@ import (
 
 	"github.com/valyala/fasthttp"
 
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/utils/nethttpadaptor"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/utils/nethttpadaptor"
 )
 
 // Endpoint is a collection of route information for an Dapr API.

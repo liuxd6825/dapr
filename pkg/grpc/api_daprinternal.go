@@ -23,15 +23,15 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/anypb"
 
-	"github.com/dapr/dapr/pkg/acl"
-	actorerrors "github.com/dapr/dapr/pkg/actors/errors"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	"github.com/dapr/dapr/pkg/grpc/metadata"
-	"github.com/dapr/dapr/pkg/messages"
-	"github.com/dapr/dapr/pkg/messaging"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	commonv1pb "github.com/dapr/dapr/pkg/proto/common/v1"
-	internalv1pb "github.com/dapr/dapr/pkg/proto/internals/v1"
+	"github.com/liuxd6825/dapr/pkg/acl"
+	actorerrors "github.com/liuxd6825/dapr/pkg/actors/errors"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	"github.com/liuxd6825/dapr/pkg/grpc/metadata"
+	"github.com/liuxd6825/dapr/pkg/messages"
+	"github.com/liuxd6825/dapr/pkg/messaging"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	commonv1pb "github.com/liuxd6825/dapr/pkg/proto/common/v1"
+	internalv1pb "github.com/liuxd6825/dapr/pkg/proto/internals/v1"
 )
 
 // CallLocal is used for internal dapr to dapr calls. It is invoked by another Dapr instance with a request to the local app.

@@ -14,7 +14,7 @@ limitations under the License.
 package validator
 
 import (
-	_ "github.com/dapr/dapr/tests/integration/suite/sentry/validator/insecure"
-	_ "github.com/dapr/dapr/tests/integration/suite/sentry/validator/jwks"
-	_ "github.com/dapr/dapr/tests/integration/suite/sentry/validator/kubernetes"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/sentry/validator/insecure"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/sentry/validator/jwks"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/sentry/validator/kubernetes"
 )

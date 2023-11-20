@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	inmemory "github.com/dapr/components-contrib/pubsub/in-memory"
-	pubsubLoader "github.com/dapr/dapr/pkg/components/pubsub"
+	inmemory "github.com/liuxd6825/components-contrib/pubsub/in-memory"
+	pubsubLoader "github.com/liuxd6825/dapr/pkg/components/pubsub"
 )
 
 func init() {

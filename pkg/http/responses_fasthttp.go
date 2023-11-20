@@ -18,7 +18,7 @@ import (
 
 	"github.com/valyala/fasthttp"
 
-	"github.com/dapr/dapr/pkg/messages"
+	"github.com/liuxd6825/dapr/pkg/messages"
 )
 
 type fasthttpResponseOption = func(ctx *fasthttp.RequestCtx)

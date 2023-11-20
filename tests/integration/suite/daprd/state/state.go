@@ -14,6 +14,6 @@ limitations under the License.
 package state
 
 import (
-	_ "github.com/dapr/dapr/tests/integration/suite/daprd/state/grpc"
-	_ "github.com/dapr/dapr/tests/integration/suite/daprd/state/http"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/daprd/state/grpc"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/daprd/state/http"
 )

@@ -18,9 +18,9 @@ import (
 
 	"golang.org/x/exp/maps"
 
-	contribpubsub "github.com/dapr/components-contrib/pubsub"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/utils"
+	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 type bulkSubscribeResiliencyRes struct {

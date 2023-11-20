@@ -24,19 +24,19 @@ import (
 
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 
-	"github.com/dapr/dapr/pkg/concurrency"
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
-	"github.com/dapr/dapr/pkg/security"
-	"github.com/dapr/dapr/pkg/sentry/config"
-	"github.com/dapr/dapr/pkg/sentry/monitoring"
-	"github.com/dapr/dapr/pkg/sentry/server"
-	"github.com/dapr/dapr/pkg/sentry/server/ca"
-	"github.com/dapr/dapr/pkg/sentry/server/validator"
-	validatorInsecure "github.com/dapr/dapr/pkg/sentry/server/validator/insecure"
-	validatorJWKS "github.com/dapr/dapr/pkg/sentry/server/validator/jwks"
-	validatorKube "github.com/dapr/dapr/pkg/sentry/server/validator/kubernetes"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/concurrency"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
+	"github.com/liuxd6825/dapr/pkg/security"
+	"github.com/liuxd6825/dapr/pkg/sentry/config"
+	"github.com/liuxd6825/dapr/pkg/sentry/monitoring"
+	"github.com/liuxd6825/dapr/pkg/sentry/server"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/ca"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/validator"
+	validatorInsecure "github.com/liuxd6825/dapr/pkg/sentry/server/validator/insecure"
+	validatorJWKS "github.com/liuxd6825/dapr/pkg/sentry/server/validator/jwks"
+	validatorKube "github.com/liuxd6825/dapr/pkg/sentry/server/validator/kubernetes"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 var log = logger.NewLogger("dapr.sentry")

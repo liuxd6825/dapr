@@ -22,12 +22,12 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	contribPubsub "github.com/dapr/components-contrib/pubsub"
-	resiliencyV1alpha "github.com/dapr/dapr/pkg/apis/resiliency/v1alpha1"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/resiliency/breaker"
 	"github.com/dapr/kit/logger"
 	"github.com/dapr/kit/ptr"
+	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
+	resiliencyV1alpha "github.com/liuxd6825/dapr/pkg/apis/resiliency/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/resiliency/breaker"
 )
 
 var (

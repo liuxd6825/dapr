@@ -14,9 +14,9 @@ limitations under the License.
 package universalapi
 
 import (
-	"github.com/dapr/dapr/pkg/apis/resiliency/v1alpha1"
 	"github.com/dapr/kit/logger"
 	"github.com/dapr/kit/ptr"
+	"github.com/liuxd6825/dapr/pkg/apis/resiliency/v1alpha1"
 )
 
 var testLogger = logger.NewLogger("testlogger")

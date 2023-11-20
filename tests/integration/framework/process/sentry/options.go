@@ -14,8 +14,8 @@ limitations under the License.
 package sentry
 
 import (
-	"github.com/dapr/dapr/pkg/sentry/server/ca"
-	"github.com/dapr/dapr/tests/integration/framework/process/exec"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/ca"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process/exec"
 )
 
 // options contains the options for running Sentry in integration tests.

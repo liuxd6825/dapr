@@ -26,9 +26,9 @@ import (
 
 	guuid "github.com/google/uuid"
 
-	"github.com/dapr/dapr/pkg/injector/annotations"
-	testplatform "github.com/dapr/dapr/tests/platforms/kubernetes"
-	"github.com/dapr/dapr/tests/runner"
+	"github.com/liuxd6825/dapr/pkg/injector/annotations"
+	testplatform "github.com/liuxd6825/dapr/tests/platforms/kubernetes"
+	"github.com/liuxd6825/dapr/tests/runner"
 
 	k6api "github.com/grafana/k6-operator/api/v1alpha1"
 	batchv1 "k8s.io/api/batch/v1"

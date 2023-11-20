@@ -19,9 +19,9 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	httpEndpointV1alpha1 "github.com/dapr/dapr/pkg/apis/httpEndpoint/v1alpha1"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/logger"
+	httpEndpointV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/httpEndpoint/v1alpha1"
+	"github.com/liuxd6825/dapr/utils"
 
 	"gopkg.in/yaml.v3"
 )

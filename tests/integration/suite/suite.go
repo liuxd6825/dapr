@@ -21,7 +21,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/dapr/dapr/tests/integration/framework"
+	"github.com/liuxd6825/dapr/tests/integration/framework"
 )
 
 var cases []Case

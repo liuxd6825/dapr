@@ -27,7 +27,7 @@ import (
 	"github.com/stretchr/testify/require"
 	clocktesting "k8s.io/utils/clock/testing"
 
-	"github.com/dapr/dapr/pkg/actors/internal"
+	"github.com/liuxd6825/dapr/pkg/actors/internal"
 )
 
 var startOfTime = time.Date(2022, 1, 1, 12, 0, 0, 0, time.UTC)

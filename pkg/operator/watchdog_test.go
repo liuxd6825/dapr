@@ -15,10 +15,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	"github.com/dapr/dapr/pkg/injector/annotations"
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
-	operatorconsts "github.com/dapr/dapr/pkg/operator/meta"
 	"github.com/dapr/kit/ptr"
+	"github.com/liuxd6825/dapr/pkg/injector/annotations"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
+	operatorconsts "github.com/liuxd6825/dapr/pkg/operator/meta"
 )
 
 func createMockInjectorDeployment(replicas int32) *appsv1.Deployment {

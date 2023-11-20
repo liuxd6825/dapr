@@ -19,8 +19,8 @@ import (
 	jsonpatch "github.com/evanphx/json-patch/v5"
 	corev1 "k8s.io/api/core/v1"
 
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
-	"github.com/dapr/dapr/pkg/validation"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
+	"github.com/liuxd6825/dapr/pkg/validation"
 )
 
 // NeedsPatching returns true if patching is needed.

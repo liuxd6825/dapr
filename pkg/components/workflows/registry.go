@@ -17,9 +17,9 @@ import (
 	"fmt"
 	"strings"
 
-	wfs "github.com/dapr/components-contrib/workflows"
-	"github.com/dapr/dapr/pkg/components"
 	"github.com/dapr/kit/logger"
+	wfs "github.com/liuxd6825/components-contrib/workflows"
+	"github.com/liuxd6825/dapr/pkg/components"
 )
 
 // Registry is an interface for a component that returns registered state store implementations.

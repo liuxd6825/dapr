@@ -23,9 +23,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	operatorv1pb "github.com/dapr/dapr/pkg/proto/operator/v1"
-	"github.com/dapr/dapr/pkg/security"
-	procgrpc "github.com/dapr/dapr/tests/integration/framework/process/grpc"
+	operatorv1pb "github.com/liuxd6825/dapr/pkg/proto/operator/v1"
+	"github.com/liuxd6825/dapr/pkg/security"
+	procgrpc "github.com/liuxd6825/dapr/tests/integration/framework/process/grpc"
 )
 
 // operator is a mocked implementation of the operator service.

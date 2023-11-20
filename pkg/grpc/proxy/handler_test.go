@@ -40,12 +40,12 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	codec "github.com/dapr/dapr/pkg/grpc/proxy/codec"
-	pb "github.com/dapr/dapr/pkg/grpc/proxy/testservice"
-	"github.com/dapr/dapr/pkg/resiliency"
 	"github.com/dapr/kit/logger"
 	"github.com/dapr/kit/retry"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	codec "github.com/liuxd6825/dapr/pkg/grpc/proxy/codec"
+	pb "github.com/liuxd6825/dapr/pkg/grpc/proxy/testservice"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
 
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/tag"

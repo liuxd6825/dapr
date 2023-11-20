@@ -1,17 +1,17 @@
-module github.com/dapr/dapr/tests/apps/kafka-bindings
+module github.com/liuxd6825/dapr/tests/apps/kafka-bindings
 
 go 1.20
 
 require (
 	github.com/dapr-sandbox/components-go-sdk v0.0.0-20221213200551-bd485eb929ff
-	github.com/dapr/components-contrib v1.9.1-0.20221213185150-c5c985a68514
+	github.com/liuxd6825/components-contrib v1.9.1-0.20221213185150-c5c985a68514
 	github.com/dapr/kit v0.0.4-0.20221211173611-bcf6ee09314e
 )
 
 require (
 	github.com/Shopify/sarama v1.37.2 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.0 // indirect
-	github.com/dapr/dapr v1.9.4-0.20221212235750-ac9256f214e0 // indirect
+	github.com/liuxd6825/dapr v1.9.4-0.20221212235750-ac9256f214e0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eapache/go-resiliency v1.3.0 // indirect
 	github.com/eapache/go-xerial-snappy v0.0.0-20180814174437-776d5712da21 // indirect

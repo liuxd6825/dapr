@@ -17,9 +17,9 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/dapr/dapr/tests/perf"
-	kube "github.com/dapr/dapr/tests/platforms/kubernetes"
-	"github.com/dapr/dapr/tests/runner"
+	"github.com/liuxd6825/dapr/tests/perf"
+	kube "github.com/liuxd6825/dapr/tests/platforms/kubernetes"
+	"github.com/liuxd6825/dapr/tests/runner"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"

@@ -26,7 +26,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	proto "github.com/dapr/dapr/pkg/proto/components/v1"
+	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"

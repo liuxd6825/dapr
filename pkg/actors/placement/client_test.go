@@ -24,7 +24,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
 
-	"github.com/dapr/dapr/pkg/security"
+	"github.com/liuxd6825/dapr/pkg/security"
 )
 
 func TestConnectToServer(t *testing.T) {

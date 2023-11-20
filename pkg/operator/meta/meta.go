@@ -1,9 +1,9 @@
 package meta
 
 import (
-	"github.com/dapr/dapr/pkg/injector/annotations"
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
-	"github.com/dapr/dapr/utils"
+	"github.com/liuxd6825/dapr/pkg/injector/annotations"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 // IsAnnotatedForDapr whether the dapr enabled annotation is present and true.

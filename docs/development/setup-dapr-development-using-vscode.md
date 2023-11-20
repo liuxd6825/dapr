@@ -18,7 +18,7 @@ This document helps you get started developing Dapr using VS Code. If you find a
 1. After you have cloned the Dapr repo locally, open the dapr folder in VSCode. For example:
 
    ```bash
-   git clone https://github.com/dapr/dapr.git
+   git clone https://github.com/liuxd6825/dapr.git
    cd dapr
    code .
    ```

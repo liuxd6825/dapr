@@ -20,7 +20,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.opencensus.io/tag"
 
-	"github.com/dapr/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/config"
 )
 
 func TestWithTags(t *testing.T) {

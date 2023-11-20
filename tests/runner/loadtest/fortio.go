@@ -19,10 +19,10 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/dapr/dapr/tests/perf"
-	"github.com/dapr/dapr/tests/perf/utils"
-	"github.com/dapr/dapr/tests/platforms/kubernetes"
-	"github.com/dapr/dapr/tests/runner"
+	"github.com/liuxd6825/dapr/tests/perf"
+	"github.com/liuxd6825/dapr/tests/perf/utils"
+	"github.com/liuxd6825/dapr/tests/platforms/kubernetes"
+	"github.com/liuxd6825/dapr/tests/runner"
 )
 
 // Fortio is used for executing tests using the fortio load testing tool.

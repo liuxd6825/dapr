@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	mdns "github.com/dapr/components-contrib/nameresolution/mdns"
-	nrLoader "github.com/dapr/dapr/pkg/components/nameresolution"
+	mdns "github.com/liuxd6825/components-contrib/nameresolution/mdns"
+	nrLoader "github.com/liuxd6825/dapr/pkg/components/nameresolution"
 )
 
 func init() {

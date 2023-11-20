@@ -20,12 +20,12 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/dapr/components-contrib/state"
-	"github.com/dapr/components-contrib/state/query"
-	"github.com/dapr/components-contrib/state/utils"
-	"github.com/dapr/dapr/pkg/components/pluggable"
-	proto "github.com/dapr/dapr/pkg/proto/components/v1"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/components-contrib/state/query"
+	"github.com/liuxd6825/components-contrib/state/utils"
+	"github.com/liuxd6825/dapr/pkg/components/pluggable"
+	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
 
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc"

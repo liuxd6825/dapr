@@ -30,9 +30,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 
-	diagUtils "github.com/dapr/dapr/pkg/diagnostics/utils"
-	commonv1pb "github.com/dapr/dapr/pkg/proto/common/v1"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
+	diagUtils "github.com/liuxd6825/dapr/pkg/diagnostics/utils"
+	commonv1pb "github.com/liuxd6825/dapr/pkg/proto/common/v1"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
 )
 
 var appPort = 3000

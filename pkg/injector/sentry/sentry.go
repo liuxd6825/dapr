@@ -27,9 +27,9 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"google.golang.org/grpc"
 
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
-	"github.com/dapr/dapr/pkg/security"
-	securitytoken "github.com/dapr/dapr/pkg/security/token"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
+	"github.com/liuxd6825/dapr/pkg/security"
+	securitytoken "github.com/liuxd6825/dapr/pkg/security/token"
 )
 
 // Options contains the configuration options for connecting and requesting

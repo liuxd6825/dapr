@@ -26,14 +26,14 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/types/known/anypb"
 
-	commonv1 "github.com/dapr/dapr/pkg/proto/common/v1"
-	rtv1 "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/tests/integration/framework"
-	procdaprd "github.com/dapr/dapr/tests/integration/framework/process/daprd"
-	procgrpc "github.com/dapr/dapr/tests/integration/framework/process/grpc"
-	"github.com/dapr/dapr/tests/integration/framework/util"
-	"github.com/dapr/dapr/tests/integration/suite"
-	testpb "github.com/dapr/dapr/tests/integration/suite/daprd/serviceinvocation/grpc/proto"
+	commonv1 "github.com/liuxd6825/dapr/pkg/proto/common/v1"
+	rtv1 "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/tests/integration/framework"
+	procdaprd "github.com/liuxd6825/dapr/tests/integration/framework/process/daprd"
+	procgrpc "github.com/liuxd6825/dapr/tests/integration/framework/process/grpc"
+	"github.com/liuxd6825/dapr/tests/integration/framework/util"
+	"github.com/liuxd6825/dapr/tests/integration/suite"
+	testpb "github.com/liuxd6825/dapr/tests/integration/suite/daprd/serviceinvocation/grpc/proto"
 )
 
 func init() {

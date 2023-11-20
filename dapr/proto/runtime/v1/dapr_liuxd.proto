@@ -1,0 +1,387 @@
+/*
+Copyright 2021 The Dapr Authors
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+syntax = "proto3";
+
+package dapr.proto.runtime.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Dapr.Client.Autogen.Grpc.v1";
+option java_outer_classname = "DaprProtos";
+option java_package = "io.dapr.v1";
+option go_package = "github.com/liuxd6825/dapr/pkg/proto/runtime/v1;runtime";
+
+
+message ResponseHeaders {
+  ResponseStatus status = 1;
+  string message = 2;
+  map<string, string> values = 3;
+}
+
+enum ResponseStatus {
+  SUCCESS = 0;  // 执行成功
+  ERROR = 1;    // 执行错误
+  EVENT_DUPLICATE = 2; // 事件已经存在，被重复执行，
+}
+
+////////////////////
+
+// LoadEvent
+
+message LoadEventRequest {
+  string tenantId = 1;
+  string aggregate_id = 2;
+  string aggregate_type = 3;
+  uint64 sequence_number = 4;
+  uint64 page_num = 5;
+  uint64 page_size = 6;
+  bool is_total_rows = 7;
+}
+
+message LoadEventResponse{
+
+  message SnapshotDto {
+    string aggregate_data = 1;     // json format
+    string aggregate_revision = 2;
+    uint64 sequence_number = 3;
+    string metadata = 4;
+  }
+
+  message EventDto {
+    string event_id = 1;
+    string event_data = 2;  // json format
+    string event_type = 3;
+    string event_version = 4;
+    uint64 sequence_number = 5;
+  }
+
+  ResponseHeaders headers = 1;
+  string tenant_id = 4;
+  string aggregate_id = 5;
+  string aggregate_type = 6;
+  SnapshotDto snapshot = 7;
+  repeated EventDto events = 8;
+  uint64 page_num = 9;
+  uint64 page_size = 10;
+  uint64 total_rows = 11;
+  uint64 total_pages = 12;
+
+}
+
+// SaveSnapshot
+
+message SaveSnapshotRequest{
+  string tenant_id = 1;
+  string aggregate_id = 2;
+  string aggregate_type = 3;
+  string aggregate_data = 4; // json format
+  string aggregate_version = 5;
+  uint64 sequence_number = 6;
+  string metadata = 7;
+}
+
+message SaveSnapshotResponse{
+  ResponseHeaders headers = 1;
+}
+
+// Commit
+message CommitRequest {
+  string session_id = 1;
+  string tenant_id = 2;
+}
+
+message CommitResponse {
+  ResponseHeaders headers = 1;
+}
+
+//  Rollback
+
+message RollbackRequest {
+  string session_id = 1;
+  string tenant_id = 2;
+}
+
+message RollbackResponse {
+  ResponseHeaders headers = 1;
+}
+
+// ApplyEvent
+
+message ApplyEventRequest{
+  string session_id = 1;
+  string tenant_id = 2;
+  string aggregate_id = 3;
+  string aggregate_type = 4;
+  repeated EventDto events = 5;
+}
+
+message ApplyEventResponse{
+  ResponseHeaders headers = 1;
+}
+
+// CreateEvent
+
+message CreateEventRequest{
+  string tenant_id = 1;
+  string aggregate_id = 2;
+  string aggregate_type = 3;
+  repeated EventDto events = 4;
+}
+
+message CreateEventResponse{
+  ResponseHeaders headers = 1;
+}
+
+// DeleteEvent
+
+message DeleteEventRequest{
+  string tenant_id = 1;
+  string aggregate_id = 2;
+  string aggregate_type = 3;
+  EventDto event = 4;
+}
+
+message DeleteEventResponse{
+  ResponseHeaders headers = 1;
+}
+
+message EventDto {
+  string apply_type = 1;  // 事件应用类型  "create":创建聚合根; "apply":应用业务事件; "delete":聚合根删除事件
+  string event_id = 2;
+  string command_id = 3;
+  string event_data = 4;   // json format
+  string event_type = 5;
+  string event_version = 6;
+  google.protobuf.Timestamp  event_time = 7;
+  string pubsub_name = 8;
+  string topic = 9;
+  string metadata = 10;  // json format
+  map<string, string> relations = 11; // aggregate relations
+  bool is_sourcing = 12; // event sourcing
+}
+
+// EventType
+/*
+message EventTypeDto {
+  string id=1;
+  string title=2;
+  string version=3;
+  string aggregate_type=4;
+  map<string, string> properties=5;
+  string description=6;
+  bool is_sourcing=7;
+}*/
+
+
+// GetRelations
+
+message GetRelationsRequest {
+  string tenantId = 1;
+  string aggregate_type = 2;
+  string filter = 3;
+  string sort = 4;
+  uint64 pageNum = 5;
+  uint64 pageSize = 6;
+}
+
+message GetRelationsResponse {
+  ResponseHeaders headers = 1;
+  repeated RelationDto data = 2;
+  uint64 total_rows = 3;
+  uint64 total_pages = 4;
+  uint64 page_num = 5;
+  uint64 page_size = 6;
+  string filter = 7;
+  string sort = 8;
+  string error = 9;
+  bool is_found = 10;
+}
+
+message RelationDto {
+  string id = 1;
+  string tenant_id = 2;
+  string table_name = 3;
+  string aggregate_id = 4;
+  string aggregate_type = 5;
+  bool is_deleted = 6;
+  string rel_name = 7 ;  // 关系名
+  string rel_value = 8; // 关系值
+}
+
+// GetEvents
+
+message GetEventsRequest {
+  string tenant_id = 1;
+  string aggregate_type = 2;
+  string filter = 3;
+  string sort = 4;
+  uint64 page_num = 5;
+  uint64 page_size = 6;
+  bool is_total_rows = 7;
+}
+
+message GetEventsResponse {
+  ResponseHeaders headers = 1;
+  repeated GetEventsItemDto data = 2;
+  uint64 total_rows = 3;
+  uint64 total_pages = 4;
+  uint64 page_num = 5;
+  uint64 page_size = 6;
+  string filter = 7;
+  string sort = 8;
+  string error = 9;
+  bool is_found = 10;
+}
+
+message GetEventsItemDto {
+  string event_id = 1;
+  string command_id = 2;
+  string event_data = 3;   // json format
+  string event_type = 4;
+  string event_version = 5;
+  google.protobuf.Timestamp  event_time = 6;
+  string pubsub_name = 7;
+  string topic = 8;
+  string metadata = 9;  // json format
+}
+
+
+// Application Log
+
+message WriteEventLogRequest{
+
+  string tenant_id = 2;
+  string id = 3;
+  string app_id = 4;
+
+  string class = 5;
+  string func = 6;
+
+  string level = 7;
+  google.protobuf.Timestamp  time = 8;
+  bool status = 9;
+  string message = 10;
+
+  string pub_app_id = 11;
+  string event_id = 12;
+  string command_id = 13;
+
+}
+
+message WriteEventLogResponse{
+  ResponseHeaders headers = 1;
+}
+
+message UpdateEventLogRequest {
+  string tenant_id = 1;
+  string id = 2;
+  string app_id = 3;
+  string class = 4;
+  string func = 5;
+  string level = 6;
+  google.protobuf.Timestamp time = 7;
+  bool status = 8;
+  string message = 9;
+  string pub_app_id = 10;
+  string event_id = 11;
+  string command_id = 12;
+}
+
+message UpdateEventLogResponse {
+  ResponseHeaders headers = 1;
+}
+
+
+
+// GetLogByCommandId
+
+message GetEventLogByCommandIdRequest {
+  string tenant_id = 1;
+  string app_id = 2;
+  string command_id = 3;
+}
+
+message GetEventLogByCommandIdResponse {
+
+  message EventLogDto {
+    string tenant_id = 1;
+    string id = 2;
+    string app_id = 3;
+    string class = 4;
+    string func = 5;
+    string level = 6;
+    google.protobuf.Timestamp time = 7;
+    bool status = 8;
+    string message = 9;
+
+    string pub_app_id = 10;
+    string event_id = 11;
+    string command_id = 12;
+  }
+  ResponseHeaders headers = 1;
+  repeated EventLogDto data = 2;
+}
+
+//
+message WriteAppLogRequest {
+  string  tenant_id = 1;
+  string  id = 2;
+  string  app_id = 3;
+  string  class = 4;
+  string  func = 5;
+  string  level = 6;
+  google.protobuf.Timestamp time = 7;
+  bool status = 8;
+  string  message = 9;
+}
+
+message WriteAppLogResponse {
+  ResponseHeaders headers = 1;
+}
+
+message UpdateAppLogRequest {
+  string  id = 2;
+  string  tenant_id = 1;
+  string  app_id = 3;
+  string  class = 4;
+  string  func = 5;
+  string  level = 6;
+  google.protobuf.Timestamp time = 7;
+  bool status = 8;
+  string  message = 9;
+}
+
+message UpdateAppLogResponse {
+  ResponseHeaders headers = 1;
+}
+
+// GetLogByCommandId
+
+message GetAppLogByIdRequest {
+  string  tenant_id = 1;
+  string  id = 2;
+}
+
+message GetAppLogByIdResponse {
+  ResponseHeaders headers = 1;
+  string tenant_id = 2;
+  string id = 3;
+  string app_id = 4;
+  string class = 5;
+  string func = 6;
+  string level = 7;
+  google.protobuf.Timestamp time = 8;
+  bool status = 9;
+  string  message = 10;
+}

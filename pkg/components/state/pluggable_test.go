@@ -30,13 +30,13 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
 
-	contribMetadata "github.com/dapr/components-contrib/metadata"
-	"github.com/dapr/components-contrib/state"
-	"github.com/dapr/components-contrib/state/query"
-	"github.com/dapr/dapr/pkg/components/pluggable"
-	proto "github.com/dapr/dapr/pkg/proto/components/v1"
-	testingGrpc "github.com/dapr/dapr/pkg/testing/grpc"
 	"github.com/dapr/kit/logger"
+	contribMetadata "github.com/liuxd6825/components-contrib/metadata"
+	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/components-contrib/state/query"
+	"github.com/liuxd6825/dapr/pkg/components/pluggable"
+	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
+	testingGrpc "github.com/liuxd6825/dapr/pkg/testing/grpc"
 )
 
 type server struct {

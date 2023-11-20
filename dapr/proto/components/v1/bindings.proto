@@ -17,7 +17,7 @@ package dapr.proto.components.v1;
 
 import "dapr/proto/components/v1/common.proto";
 
-option go_package = "github.com/dapr/dapr/pkg/proto/components/v1;components";
+option go_package = "github.com/liuxd6825/dapr/pkg/proto/components/v1;components";
 
 // Interface for input bindings
 service InputBinding {

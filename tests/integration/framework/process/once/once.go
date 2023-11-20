@@ -18,7 +18,7 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/dapr/dapr/tests/integration/framework/process"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process"
 )
 
 // once ensures that a process is only run and cleaned up once.

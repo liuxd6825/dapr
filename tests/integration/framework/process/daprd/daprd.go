@@ -31,12 +31,12 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/tests/integration/framework/binary"
-	"github.com/dapr/dapr/tests/integration/framework/process"
-	"github.com/dapr/dapr/tests/integration/framework/process/exec"
-	prochttp "github.com/dapr/dapr/tests/integration/framework/process/http"
-	"github.com/dapr/dapr/tests/integration/framework/util"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/tests/integration/framework/binary"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process/exec"
+	prochttp "github.com/liuxd6825/dapr/tests/integration/framework/process/http"
+	"github.com/liuxd6825/dapr/tests/integration/framework/util"
 )
 
 type Daprd struct {

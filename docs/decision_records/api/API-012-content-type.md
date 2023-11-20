@@ -12,7 +12,7 @@ Not adding content-type to state store, pubsub and bindings.
   * Long term support since metadata persisted previously would need to be supported indefinitely.
   * Added requirement for components to implement, leading to potentially hacky implementations to persist metadata side-by-side with data.
 
-Original issue and discussion: https://github.com/dapr/dapr/issues/2026
+Original issue and discussion: https://github.com/liuxd6825/dapr/issues/2026
 
 ## Consequences
 

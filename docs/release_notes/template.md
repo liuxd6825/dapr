@@ -37,7 +37,7 @@ Uninstall Dapr using the CLI you currently have installed. Note that this will r
 dapr uninstall --all
 ```
 
-For RC releases like this, download the latest and greatest release from [here](https://github.com/dapr/cli/releases) and put the `dapr` binary in your PATH.
+For RC releases like this, download the latest and greatest release from [here](https://github.com/liuxd6825/cli/releases) and put the `dapr` binary in your PATH.
 
 Once you have installed the CLI, run:
 
@@ -62,7 +62,7 @@ You can perform zero-downtime upgrades using both Helm 3 and the Dapr CLI.
 
 ##### Upgrade using the CLI
 
-Download the latest RC release from [here](https://github.com/dapr/cli/releases) and put the `dapr` binary in your PATH.
+Download the latest RC release from [here](https://github.com/liuxd6825/cli/releases) and put the `dapr` binary in your PATH.
 
 To upgrade Dapr, run:
 

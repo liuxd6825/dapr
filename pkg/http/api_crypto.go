@@ -20,11 +20,11 @@ import (
 
 	"github.com/valyala/fasthttp"
 
-	contribCrypto "github.com/dapr/components-contrib/crypto"
-	"github.com/dapr/dapr/pkg/messages"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/ptr"
 	encv1 "github.com/dapr/kit/schemes/enc/v1"
+	contribCrypto "github.com/liuxd6825/components-contrib/crypto"
+	"github.com/liuxd6825/dapr/pkg/messages"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 const (

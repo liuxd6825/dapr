@@ -17,9 +17,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dapr/components-contrib/configuration"
-	"github.com/dapr/dapr/pkg/components"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/configuration"
+	"github.com/liuxd6825/dapr/pkg/components"
 )
 
 // Registry is an interface for a component that returns registered configuration store implementations.

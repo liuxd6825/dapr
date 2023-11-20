@@ -20,10 +20,10 @@ import (
 
 	"github.com/lestrrat-go/jwx/v2/jwk"
 
-	contribCrypto "github.com/dapr/components-contrib/crypto"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	"github.com/dapr/dapr/pkg/resiliency"
 	encv1 "github.com/dapr/kit/schemes/enc/v1"
+	contribCrypto "github.com/liuxd6825/components-contrib/crypto"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
 )
 
 type subtleWrapKeyRes struct {

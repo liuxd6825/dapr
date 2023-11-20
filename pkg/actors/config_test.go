@@ -17,8 +17,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dapr/dapr/pkg/actors/internal"
-	"github.com/dapr/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/actors/internal"
+	"github.com/liuxd6825/dapr/pkg/config"
 
 	"github.com/stretchr/testify/assert"
 )

@@ -21,11 +21,11 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/dapr/components-contrib/state"
-	resiliencyV1alpha1 "github.com/dapr/dapr/pkg/apis/resiliency/v1alpha1"
-	"github.com/dapr/dapr/pkg/resiliency"
 	"github.com/dapr/kit/logger"
 	"github.com/dapr/kit/ptr"
+	"github.com/liuxd6825/components-contrib/state"
+	resiliencyV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/resiliency/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
 )
 
 func TestPerformBulkStoreOperation(t *testing.T) {

@@ -20,8 +20,8 @@ import (
 
 	"k8s.io/klog"
 
-	"github.com/dapr/dapr/pkg/metrics"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/metrics"
 )
 
 const (

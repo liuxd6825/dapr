@@ -26,12 +26,12 @@ import (
 	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/dapr/dapr/pkg/security"
-	"github.com/dapr/dapr/tests/integration/framework"
-	procdaprd "github.com/dapr/dapr/tests/integration/framework/process/daprd"
-	procplacement "github.com/dapr/dapr/tests/integration/framework/process/placement"
-	procsentry "github.com/dapr/dapr/tests/integration/framework/process/sentry"
-	"github.com/dapr/dapr/tests/integration/suite"
+	"github.com/liuxd6825/dapr/pkg/security"
+	"github.com/liuxd6825/dapr/tests/integration/framework"
+	procdaprd "github.com/liuxd6825/dapr/tests/integration/framework/process/daprd"
+	procplacement "github.com/liuxd6825/dapr/tests/integration/framework/process/placement"
+	procsentry "github.com/liuxd6825/dapr/tests/integration/framework/process/sentry"
+	"github.com/liuxd6825/dapr/tests/integration/suite"
 )
 
 func init() {

@@ -23,8 +23,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/dapr/dapr/pkg/injector/annotations"
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
+	"github.com/liuxd6825/dapr/pkg/injector/annotations"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
 )
 
 func TestAddDaprEnvVarsToContainers(t *testing.T) {

@@ -12,10 +12,10 @@ import (
 	"github.com/stretchr/testify/require"
 	clocktesting "k8s.io/utils/clock/testing"
 
-	"github.com/dapr/dapr/pkg/placement/raft"
-	"github.com/dapr/dapr/pkg/security/fake"
-	daprtesting "github.com/dapr/dapr/pkg/testing"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/placement/raft"
+	"github.com/liuxd6825/dapr/pkg/security/fake"
+	daprtesting "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 func init() {

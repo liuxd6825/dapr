@@ -17,7 +17,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/dapr/dapr/pkg/actors"
+	"github.com/liuxd6825/dapr/pkg/actors"
 )
 
 func (a *UniversalAPI) SetActorRuntime(actor actors.ActorRuntime) {

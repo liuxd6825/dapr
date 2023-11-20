@@ -20,12 +20,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dapr/components-contrib/metadata"
-	contribpubsub "github.com/dapr/components-contrib/pubsub"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	rterrors "github.com/dapr/dapr/pkg/runtime/errors"
+	"github.com/liuxd6825/components-contrib/metadata"
+	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	rterrors "github.com/liuxd6825/dapr/pkg/runtime/errors"
 )
 
 const (

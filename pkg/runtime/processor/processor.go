@@ -16,34 +16,36 @@ package processor
 import (
 	"context"
 	"fmt"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor/liuxd/applogger"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor/liuxd/eventstorage"
 	"strings"
 	"sync"
 
-	"github.com/dapr/components-contrib/bindings"
-	contribpubsub "github.com/dapr/components-contrib/pubsub"
-	compapi "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	"github.com/dapr/dapr/pkg/components"
-	"github.com/dapr/dapr/pkg/config"
-	configmodes "github.com/dapr/dapr/pkg/config/modes"
-	"github.com/dapr/dapr/pkg/modes"
-	"github.com/dapr/dapr/pkg/outbox"
-	operatorv1 "github.com/dapr/dapr/pkg/proto/operator/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/runtime/channels"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	"github.com/dapr/dapr/pkg/runtime/meta"
-
-	grpcmanager "github.com/dapr/dapr/pkg/grpc/manager"
-	"github.com/dapr/dapr/pkg/runtime/processor/binding"
-	"github.com/dapr/dapr/pkg/runtime/processor/configuration"
-	"github.com/dapr/dapr/pkg/runtime/processor/crypto"
-	"github.com/dapr/dapr/pkg/runtime/processor/lock"
-	"github.com/dapr/dapr/pkg/runtime/processor/middleware"
-	"github.com/dapr/dapr/pkg/runtime/processor/pubsub"
-	"github.com/dapr/dapr/pkg/runtime/processor/secret"
-	"github.com/dapr/dapr/pkg/runtime/processor/state"
-	"github.com/dapr/dapr/pkg/runtime/processor/workflow"
-	"github.com/dapr/dapr/pkg/runtime/registry"
+	"github.com/liuxd6825/components-contrib/bindings"
+	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/components"
+	"github.com/liuxd6825/dapr/pkg/config"
+	configmodes "github.com/liuxd6825/dapr/pkg/config/modes"
+	grpcmanager "github.com/liuxd6825/dapr/pkg/grpc/manager"
+	"github.com/liuxd6825/dapr/pkg/modes"
+	"github.com/liuxd6825/dapr/pkg/outbox"
+	operatorv1 "github.com/liuxd6825/dapr/pkg/proto/operator/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/runtime/channels"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	"github.com/liuxd6825/dapr/pkg/runtime/meta"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor/binding"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor/configuration"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor/crypto"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor/lock"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor/middleware"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor/pubsub"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor/secret"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor/state"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor/workflow"
+	pubsub_adapter "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
+	"github.com/liuxd6825/dapr/pkg/runtime/registry"
 )
 
 type Options struct {
@@ -88,6 +90,8 @@ type Options struct {
 	Channels *channels.Channels
 
 	OperatorClient operatorv1.OperatorClient
+
+	PubSubAdapter pubsub_adapter.Adapter
 }
 
 // manager implements the life cycle events of a component category.
@@ -202,6 +206,20 @@ func New(opts Options) *Processor {
 				Meta:           opts.Meta,
 			}),
 			components.CategoryMiddleware: middleware.New(),
+			components.CategoryAppLogger: applogger.New(applogger.Options{
+				Registry:       opts.Registry.AppLogger(),
+				ComponentStore: opts.ComponentStore,
+				Meta:           opts.Meta,
+				PubSubAdapter:  opts.PubSubAdapter,
+				Outbox:         ps.Outbox(),
+			}),
+			components.CategoryEventStorage: eventstorage.New(eventstorage.Options{
+				Registry:       opts.Registry.EventStorage(),
+				ComponentStore: opts.ComponentStore,
+				Meta:           opts.Meta,
+				PubSubAdapter:  opts.PubSubAdapter,
+				Outbox:         ps.Outbox(),
+			}),
 		},
 	}
 }

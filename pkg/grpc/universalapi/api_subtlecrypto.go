@@ -19,9 +19,9 @@ package universalapi
 import (
 	"context"
 
-	contribCrypto "github.com/dapr/components-contrib/crypto"
-	"github.com/dapr/dapr/pkg/messages"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
+	contribCrypto "github.com/liuxd6825/components-contrib/crypto"
+	"github.com/liuxd6825/dapr/pkg/messages"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
 )
 
 // SubtleGetKeyAlpha1 returns the public part of an asymmetric key stored in the vault.

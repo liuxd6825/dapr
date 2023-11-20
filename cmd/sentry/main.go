@@ -19,18 +19,18 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/dapr/dapr/cmd/sentry/options"
-	"github.com/dapr/dapr/pkg/buildinfo"
-	"github.com/dapr/dapr/pkg/concurrency"
-	"github.com/dapr/dapr/pkg/health"
-	"github.com/dapr/dapr/pkg/metrics"
-	"github.com/dapr/dapr/pkg/sentry"
-	"github.com/dapr/dapr/pkg/sentry/config"
-	"github.com/dapr/dapr/pkg/sentry/monitoring"
-	"github.com/dapr/dapr/pkg/signals"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/fswatcher"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/cmd/sentry/options"
+	"github.com/liuxd6825/dapr/pkg/buildinfo"
+	"github.com/liuxd6825/dapr/pkg/concurrency"
+	"github.com/liuxd6825/dapr/pkg/health"
+	"github.com/liuxd6825/dapr/pkg/metrics"
+	"github.com/liuxd6825/dapr/pkg/sentry"
+	"github.com/liuxd6825/dapr/pkg/sentry/config"
+	"github.com/liuxd6825/dapr/pkg/sentry/monitoring"
+	"github.com/liuxd6825/dapr/pkg/signals"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 var log = logger.NewLogger("dapr.sentry")

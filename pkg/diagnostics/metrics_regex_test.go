@@ -9,8 +9,8 @@ import (
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/tag"
 
-	"github.com/dapr/dapr/pkg/config"
-	diagUtils "github.com/dapr/dapr/pkg/diagnostics/utils"
+	"github.com/liuxd6825/dapr/pkg/config"
+	diagUtils "github.com/liuxd6825/dapr/pkg/diagnostics/utils"
 )
 
 func TestRegexRulesSingle(t *testing.T) {

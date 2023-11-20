@@ -24,9 +24,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/exp/slices"
 
-	"github.com/dapr/dapr/pkg/resiliency/breaker"
 	"github.com/dapr/kit/logger"
 	"github.com/dapr/kit/retry"
+	"github.com/liuxd6825/dapr/pkg/resiliency/breaker"
 )
 
 var testLog = logger.NewLogger("dapr.resiliency.test")

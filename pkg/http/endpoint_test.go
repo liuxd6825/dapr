@@ -21,7 +21,7 @@ import (
 	chi "github.com/go-chi/chi/v5"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/dapr/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/config"
 )
 
 const (

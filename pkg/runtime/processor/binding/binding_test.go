@@ -19,7 +19,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-	"github.com/dapr/dapr/pkg/apis/common"
+	"github.com/liuxd6825/dapr/pkg/apis/common"
 )
 
 func TestIsBindingOfDirection(t *testing.T) {

@@ -31,12 +31,12 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/types/known/anypb"
 
-	"github.com/dapr/dapr/pkg/channel"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	commonv1pb "github.com/dapr/dapr/pkg/proto/common/v1"
-	internalv1pb "github.com/dapr/dapr/pkg/proto/internals/v1"
-	"github.com/dapr/dapr/pkg/runtime/channels"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/channel"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	commonv1pb "github.com/liuxd6825/dapr/pkg/proto/common/v1"
+	internalv1pb "github.com/liuxd6825/dapr/pkg/proto/internals/v1"
+	"github.com/liuxd6825/dapr/pkg/runtime/channels"
 )
 
 func TestDestinationHeaders(t *testing.T) {

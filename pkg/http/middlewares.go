@@ -21,8 +21,8 @@ import (
 
 	chi "github.com/go-chi/chi/v5"
 
-	"github.com/dapr/dapr/pkg/security/consts"
-	"github.com/dapr/dapr/utils/streams"
+	"github.com/liuxd6825/dapr/pkg/security/consts"
+	"github.com/liuxd6825/dapr/utils/streams"
 )
 
 // MaxBodySizeMiddleware limits the body size to the given size (in bytes).

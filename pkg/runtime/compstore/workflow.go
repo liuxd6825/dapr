@@ -13,7 +13,7 @@ limitations under the License.
 
 package compstore
 
-import "github.com/dapr/components-contrib/workflows"
+import "github.com/liuxd6825/components-contrib/workflows"
 
 func (c *ComponentStore) AddWorkflow(name string, workflow workflows.Workflow) {
 	c.lock.Lock()

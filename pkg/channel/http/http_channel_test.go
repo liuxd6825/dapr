@@ -27,11 +27,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/dapr/dapr/pkg/config"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	httpMiddleware "github.com/dapr/dapr/pkg/middleware/http"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	"github.com/dapr/dapr/utils"
+	"github.com/liuxd6825/dapr/pkg/config"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	httpMiddleware "github.com/liuxd6825/dapr/pkg/middleware/http"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 // testConcurrencyHandler is used for testing max concurrency.

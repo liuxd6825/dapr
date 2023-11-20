@@ -22,9 +22,9 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/dapr/components-contrib/workflows"
-	"github.com/dapr/dapr/pkg/messages"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/components-contrib/workflows"
+	"github.com/liuxd6825/dapr/pkg/messages"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
 )
 
 // GetWorkflowBeta1 is the API handler for getting workflow details
@@ -317,7 +317,7 @@ func (a *UniversalAPI) validateInstanceID(instanceID string, isCreate bool) erro
 		}
 
 		// Check to see if the instance ID contains invalid characters. Valid characters are letters, digits, dashes, and underscores.
-		// See https://github.com/dapr/dapr/issues/6156 for more context on why we check this.
+		// See https://github.com/liuxd6825/dapr/issues/6156 for more context on why we check this.
 		for _, c := range instanceID {
 			if !unicode.IsLetter(c) && c != '_' && c != '-' && !unicode.IsDigit(c) {
 				return messages.ErrInvalidInstanceID.WithFormat(instanceID)

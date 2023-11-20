@@ -18,7 +18,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	httpendpoint "github.com/dapr/dapr/pkg/apis/httpEndpoint"
+	httpendpoint "github.com/liuxd6825/dapr/pkg/apis/httpEndpoint"
 )
 
 // SchemeGroupVersion is group version used to register these objects.

@@ -26,12 +26,12 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc"
 
-	"github.com/dapr/dapr/pkg/grpc/universalapi"
-	commonv1pb "github.com/dapr/dapr/pkg/proto/common/v1"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	daprt "github.com/dapr/dapr/pkg/testing"
+	"github.com/liuxd6825/dapr/pkg/grpc/universalapi"
+	commonv1pb "github.com/liuxd6825/dapr/pkg/proto/common/v1"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	daprt "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 func TestCryptoAlpha1(t *testing.T) {

@@ -29,14 +29,14 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	"github.com/dapr/components-contrib/contenttype"
-	contribpubsub "github.com/dapr/components-contrib/pubsub"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	runtimev1 "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
-	rterrors "github.com/dapr/dapr/pkg/runtime/errors"
-	rtpubsub "github.com/dapr/dapr/pkg/runtime/pubsub"
+	"github.com/liuxd6825/components-contrib/contenttype"
+	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	runtimev1 "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	rterrors "github.com/liuxd6825/dapr/pkg/runtime/errors"
+	rtpubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 )
 
 // Publish is an adapter method for the runtime to pre-validate publish requests

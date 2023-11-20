@@ -19,7 +19,7 @@ package fake
 import (
 	"testing"
 
-	"github.com/dapr/dapr/pkg/sentry/server/ca"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/ca"
 )
 
 func TestNew(t *testing.T) {

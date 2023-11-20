@@ -29,14 +29,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/yaml"
 
-	resiliencyV1alpha "github.com/dapr/dapr/pkg/apis/resiliency/v1alpha1"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	operatorv1pb "github.com/dapr/dapr/pkg/proto/operator/v1"
-	"github.com/dapr/dapr/pkg/resiliency/breaker"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/config"
 	"github.com/dapr/kit/logger"
 	"github.com/dapr/kit/retry"
+	resiliencyV1alpha "github.com/liuxd6825/dapr/pkg/apis/resiliency/v1alpha1"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	operatorv1pb "github.com/liuxd6825/dapr/pkg/proto/operator/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency/breaker"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 const (

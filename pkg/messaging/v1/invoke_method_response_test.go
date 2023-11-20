@@ -25,8 +25,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/protobuf/types/known/anypb"
 
-	commonv1pb "github.com/dapr/dapr/pkg/proto/common/v1"
-	internalv1pb "github.com/dapr/dapr/pkg/proto/internals/v1"
+	commonv1pb "github.com/liuxd6825/dapr/pkg/proto/common/v1"
+	internalv1pb "github.com/liuxd6825/dapr/pkg/proto/internals/v1"
 )
 
 func TestInvocationResponse(t *testing.T) {

@@ -17,7 +17,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/dapr/dapr/tests/integration/framework/process"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process"
 )
 
 type options struct {

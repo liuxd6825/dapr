@@ -20,9 +20,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	ss "github.com/dapr/components-contrib/secretstores"
-	"github.com/dapr/dapr/pkg/components/secretstores"
 	"github.com/dapr/kit/logger"
+	ss "github.com/liuxd6825/components-contrib/secretstores"
+	"github.com/liuxd6825/dapr/pkg/components/secretstores"
 )
 
 type mockSecretStore struct {

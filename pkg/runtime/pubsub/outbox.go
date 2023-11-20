@@ -23,12 +23,12 @@ import (
 	"github.com/cenkalti/backoff/v4"
 	"github.com/google/uuid"
 
-	contribPubsub "github.com/dapr/components-contrib/pubsub"
-	"github.com/dapr/components-contrib/state"
-	"github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	"github.com/dapr/dapr/pkg/outbox"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/logger"
+	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/outbox"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 const (

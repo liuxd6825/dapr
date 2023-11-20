@@ -1,10 +1,10 @@
-module github.com/dapr/dapr/tests/apps/resiliencyapp
+module github.com/liuxd6825/dapr/tests/apps/resiliencyapp
 
-go 1.20
+go 1.21.4
 
 require (
-	github.com/dapr/dapr v0.0.0
 	github.com/gorilla/mux v1.8.0
+	github.com/liuxd6825/dapr v0.0.0
 	google.golang.org/grpc v1.57.0
 	google.golang.org/grpc/examples v0.0.0-20220818173707-97cb7b1653d7
 	google.golang.org/protobuf v1.31.0
@@ -19,4 +19,4 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230807174057-1744710a1577 // indirect
 )
 
-replace github.com/dapr/dapr => ../../../
+replace github.com/liuxd6825/dapr => ../../../

@@ -21,8 +21,8 @@ import (
 	"github.com/spf13/cast"
 	corev1 "k8s.io/api/core/v1"
 
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
-	"github.com/dapr/dapr/utils"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 // GetInjectedComponentContainersFn is a function that returns the list of component containers for a given appID and namespace.

@@ -31,10 +31,10 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	resiliencyV1alpha "github.com/dapr/dapr/pkg/apis/resiliency/v1alpha1"
-	operatorv1pb "github.com/dapr/dapr/pkg/proto/operator/v1"
 	"github.com/dapr/kit/logger"
 	"github.com/dapr/kit/ptr"
+	resiliencyV1alpha "github.com/liuxd6825/dapr/pkg/apis/resiliency/v1alpha1"
+	operatorv1pb "github.com/liuxd6825/dapr/pkg/proto/operator/v1"
 )
 
 type mockOperator struct {

@@ -22,7 +22,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/dapr/dapr/tests/runner"
+	"github.com/liuxd6825/dapr/tests/runner"
 
 	v1 "github.com/grafana/k6-operator/api/v1alpha1"
 	"github.com/stretchr/testify/assert"

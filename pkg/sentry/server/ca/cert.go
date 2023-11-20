@@ -24,8 +24,8 @@ import (
 
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 
-	"github.com/dapr/dapr/pkg/security"
-	"github.com/dapr/dapr/pkg/security/spiffe"
+	"github.com/liuxd6825/dapr/pkg/security"
+	"github.com/liuxd6825/dapr/pkg/security/spiffe"
 )
 
 const (

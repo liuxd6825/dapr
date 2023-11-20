@@ -14,8 +14,8 @@ limitations under the License.
 package compstore
 
 import (
-	"github.com/dapr/components-contrib/pubsub"
-	rtpubsub "github.com/dapr/dapr/pkg/runtime/pubsub"
+	"github.com/liuxd6825/components-contrib/pubsub"
+	rtpubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 )
 
 // PubsubItem is a pubsub component with its scoped subscriptions and

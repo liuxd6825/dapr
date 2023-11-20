@@ -20,10 +20,10 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/dapr/dapr/pkg/modes"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	rtpubsub "github.com/dapr/dapr/pkg/runtime/pubsub"
+	"github.com/liuxd6825/dapr/pkg/modes"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	rtpubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 )
 
 // StartSubscriptions starts the pubsub subscriptions
@@ -189,7 +189,7 @@ func (p *pubsub) subscriptions(ctx context.Context) ([]rtpubsub.Subscription, er
 }
 
 // Refer for state store api decision
-// https://github.com/dapr/dapr/blob/master/docs/decision_records/api/API-008-multi-state-store-api-design.md
+// https://github.com/liuxd6825/dapr/blob/master/docs/decision_records/api/API-008-multi-state-store-api-design.md
 func (p *pubsub) declarativeSubscriptions(ctx context.Context) []rtpubsub.Subscription {
 	var subs []rtpubsub.Subscription
 

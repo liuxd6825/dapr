@@ -26,7 +26,7 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/wrapperspb"
 
-	"github.com/dapr/dapr/pkg/messages"
+	"github.com/liuxd6825/dapr/pkg/messages"
 )
 
 func TestUniversalHTTPHandler(t *testing.T) {

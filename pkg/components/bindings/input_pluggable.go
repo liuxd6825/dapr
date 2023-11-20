@@ -20,10 +20,10 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/dapr/components-contrib/bindings"
-	"github.com/dapr/dapr/pkg/components/pluggable"
-	proto "github.com/dapr/dapr/pkg/proto/components/v1"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/bindings"
+	"github.com/liuxd6825/dapr/pkg/components/pluggable"
+	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
 )
 
 // grpcInputBinding is a implementation of a inputbinding over a gRPC Protocol.

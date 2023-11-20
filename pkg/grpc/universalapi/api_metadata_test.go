@@ -23,13 +23,13 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/dapr/dapr/pkg/actors"
-	componentsV1alpha "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/pkg/expr"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	runtimePubsub "github.com/dapr/dapr/pkg/runtime/pubsub"
+	"github.com/liuxd6825/dapr/pkg/actors"
+	componentsV1alpha "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/expr"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	runtimePubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 )
 
 func TestGetMetadata(t *testing.T) {

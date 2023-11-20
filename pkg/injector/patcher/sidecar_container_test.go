@@ -23,9 +23,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 
-	"github.com/dapr/dapr/pkg/injector/annotations"
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
-	securityConsts "github.com/dapr/dapr/pkg/security/consts"
+	"github.com/liuxd6825/dapr/pkg/injector/annotations"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
+	securityConsts "github.com/liuxd6825/dapr/pkg/security/consts"
 )
 
 func TestParseEnvString(t *testing.T) {

@@ -27,9 +27,9 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	configapi "github.com/dapr/dapr/pkg/apis/configuration/v1alpha1"
-	"github.com/dapr/dapr/pkg/sentry/server/ca"
-	prockube "github.com/dapr/dapr/tests/integration/framework/process/kubernetes"
+	configapi "github.com/liuxd6825/dapr/pkg/apis/configuration/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/ca"
+	prockube "github.com/liuxd6825/dapr/tests/integration/framework/process/kubernetes"
 )
 
 func kubeAPI(t *testing.T, bundle ca.Bundle, namespace, serviceaccount string) *prockube.Kubernetes {

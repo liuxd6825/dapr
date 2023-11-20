@@ -18,7 +18,7 @@ import (
 
 	"github.com/dapr/kit/logger"
 
-	contribPubsub "github.com/dapr/components-contrib/pubsub"
+	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
 )
 
 const (

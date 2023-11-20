@@ -16,10 +16,10 @@ package secretstores
 import (
 	"context"
 
-	"github.com/dapr/components-contrib/secretstores"
-	"github.com/dapr/dapr/pkg/components/pluggable"
-	proto "github.com/dapr/dapr/pkg/proto/components/v1"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/secretstores"
+	"github.com/liuxd6825/dapr/pkg/components/pluggable"
+	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
 )
 
 // grpcSecretStore is a implementation of a secret store over a gRPC Protocol.

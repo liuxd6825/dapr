@@ -23,8 +23,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/valyala/fasthttp"
 
-	diagUtils "github.com/dapr/dapr/pkg/diagnostics/utils"
 	"github.com/dapr/kit/logger"
+	diagUtils "github.com/liuxd6825/dapr/pkg/diagnostics/utils"
 )
 
 var log = logger.NewLogger("dapr.nethttpadaptor")

@@ -22,10 +22,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/dapr/dapr/pkg/grpc/universalapi"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	daprt "github.com/dapr/dapr/pkg/testing"
+	"github.com/liuxd6825/dapr/pkg/grpc/universalapi"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	daprt "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 func TestCryptoEndpoints(t *testing.T) {

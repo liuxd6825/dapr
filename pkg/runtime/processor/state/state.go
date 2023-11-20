@@ -20,17 +20,17 @@ import (
 	"strings"
 	"sync"
 
-	contribstate "github.com/dapr/components-contrib/state"
-	compapi "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	compstate "github.com/dapr/dapr/pkg/components/state"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	"github.com/dapr/dapr/pkg/encryption"
-	"github.com/dapr/dapr/pkg/outbox"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	rterrors "github.com/dapr/dapr/pkg/runtime/errors"
-	"github.com/dapr/dapr/pkg/runtime/meta"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/logger"
+	contribstate "github.com/liuxd6825/components-contrib/state"
+	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	compstate "github.com/liuxd6825/dapr/pkg/components/state"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	"github.com/liuxd6825/dapr/pkg/encryption"
+	"github.com/liuxd6825/dapr/pkg/outbox"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	rterrors "github.com/liuxd6825/dapr/pkg/runtime/errors"
+	"github.com/liuxd6825/dapr/pkg/runtime/meta"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 const (

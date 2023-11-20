@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	inmemory "github.com/dapr/components-contrib/state/in-memory"
-	stateLoader "github.com/dapr/dapr/pkg/components/state"
+	inmemory "github.com/liuxd6825/components-contrib/state/in-memory"
+	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
 )
 
 func init() {

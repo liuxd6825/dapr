@@ -24,11 +24,11 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 	"k8s.io/apimachinery/pkg/util/intstr"
 
-	"github.com/dapr/dapr/pkg/config/protocol"
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
-	securityConsts "github.com/dapr/dapr/pkg/security/consts"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/ptr"
+	"github.com/liuxd6825/dapr/pkg/config/protocol"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
+	securityConsts "github.com/liuxd6825/dapr/pkg/security/consts"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 type getSidecarContainerOpts struct {

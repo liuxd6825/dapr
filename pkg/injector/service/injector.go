@@ -30,10 +30,10 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/client-go/kubernetes"
 
-	scheme "github.com/dapr/dapr/pkg/client/clientset/versioned"
-	"github.com/dapr/dapr/pkg/injector/annotations"
-	"github.com/dapr/dapr/pkg/injector/namespacednamematcher"
 	"github.com/dapr/kit/logger"
+	scheme "github.com/liuxd6825/dapr/pkg/client/clientset/versioned"
+	"github.com/liuxd6825/dapr/pkg/injector/annotations"
+	"github.com/liuxd6825/dapr/pkg/injector/namespacednamematcher"
 )
 
 const (

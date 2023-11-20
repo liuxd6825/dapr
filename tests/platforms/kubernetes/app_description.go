@@ -19,7 +19,7 @@ import (
 
 	apiv1 "k8s.io/api/core/v1"
 
-	"github.com/dapr/dapr/utils"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 const (

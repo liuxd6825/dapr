@@ -19,10 +19,10 @@ import (
 
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/dapr/dapr/pkg/buildinfo"
-	"github.com/dapr/dapr/pkg/config/protocol"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	runtimePubsub "github.com/dapr/dapr/pkg/runtime/pubsub"
+	"github.com/liuxd6825/dapr/pkg/buildinfo"
+	"github.com/liuxd6825/dapr/pkg/config/protocol"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	runtimePubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 )
 
 const daprRuntimeVersionKey = "daprRuntimeVersion"

@@ -6,8 +6,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/dapr/components-contrib/lock"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/lock"
 )
 
 const (

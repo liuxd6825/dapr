@@ -20,7 +20,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 
-	"github.com/dapr/dapr/pkg/sentry/config"
+	"github.com/liuxd6825/dapr/pkg/sentry/config"
 )
 
 const (

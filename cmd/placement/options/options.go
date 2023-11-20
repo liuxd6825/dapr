@@ -19,12 +19,12 @@ import (
 	"os"
 	"strings"
 
-	"github.com/dapr/dapr/pkg/metrics"
-	"github.com/dapr/dapr/pkg/modes"
-	"github.com/dapr/dapr/pkg/placement/raft"
-	"github.com/dapr/dapr/pkg/security"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/metrics"
+	"github.com/liuxd6825/dapr/pkg/modes"
+	"github.com/liuxd6825/dapr/pkg/placement/raft"
+	"github.com/liuxd6825/dapr/pkg/security"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 const (

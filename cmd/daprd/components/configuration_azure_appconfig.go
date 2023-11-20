@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	"github.com/dapr/components-contrib/configuration/azure/appconfig"
-	configurationLoader "github.com/dapr/dapr/pkg/components/configuration"
+	"github.com/liuxd6825/components-contrib/configuration/azure/appconfig"
+	configurationLoader "github.com/liuxd6825/dapr/pkg/components/configuration"
 )
 
 func init() {

@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	"github.com/dapr/components-contrib/nameresolution/consul"
-	nrLoader "github.com/dapr/dapr/pkg/components/nameresolution"
+	"github.com/liuxd6825/components-contrib/nameresolution/consul"
+	nrLoader "github.com/liuxd6825/dapr/pkg/components/nameresolution"
 )
 
 func init() {

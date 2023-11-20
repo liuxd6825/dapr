@@ -26,11 +26,11 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/types/known/anypb"
 
-	commonv1 "github.com/dapr/dapr/pkg/proto/common/v1"
-	rtv1 "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/tests/integration/framework"
-	procdaprd "github.com/dapr/dapr/tests/integration/framework/process/daprd"
-	"github.com/dapr/dapr/tests/integration/suite"
+	commonv1 "github.com/liuxd6825/dapr/pkg/proto/common/v1"
+	rtv1 "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/tests/integration/framework"
+	procdaprd "github.com/liuxd6825/dapr/tests/integration/framework/process/daprd"
+	"github.com/liuxd6825/dapr/tests/integration/suite"
 )
 
 func init() {

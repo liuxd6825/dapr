@@ -13,9 +13,9 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
-	operatorConsts "github.com/dapr/dapr/pkg/operator/meta"
-	"github.com/dapr/dapr/utils"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
+	operatorConsts "github.com/liuxd6825/dapr/pkg/operator/meta"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 const (

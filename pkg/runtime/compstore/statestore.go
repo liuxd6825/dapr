@@ -13,7 +13,9 @@ limitations under the License.
 
 package compstore
 
-import "github.com/dapr/components-contrib/state"
+import (
+	"github.com/liuxd6825/components-contrib/state"
+)
 
 func (c *ComponentStore) AddStateStore(name string, store state.Store) {
 	c.lock.Lock()

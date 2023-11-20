@@ -17,9 +17,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dapr/components-contrib/secretstores"
-	"github.com/dapr/dapr/pkg/components"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/secretstores"
+	"github.com/liuxd6825/dapr/pkg/components"
 )
 
 // Name of the built-in Kubernetes secret store component.

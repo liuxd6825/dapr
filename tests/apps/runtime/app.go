@@ -27,7 +27,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/dapr/dapr/tests/apps/utils"
+	"github.com/liuxd6825/dapr/tests/apps/utils"
 )
 
 const (

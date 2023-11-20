@@ -20,10 +20,12 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "dapr/proto/common/v1/common.proto";
 
+import "dapr/proto/runtime/v1/dapr_liuxd.proto";
+
 option csharp_namespace = "Dapr.Client.Autogen.Grpc.v1";
 option java_outer_classname = "DaprProtos";
 option java_package = "io.dapr.v1";
-option go_package = "github.com/dapr/dapr/pkg/proto/runtime/v1;runtime";
+option go_package = "github.com/liuxd6825/dapr/pkg/proto/runtime/v1;runtime";
 
 // Dapr service provides APIs to user application to access Dapr building blocks.
 service Dapr {
@@ -191,6 +193,55 @@ service Dapr {
   rpc RaiseEventWorkflowBeta1 (RaiseEventWorkflowRequest) returns (google.protobuf.Empty) {}
   // Shutdown the sidecar
   rpc Shutdown (google.protobuf.Empty) returns (google.protobuf.Empty) {}
+
+
+  // LoadEvents  加载事件
+  rpc LoadEvents(LoadEventRequest)returns(LoadEventResponse){}
+
+  // SaveSnapshot 保存事件快照
+  rpc SaveSnapshot(SaveSnapshotRequest) returns(SaveSnapshotResponse) {}
+
+  /*
+    // CreateEvent 创建聚合根事件
+    rpc CreateEvent(CreateEventRequest)returns(CreateEventResponse){}
+
+    // DeleteEvent 删除聚合根事件
+    rpc DeleteEvent(DeleteEventRequest)returns(DeleteEventResponse){}
+  */
+
+  // Commit 提交Session
+  rpc Commit(CommitRequest)returns(CommitResponse){}
+
+  // Rollback 回滚Session
+  rpc Rollback(RollbackRequest)returns(RollbackResponse){}
+
+  // ApplyEvent 应用事件到聚合根上
+  rpc ApplyEvent(ApplyEventRequest)returns(ApplyEventResponse){}
+
+  // WriteEventLog 写事件日志
+  rpc WriteEventLog(WriteEventLogRequest)returns(WriteEventLogResponse){}
+
+  // UpdateEventLog 更新事件日志
+  rpc UpdateEventLog(UpdateEventLogRequest)returns(UpdateEventLogResponse){}
+
+  // GetEventLogByCommandId 按命令id获取事件日志
+  rpc GetEventLogByCommandId(GetEventLogByCommandIdRequest)returns(GetEventLogByCommandIdResponse){}
+
+  // WriteAppLog 写应用日志
+  rpc WriteAppLog(WriteAppLogRequest)returns(WriteAppLogResponse){}
+
+  // UpdateAppLog 更新应用日志
+  rpc UpdateAppLog(UpdateAppLogRequest)returns(UpdateAppLogResponse){}
+
+  // GetAppLogById 按id获取应用日志
+  rpc GetAppLogById(GetAppLogByIdRequest)returns(GetAppLogByIdResponse){}
+
+  // GetRelations 获取聚合关系
+  rpc GetRelations(GetRelationsRequest)returns(GetRelationsResponse){}
+
+  // GetRelations 获取聚合关系
+  rpc GetEvents(GetEventsRequest)returns(GetEventsResponse){}
+
 }
 
 // InvokeServiceRequest represents the request message for Service invocation.

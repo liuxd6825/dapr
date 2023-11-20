@@ -14,8 +14,8 @@ limitations under the License.
 package framework
 
 import (
-	"github.com/dapr/dapr/tests/integration/framework/process"
-	"github.com/dapr/dapr/tests/integration/framework/process/once"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process/once"
 )
 
 func WithProcesses(procs ...process.Interface) Option {

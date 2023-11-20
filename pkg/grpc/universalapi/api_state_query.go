@@ -18,13 +18,13 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/dapr/components-contrib/state"
-	stateLoader "github.com/dapr/dapr/pkg/components/state"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	"github.com/dapr/dapr/pkg/encryption"
-	"github.com/dapr/dapr/pkg/messages"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
+	"github.com/liuxd6825/components-contrib/state"
+	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	"github.com/liuxd6825/dapr/pkg/encryption"
+	"github.com/liuxd6825/dapr/pkg/messages"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
 )
 
 func (a *UniversalAPI) GetStateStore(name string) (state.Store, error) {

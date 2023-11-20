@@ -16,9 +16,9 @@ limitations under the License.
 package components
 
 import (
-	"github.com/dapr/components-contrib/state/etcd"
-	"github.com/dapr/dapr/pkg/components"
-	stateLoader "github.com/dapr/dapr/pkg/components/state"
+	"github.com/liuxd6825/components-contrib/state/etcd"
+	"github.com/liuxd6825/dapr/pkg/components"
+	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
 )
 
 func init() {

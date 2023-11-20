@@ -20,7 +20,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	contribPubsub "github.com/dapr/components-contrib/pubsub"
+	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
 )
 
 func TestFlushMessages(t *testing.T) {

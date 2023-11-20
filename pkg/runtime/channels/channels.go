@@ -25,20 +25,20 @@ import (
 
 	"golang.org/x/net/http2"
 
-	contribmiddle "github.com/dapr/components-contrib/middleware"
-	commonapi "github.com/dapr/dapr/pkg/apis/common"
-	httpendpapi "github.com/dapr/dapr/pkg/apis/httpEndpoint/v1alpha1"
-	"github.com/dapr/dapr/pkg/channel"
-	channelhttp "github.com/dapr/dapr/pkg/channel/http"
-	compmiddlehttp "github.com/dapr/dapr/pkg/components/middleware/http"
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/pkg/config/protocol"
-	"github.com/dapr/dapr/pkg/grpc/manager"
-	middlehttp "github.com/dapr/dapr/pkg/middleware/http"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	"github.com/dapr/dapr/pkg/runtime/meta"
-	"github.com/dapr/dapr/pkg/runtime/registry"
 	"github.com/dapr/kit/logger"
+	contribmiddle "github.com/liuxd6825/components-contrib/middleware"
+	commonapi "github.com/liuxd6825/dapr/pkg/apis/common"
+	httpendpapi "github.com/liuxd6825/dapr/pkg/apis/httpEndpoint/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/channel"
+	channelhttp "github.com/liuxd6825/dapr/pkg/channel/http"
+	compmiddlehttp "github.com/liuxd6825/dapr/pkg/components/middleware/http"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/config/protocol"
+	"github.com/liuxd6825/dapr/pkg/grpc/manager"
+	middlehttp "github.com/liuxd6825/dapr/pkg/middleware/http"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	"github.com/liuxd6825/dapr/pkg/runtime/meta"
+	"github.com/liuxd6825/dapr/pkg/runtime/registry"
 )
 
 var log = logger.NewLogger("dapr.runtime.channels")

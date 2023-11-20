@@ -16,10 +16,10 @@ limitations under the License.
 package components
 
 import (
-	"github.com/dapr/components-contrib/bindings"
-	mqtt "github.com/dapr/components-contrib/bindings/mqtt3"
-	bindingsLoader "github.com/dapr/dapr/pkg/components/bindings"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/bindings"
+	mqtt "github.com/liuxd6825/components-contrib/bindings/mqtt3"
+	bindingsLoader "github.com/liuxd6825/dapr/pkg/components/bindings"
 )
 
 func init() {

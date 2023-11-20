@@ -21,9 +21,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dapr/dapr/tests/perf"
-	"github.com/dapr/dapr/tests/runner/loadtest"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/tests/perf"
+	"github.com/liuxd6825/dapr/tests/runner/loadtest"
 )
 
 const (

@@ -6,8 +6,8 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/dapr/dapr/pkg/grpc/metadata"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
+	"github.com/liuxd6825/dapr/pkg/grpc/metadata"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
 )
 
 func getAPIAuthenticationMiddlewares(apiToken, authHeader string) (grpc.UnaryServerInterceptor, grpc.StreamServerInterceptor) {

@@ -23,7 +23,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/dapr/dapr/tests/apps/utils"
+	"github.com/liuxd6825/dapr/tests/apps/utils"
 
 	"github.com/gorilla/mux"
 )

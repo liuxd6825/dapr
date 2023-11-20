@@ -14,7 +14,7 @@ limitations under the License.
 package meta
 
 import (
-	"github.com/dapr/dapr/pkg/apis/common"
+	"github.com/liuxd6825/dapr/pkg/apis/common"
 )
 
 // Resource interface that applies to both Component and HTTPEndpoint

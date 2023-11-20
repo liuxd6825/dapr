@@ -91,7 +91,7 @@ testApps := []kube.AppDescription{
 
 ## Documentation
 
-When a new [preview feature](https://docs.dapr.io/operations/support/support-preview-features/) is added our [documentation should be updated](https://github.com/dapr/docs/blob/4674817212c141acd4256a4d3ac441d5559f1eef/daprdocs/content/en/operations/support/support-preview-features.md). As a followup action create a new issue on docs repository, [check an example](https://github.com/dapr/docs/issues/2786).
+When a new [preview feature](https://docs.dapr.io/operations/support/support-preview-features/) is added our [documentation should be updated](https://github.com/liuxd6825/docs/blob/4674817212c141acd4256a4d3ac441d5559f1eef/daprdocs/content/en/operations/support/support-preview-features.md). As a followup action create a new issue on docs repository, [check an example](https://github.com/liuxd6825/docs/issues/2786).
 
 ## Release GA
 

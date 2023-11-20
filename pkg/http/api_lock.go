@@ -21,7 +21,7 @@ import (
 	"github.com/valyala/fasthttp"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
 )
 
 func (a *api) constructDistributedLockEndpoints() []Endpoint {

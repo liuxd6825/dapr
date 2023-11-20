@@ -20,6 +20,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/google/uuid"
+	"github.com/liuxd6825/components-contrib/liuxd/applog"
+	"github.com/liuxd6825/dapr/pkg/outbox"
 	"io"
 	"net"
 	"os"
@@ -41,48 +44,54 @@ import (
 	apiextensionsV1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/dapr/dapr/pkg/actors"
-	commonapi "github.com/dapr/dapr/pkg/apis/common"
-	componentsV1alpha1 "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	httpEndpointV1alpha1 "github.com/dapr/dapr/pkg/apis/httpEndpoint/v1alpha1"
-	"github.com/dapr/dapr/pkg/apphealth"
-	"github.com/dapr/dapr/pkg/components"
-	"github.com/dapr/dapr/pkg/concurrency"
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/pkg/config/protocol"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	diagUtils "github.com/dapr/dapr/pkg/diagnostics/utils"
-	"github.com/dapr/dapr/pkg/grpc"
-	"github.com/dapr/dapr/pkg/grpc/manager"
-	"github.com/dapr/dapr/pkg/grpc/universalapi"
-	"github.com/dapr/dapr/pkg/http"
-	"github.com/dapr/dapr/pkg/httpendpoint"
-	"github.com/dapr/dapr/pkg/internal/apis"
-	"github.com/dapr/dapr/pkg/messaging"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	httpMiddleware "github.com/dapr/dapr/pkg/middleware/http"
-	"github.com/dapr/dapr/pkg/modes"
-	"github.com/dapr/dapr/pkg/operator/client"
-	operatorv1pb "github.com/dapr/dapr/pkg/proto/operator/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/runtime/channels"
-	"github.com/dapr/dapr/pkg/runtime/meta"
-	"github.com/dapr/dapr/pkg/runtime/processor"
-	"github.com/dapr/dapr/pkg/runtime/registry"
-	"github.com/dapr/dapr/pkg/runtime/wfengine"
-	"github.com/dapr/dapr/pkg/security"
-	securityConsts "github.com/dapr/dapr/pkg/security/consts"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/actors"
+	commonapi "github.com/liuxd6825/dapr/pkg/apis/common"
+	componentsV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	httpEndpointV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/httpEndpoint/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/apphealth"
+	"github.com/liuxd6825/dapr/pkg/components"
+	"github.com/liuxd6825/dapr/pkg/concurrency"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/config/protocol"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	diagUtils "github.com/liuxd6825/dapr/pkg/diagnostics/utils"
+	"github.com/liuxd6825/dapr/pkg/grpc"
+	"github.com/liuxd6825/dapr/pkg/grpc/manager"
+	"github.com/liuxd6825/dapr/pkg/grpc/universalapi"
+	"github.com/liuxd6825/dapr/pkg/http"
+	"github.com/liuxd6825/dapr/pkg/httpendpoint"
+	"github.com/liuxd6825/dapr/pkg/internal/apis"
+	"github.com/liuxd6825/dapr/pkg/messaging"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	httpMiddleware "github.com/liuxd6825/dapr/pkg/middleware/http"
+	"github.com/liuxd6825/dapr/pkg/modes"
+	"github.com/liuxd6825/dapr/pkg/operator/client"
+	operatorv1pb "github.com/liuxd6825/dapr/pkg/proto/operator/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/runtime/channels"
+	"github.com/liuxd6825/dapr/pkg/runtime/meta"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor"
+	"github.com/liuxd6825/dapr/pkg/runtime/registry"
+	"github.com/liuxd6825/dapr/pkg/runtime/wfengine"
+	"github.com/liuxd6825/dapr/pkg/security"
+	securityConsts "github.com/liuxd6825/dapr/pkg/security/consts"
+	"github.com/liuxd6825/dapr/utils"
 
-	"github.com/dapr/dapr/pkg/components/pluggable"
-	secretstoresLoader "github.com/dapr/dapr/pkg/components/secretstores"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	rterrors "github.com/dapr/dapr/pkg/runtime/errors"
+	"github.com/liuxd6825/dapr/pkg/components/pluggable"
+	secretstoresLoader "github.com/liuxd6825/dapr/pkg/components/secretstores"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	rterrors "github.com/liuxd6825/dapr/pkg/runtime/errors"
 
-	nr "github.com/dapr/components-contrib/nameresolution"
-	"github.com/dapr/components-contrib/secretstores"
-	"github.com/dapr/components-contrib/state"
+	nr "github.com/liuxd6825/components-contrib/nameresolution"
+	"github.com/liuxd6825/components-contrib/secretstores"
+	"github.com/liuxd6825/components-contrib/state"
+
+	es "github.com/liuxd6825/components-contrib/liuxd/eventstorage"
+	"github.com/liuxd6825/dapr/pkg/apis/common"
+	applog_loader "github.com/liuxd6825/dapr/pkg/components/liuxd/applogger"
+	es_loader "github.com/liuxd6825/dapr/pkg/components/liuxd/eventstorage"
+	runtime_pubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 )
 
 const (
@@ -135,6 +144,12 @@ type DaprRuntime struct {
 	meta                    *meta.Meta
 	sec                     security.Handler
 	runnerCloser            *concurrency.RunnerCloserManager
+
+	eventStorageRegistry es_loader.Registry // 事件存储注册器
+	eventStorage         es.EventStorage    // 事件存储处理
+
+	applogRegistry applog_loader.Registry
+	appLogger      applog.Logger
 
 	pendingHTTPEndpoints       chan httpEndpointV1alpha1.HTTPEndpoint
 	pendingComponents          chan componentsV1alpha1.Component
@@ -193,7 +208,13 @@ func newDaprRuntime(ctx context.Context,
 		GRPC:                grpc,
 	})
 
-	rt := &DaprRuntime{
+	var rt *DaprRuntime
+
+	pubSubAdapter := NewPubSubAdapter(runtimeConfig, func() outbox.Outbox {
+		return rt.processor.PubSub().Outbox()
+	})
+
+	rt = &DaprRuntime{
 		runtimeConfig:              runtimeConfig,
 		globalConfig:               globalConfig,
 		accessControlList:          accessControlList,
@@ -226,6 +247,7 @@ func newDaprRuntime(ctx context.Context,
 			OperatorClient:   operatorClient,
 			GRPC:             grpc,
 			Channels:         channels,
+			PubSubAdapter:    pubSubAdapter,
 		}),
 	}
 
@@ -1755,4 +1777,21 @@ func (a *DaprRuntime) stopTrace(ctx context.Context) error {
 		a.tracerProvider = nil
 	}
 	return nil
+}
+
+func (a *DaprRuntime) getPublishAdapter() runtime_pubsub.Adapter {
+	return nil
+	//return a.runtimeConfig.registry.PubSubs().GetPubSub()
+}
+
+func (a *DaprRuntime) convertMetadataItemsToProperties(items []common.NameValuePair) map[string]string {
+	properties := map[string]string{}
+	for _, i := range items {
+		val := i.Value.String()
+		for strings.Contains(val, "{uuid}") {
+			val = strings.Replace(val, "{uuid}", uuid.New().String(), 1)
+		}
+		properties[i.Name] = val
+	}
+	return properties
 }

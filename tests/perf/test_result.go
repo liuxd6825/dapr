@@ -18,7 +18,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/dapr/dapr/tests/runner"
+	"github.com/liuxd6825/dapr/tests/runner"
 )
 
 const (

@@ -6,7 +6,7 @@ Accepted
 ## Context
 Dapr offers a Java SDK. Java 11 is the latest LTS version. Java 8 is the previous LTS version but still the mainly used version by the Java community in 2019. What should be the minimum Java version supported by Dapr's Java SDK?
 
-See https://github.com/dapr/java-sdk/issues/17
+See https://github.com/liuxd6825/java-sdk/issues/17
 
 ## Decisions
 

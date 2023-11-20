@@ -16,33 +16,34 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/liuxd6825/dapr/pkg/components/liuxd/applogger"
+	"github.com/liuxd6825/dapr/pkg/components/liuxd/eventstorage"
 	"os"
 
 	"go.uber.org/automaxprocs/maxprocs"
 
-	// Register all components
-	_ "github.com/dapr/dapr/cmd/daprd/components"
+	_ "github.com/liuxd6825/dapr/cmd/daprd/components"
 
-	"github.com/dapr/dapr/cmd/daprd/options"
-	"github.com/dapr/dapr/pkg/buildinfo"
-	bindingsLoader "github.com/dapr/dapr/pkg/components/bindings"
-	configurationLoader "github.com/dapr/dapr/pkg/components/configuration"
-	cryptoLoader "github.com/dapr/dapr/pkg/components/crypto"
-	lockLoader "github.com/dapr/dapr/pkg/components/lock"
-	httpMiddlewareLoader "github.com/dapr/dapr/pkg/components/middleware/http"
-	nrLoader "github.com/dapr/dapr/pkg/components/nameresolution"
-	pubsubLoader "github.com/dapr/dapr/pkg/components/pubsub"
-	secretstoresLoader "github.com/dapr/dapr/pkg/components/secretstores"
-	stateLoader "github.com/dapr/dapr/pkg/components/state"
-	workflowsLoader "github.com/dapr/dapr/pkg/components/workflows"
-	"github.com/dapr/dapr/pkg/concurrency"
-	"github.com/dapr/dapr/pkg/modes"
-	"github.com/dapr/dapr/pkg/runtime/registry"
-	"github.com/dapr/dapr/pkg/security"
-	"github.com/dapr/dapr/pkg/signals"
+	"github.com/liuxd6825/dapr/cmd/daprd/options"
+	"github.com/liuxd6825/dapr/pkg/buildinfo"
+	bindingsLoader "github.com/liuxd6825/dapr/pkg/components/bindings"
+	configurationLoader "github.com/liuxd6825/dapr/pkg/components/configuration"
+	cryptoLoader "github.com/liuxd6825/dapr/pkg/components/crypto"
+	lockLoader "github.com/liuxd6825/dapr/pkg/components/lock"
+	httpMiddlewareLoader "github.com/liuxd6825/dapr/pkg/components/middleware/http"
+	nrLoader "github.com/liuxd6825/dapr/pkg/components/nameresolution"
+	pubsubLoader "github.com/liuxd6825/dapr/pkg/components/pubsub"
+	secretstoresLoader "github.com/liuxd6825/dapr/pkg/components/secretstores"
+	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
+	workflowsLoader "github.com/liuxd6825/dapr/pkg/components/workflows"
+	"github.com/liuxd6825/dapr/pkg/concurrency"
+	"github.com/liuxd6825/dapr/pkg/modes"
+	"github.com/liuxd6825/dapr/pkg/runtime/registry"
+	"github.com/liuxd6825/dapr/pkg/security"
+	"github.com/liuxd6825/dapr/pkg/signals"
 
-	"github.com/dapr/dapr/pkg/runtime"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/runtime"
 )
 
 var (
@@ -93,6 +94,8 @@ func main() {
 	bindingsLoader.DefaultRegistry.Logger = logContrib
 	workflowsLoader.DefaultRegistry.Logger = logContrib
 	httpMiddlewareLoader.DefaultRegistry.Logger = log // Note this uses log on purpose
+	eventstorage.DefaultRegistry.Logger = logContrib
+	applogger.DefaultRegistry.Logger = logContrib
 
 	reg := registry.NewOptions().
 		WithSecretStores(secretstoresLoader.DefaultRegistry).
@@ -104,7 +107,9 @@ func main() {
 		WithBindings(bindingsLoader.DefaultRegistry).
 		WithCryptoProviders(cryptoLoader.DefaultRegistry).
 		WithHTTPMiddlewares(httpMiddlewareLoader.DefaultRegistry).
-		WithWorkflows(workflowsLoader.DefaultRegistry)
+		WithWorkflows(workflowsLoader.DefaultRegistry).
+		WithEventStorage(eventstorage.DefaultRegistry).
+		WithAppLogger(applogger.DefaultRegistry)
 
 	ctx := signals.Context()
 	secProvider, err := security.New(ctx, security.Options{

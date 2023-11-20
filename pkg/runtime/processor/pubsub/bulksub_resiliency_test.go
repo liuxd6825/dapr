@@ -22,17 +22,17 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	contribpubsub "github.com/dapr/components-contrib/pubsub"
-	resiliencyV1alpha "github.com/dapr/dapr/pkg/apis/resiliency/v1alpha1"
-	channelt "github.com/dapr/dapr/pkg/channel/testing"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/resiliency/breaker"
-	"github.com/dapr/dapr/pkg/runtime/channels"
-	runtimePubsub "github.com/dapr/dapr/pkg/runtime/pubsub"
-	"github.com/dapr/dapr/pkg/runtime/registry"
 	"github.com/dapr/kit/logger"
 	"github.com/dapr/kit/ptr"
+	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	resiliencyV1alpha "github.com/liuxd6825/dapr/pkg/apis/resiliency/v1alpha1"
+	channelt "github.com/liuxd6825/dapr/pkg/channel/testing"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/resiliency/breaker"
+	"github.com/liuxd6825/dapr/pkg/runtime/channels"
+	runtimePubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
+	"github.com/liuxd6825/dapr/pkg/runtime/registry"
 )
 
 const (

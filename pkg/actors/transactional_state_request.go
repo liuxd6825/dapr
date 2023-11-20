@@ -20,8 +20,8 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"golang.org/x/exp/maps"
 
-	"github.com/dapr/components-contrib/state"
-	"github.com/dapr/dapr/pkg/config"
+	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr/pkg/config"
 )
 
 // OperationType describes a CRUD operation performed against a state store.

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dapr/components-contrib/lock"
-	"github.com/dapr/dapr/pkg/components"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/lock"
+	"github.com/liuxd6825/dapr/pkg/components"
 )
 
 type Registry struct {

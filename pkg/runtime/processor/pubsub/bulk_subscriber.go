@@ -28,15 +28,15 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/dapr/components-contrib/contenttype"
-	"github.com/dapr/components-contrib/metadata"
-	contribpubsub "github.com/dapr/components-contrib/pubsub"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	runtimePubsub "github.com/dapr/dapr/pkg/runtime/pubsub"
+	"github.com/liuxd6825/components-contrib/contenttype"
+	"github.com/liuxd6825/components-contrib/metadata"
+	contribpubsub "github.com/liuxd6825/components-contrib/pubsub"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	runtimePubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 )
 
 // message contains all the essential information related to a particular entry.

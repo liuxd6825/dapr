@@ -17,7 +17,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/dapr/dapr/pkg/security/consts"
+	"github.com/liuxd6825/dapr/pkg/security/consts"
 )
 
 const (

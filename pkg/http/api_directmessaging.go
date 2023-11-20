@@ -27,11 +27,11 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/dapr/dapr/pkg/messages"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/resiliency/breaker"
-	"github.com/dapr/dapr/utils/responsewriter"
+	"github.com/liuxd6825/dapr/pkg/messages"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/resiliency/breaker"
+	"github.com/liuxd6825/dapr/utils/responsewriter"
 )
 
 func (a *api) constructDirectMessagingEndpoints() []Endpoint {

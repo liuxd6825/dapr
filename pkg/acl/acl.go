@@ -23,10 +23,10 @@ import (
 
 	"github.com/dapr/kit/logger"
 
-	"github.com/dapr/dapr/pkg/config"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	commonv1pb "github.com/dapr/dapr/pkg/proto/common/v1"
-	"github.com/dapr/dapr/pkg/security/spiffe"
+	"github.com/liuxd6825/dapr/pkg/config"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	commonv1pb "github.com/liuxd6825/dapr/pkg/proto/common/v1"
+	"github.com/liuxd6825/dapr/pkg/security/spiffe"
 )
 
 var log = logger.NewLogger("dapr.acl")

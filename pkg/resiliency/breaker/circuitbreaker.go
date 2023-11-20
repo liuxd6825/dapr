@@ -20,8 +20,8 @@ import (
 
 	"github.com/sony/gobreaker"
 
-	"github.com/dapr/dapr/pkg/expr"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/expr"
 )
 
 // CircuitBreaker represents the configuration for how

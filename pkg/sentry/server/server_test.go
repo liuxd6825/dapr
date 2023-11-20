@@ -37,13 +37,13 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
-	"github.com/dapr/dapr/pkg/security"
-	securityfake "github.com/dapr/dapr/pkg/security/fake"
-	"github.com/dapr/dapr/pkg/sentry/server/ca"
-	cafake "github.com/dapr/dapr/pkg/sentry/server/ca/fake"
-	"github.com/dapr/dapr/pkg/sentry/server/validator"
-	validatorfake "github.com/dapr/dapr/pkg/sentry/server/validator/fake"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
+	"github.com/liuxd6825/dapr/pkg/security"
+	securityfake "github.com/liuxd6825/dapr/pkg/security/fake"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/ca"
+	cafake "github.com/liuxd6825/dapr/pkg/sentry/server/ca/fake"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/validator"
+	validatorfake "github.com/liuxd6825/dapr/pkg/sentry/server/validator/fake"
 )
 
 func TestRun(t *testing.T) {

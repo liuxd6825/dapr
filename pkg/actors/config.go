@@ -19,8 +19,8 @@ import (
 
 	"golang.org/x/exp/maps"
 
-	"github.com/dapr/dapr/pkg/actors/internal"
-	daprAppConfig "github.com/dapr/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/actors/internal"
+	daprAppConfig "github.com/liuxd6825/dapr/pkg/config"
 )
 
 // Config is the actor runtime configuration.

@@ -6,7 +6,7 @@ import (
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	"go.opentelemetry.io/otel/trace"
 
-	diagUtils "github.com/dapr/dapr/pkg/diagnostics/utils"
+	diagUtils "github.com/liuxd6825/dapr/pkg/diagnostics/utils"
 )
 
 type DaprTraceSampler struct {

@@ -19,11 +19,11 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/dapr/components-contrib/middleware"
-	httpMiddlewareLoader "github.com/dapr/dapr/pkg/components/middleware/http"
-	httpMiddleware "github.com/dapr/dapr/pkg/middleware/http"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/middleware"
+	httpMiddlewareLoader "github.com/liuxd6825/dapr/pkg/components/middleware/http"
+	httpMiddleware "github.com/liuxd6825/dapr/pkg/middleware/http"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 func init() {

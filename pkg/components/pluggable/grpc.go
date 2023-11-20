@@ -19,7 +19,7 @@ import (
 
 	"github.com/dapr/kit/logger"
 
-	proto "github.com/dapr/dapr/pkg/proto/components/v1"
+	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"

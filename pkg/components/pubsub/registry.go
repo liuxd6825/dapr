@@ -17,9 +17,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/dapr/components-contrib/pubsub"
-	"github.com/dapr/dapr/pkg/components"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr/pkg/components"
 )
 
 type Registry struct {
@@ -50,6 +50,15 @@ func (p *Registry) Create(name, version, logName string) (pubsub.PubSub, error) 
 		return method(), nil
 	}
 	return nil, fmt.Errorf("couldn't find message bus %s/%s", name, version)
+}
+
+func (p *Registry) GetPubSub(name string) (func() pubsub.PubSub, bool) {
+	res, ok := p.messageBuses[name]
+	if ok {
+		fun := func() pubsub.PubSub { return res(p.Logger) }
+		return fun, ok
+	}
+	return nil, ok
 }
 
 func (p *Registry) getPubSub(name, version, logName string) (func() pubsub.PubSub, bool) {

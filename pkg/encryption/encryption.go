@@ -24,9 +24,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/dapr/components-contrib/secretstores"
-	commonapi "github.com/dapr/dapr/pkg/apis/common"
-	"github.com/dapr/dapr/pkg/apis/components/v1alpha1"
+	"github.com/liuxd6825/components-contrib/secretstores"
+	commonapi "github.com/liuxd6825/dapr/pkg/apis/common"
+	"github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 )
 
 type Algorithm string

@@ -36,7 +36,7 @@ $ git push --tags
 
 #### Release the stable version to users
 
-Once all bugs are fixed, we will create the release note under [./docs/release_notes](https://github.com/dapr/dapr/tree/master/docs/release_notes) and run CI release manually in order to deliver the stable version to users.
+Once all bugs are fixed, we will create the release note under [./docs/release_notes](https://github.com/liuxd6825/dapr/tree/master/docs/release_notes) and run CI release manually in order to deliver the stable version to users.
 
 ### Release Patch version
 

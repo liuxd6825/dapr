@@ -20,8 +20,8 @@ import (
 	"github.com/google/uuid"
 	"golang.org/x/exp/maps"
 
-	contribPubsub "github.com/dapr/components-contrib/pubsub"
-	"github.com/dapr/dapr/utils"
+	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 const (

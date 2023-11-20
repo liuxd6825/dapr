@@ -29,11 +29,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/dapr/dapr/pkg/sentry/server/ca"
-	"github.com/dapr/dapr/tests/integration/framework"
-	procsentry "github.com/dapr/dapr/tests/integration/framework/process/sentry"
-	"github.com/dapr/dapr/tests/integration/framework/util"
-	"github.com/dapr/dapr/tests/integration/suite"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/ca"
+	"github.com/liuxd6825/dapr/tests/integration/framework"
+	procsentry "github.com/liuxd6825/dapr/tests/integration/framework/process/sentry"
+	"github.com/liuxd6825/dapr/tests/integration/framework/util"
+	"github.com/liuxd6825/dapr/tests/integration/suite"
 )
 
 func init() {

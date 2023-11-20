@@ -14,8 +14,8 @@ limitations under the License.
 package testing
 
 import (
-	"github.com/dapr/dapr/pkg/apis/resiliency/v1alpha1"
 	"github.com/dapr/kit/ptr"
+	"github.com/liuxd6825/dapr/pkg/apis/resiliency/v1alpha1"
 )
 
 var TestResiliency = &v1alpha1.Resiliency{

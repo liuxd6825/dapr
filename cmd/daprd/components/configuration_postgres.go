@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	configPostgres "github.com/dapr/components-contrib/configuration/postgres"
-	configurationLoader "github.com/dapr/dapr/pkg/components/configuration"
+	configPostgres "github.com/liuxd6825/components-contrib/configuration/postgres"
+	configurationLoader "github.com/liuxd6825/dapr/pkg/components/configuration"
 )
 
 func init() {

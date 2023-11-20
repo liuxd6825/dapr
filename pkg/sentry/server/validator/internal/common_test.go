@@ -22,7 +22,7 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/stretchr/testify/assert"
 
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
 )
 
 func TestValidate(t *testing.T) {

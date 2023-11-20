@@ -27,7 +27,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	kubernetesfake "k8s.io/client-go/kubernetes/fake"
 
-	"github.com/dapr/dapr/pkg/injector/namespacednamematcher"
+	"github.com/liuxd6825/dapr/pkg/injector/namespacednamematcher"
 )
 
 func TestConfigCorrectValues(t *testing.T) {

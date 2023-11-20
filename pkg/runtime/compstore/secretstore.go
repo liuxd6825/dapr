@@ -13,7 +13,7 @@ limitations under the License.
 
 package compstore
 
-import "github.com/dapr/components-contrib/secretstores"
+import "github.com/liuxd6825/components-contrib/secretstores"
 
 func (c *ComponentStore) AddSecretStore(name string, store secretstores.SecretStore) {
 	c.lock.Lock()

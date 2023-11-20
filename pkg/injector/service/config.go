@@ -19,7 +19,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	corev1 "k8s.io/api/core/v1"
 
-	"github.com/dapr/dapr/utils"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 // Config represents configuration options for the Dapr Sidecar Injector webhook server.

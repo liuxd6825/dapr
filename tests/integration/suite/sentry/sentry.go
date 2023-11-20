@@ -14,6 +14,6 @@ limitations under the License.
 package sentry
 
 import (
-	_ "github.com/dapr/dapr/tests/integration/suite/sentry/metrics"
-	_ "github.com/dapr/dapr/tests/integration/suite/sentry/validator"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/sentry/metrics"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/sentry/validator"
 )

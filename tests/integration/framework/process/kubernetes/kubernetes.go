@@ -18,7 +18,7 @@ import (
 	"net/http"
 	"testing"
 
-	prochttp "github.com/dapr/dapr/tests/integration/framework/process/http"
+	prochttp "github.com/liuxd6825/dapr/tests/integration/framework/process/http"
 )
 
 // Option is a function that configures the mock Kubernetes process.

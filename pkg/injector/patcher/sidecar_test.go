@@ -19,8 +19,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	corev1 "k8s.io/api/core/v1"
 
-	"github.com/dapr/dapr/pkg/injector/annotations"
-	injectorConsts "github.com/dapr/dapr/pkg/injector/consts"
+	"github.com/liuxd6825/dapr/pkg/injector/annotations"
+	injectorConsts "github.com/liuxd6825/dapr/pkg/injector/consts"
 )
 
 func TestSidecarConfigInit(t *testing.T) {

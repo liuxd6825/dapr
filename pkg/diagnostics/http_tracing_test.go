@@ -32,9 +32,9 @@ import (
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/dapr/dapr/pkg/config"
-	diagUtils "github.com/dapr/dapr/pkg/diagnostics/utils"
-	"github.com/dapr/dapr/utils/responsewriter"
+	"github.com/liuxd6825/dapr/pkg/config"
+	diagUtils "github.com/liuxd6825/dapr/pkg/diagnostics/utils"
+	"github.com/liuxd6825/dapr/utils/responsewriter"
 )
 
 func TestSpanContextFromRequest(t *testing.T) {

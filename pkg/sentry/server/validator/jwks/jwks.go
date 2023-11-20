@@ -23,11 +23,11 @@ import (
 	"github.com/lestrrat-go/jwx/v2/jwt"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
-	"github.com/dapr/dapr/pkg/sentry/server/validator"
-	"github.com/dapr/dapr/pkg/sentry/server/validator/internal"
 	"github.com/dapr/kit/jwkscache"
 	"github.com/dapr/kit/logger"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/validator"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/validator/internal"
 )
 
 var log = logger.NewLogger("dapr.sentry.identity.jwks")

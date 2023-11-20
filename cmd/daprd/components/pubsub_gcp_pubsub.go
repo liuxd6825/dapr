@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	pubsubGcp "github.com/dapr/components-contrib/pubsub/gcp/pubsub"
-	pubsubLoader "github.com/dapr/dapr/pkg/components/pubsub"
+	pubsubGcp "github.com/liuxd6825/components-contrib/pubsub/gcp/pubsub"
+	pubsubLoader "github.com/liuxd6825/dapr/pkg/components/pubsub"
 )
 
 func init() {

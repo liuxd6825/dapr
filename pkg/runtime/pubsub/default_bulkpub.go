@@ -19,7 +19,7 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	contribPubsub "github.com/dapr/components-contrib/pubsub"
+	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
 )
 
 const (

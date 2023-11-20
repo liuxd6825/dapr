@@ -16,7 +16,7 @@ limitations under the License.
 
 package channels
 
-import "github.com/dapr/dapr/pkg/channel"
+import "github.com/liuxd6825/dapr/pkg/channel"
 
 // WithAppChannel is used for testing to override the underlying app channel.
 func (c *Channels) WithAppChannel(appChannel channel.AppChannel) *Channels {

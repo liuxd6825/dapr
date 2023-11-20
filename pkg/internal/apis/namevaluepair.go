@@ -13,7 +13,7 @@ limitations under the License.
 
 package apis
 
-import "github.com/dapr/dapr/pkg/apis/common"
+import "github.com/liuxd6825/dapr/pkg/apis/common"
 
 type GenericNameValueResource struct {
 	Name         string

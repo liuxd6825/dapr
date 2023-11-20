@@ -20,14 +20,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/pkg/config/protocol"
-	"github.com/dapr/dapr/pkg/cors"
-	"github.com/dapr/dapr/pkg/metrics"
-	"github.com/dapr/dapr/pkg/modes"
-	"github.com/dapr/dapr/pkg/runtime"
-	"github.com/dapr/dapr/pkg/security/consts"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/config/protocol"
+	"github.com/liuxd6825/dapr/pkg/cors"
+	"github.com/liuxd6825/dapr/pkg/metrics"
+	"github.com/liuxd6825/dapr/pkg/modes"
+	"github.com/liuxd6825/dapr/pkg/runtime"
+	"github.com/liuxd6825/dapr/pkg/security/consts"
 )
 
 type Options struct {

@@ -21,9 +21,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/pkg/proto/common/v1"
-	"github.com/dapr/dapr/pkg/security/spiffe"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/proto/common/v1"
+	"github.com/liuxd6825/dapr/pkg/security/spiffe"
 )
 
 const (

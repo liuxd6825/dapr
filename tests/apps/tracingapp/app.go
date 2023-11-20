@@ -36,7 +36,7 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/dapr/dapr/tests/apps/utils"
+	"github.com/liuxd6825/dapr/tests/apps/utils"
 )
 
 var (

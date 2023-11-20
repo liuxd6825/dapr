@@ -18,9 +18,9 @@ import (
 
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
-	"github.com/dapr/dapr/pkg/sentry/server/validator"
-	"github.com/dapr/dapr/pkg/sentry/server/validator/internal"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/validator"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/validator/internal"
 )
 
 // insecure implements the validator.Interface. It doesn't perform any authentication on requests.

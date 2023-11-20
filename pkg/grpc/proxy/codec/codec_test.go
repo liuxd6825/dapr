@@ -22,8 +22,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc/encoding"
 
-	pb "github.com/dapr/dapr/pkg/grpc/proxy/testservice"
-	pbV1 "github.com/dapr/dapr/pkg/grpc/proxy/testserviceV1"
+	pb "github.com/liuxd6825/dapr/pkg/grpc/proxy/testservice"
+	pbV1 "github.com/liuxd6825/dapr/pkg/grpc/proxy/testserviceV1"
 )
 
 func TestCodec_ReadYourWrites(t *testing.T) {

@@ -16,7 +16,7 @@ package testing
 import (
 	"context"
 
-	"github.com/dapr/components-contrib/state"
+	"github.com/liuxd6825/components-contrib/state"
 )
 
 type TransactionalStoreMock struct {

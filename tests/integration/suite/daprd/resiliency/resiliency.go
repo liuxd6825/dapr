@@ -14,5 +14,5 @@ limitations under the License.
 package resiliency
 
 import (
-	_ "github.com/dapr/dapr/tests/integration/suite/daprd/resiliency/apps"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/daprd/resiliency/apps"
 )

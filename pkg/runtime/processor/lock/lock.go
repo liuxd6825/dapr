@@ -18,13 +18,13 @@ import (
 	"fmt"
 	"io"
 
-	contriblock "github.com/dapr/components-contrib/lock"
-	compapi "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	complock "github.com/dapr/dapr/pkg/components/lock"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	rterrors "github.com/dapr/dapr/pkg/runtime/errors"
-	"github.com/dapr/dapr/pkg/runtime/meta"
+	contriblock "github.com/liuxd6825/components-contrib/lock"
+	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	complock "github.com/liuxd6825/dapr/pkg/components/lock"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	rterrors "github.com/liuxd6825/dapr/pkg/runtime/errors"
+	"github.com/liuxd6825/dapr/pkg/runtime/meta"
 )
 
 type Options struct {

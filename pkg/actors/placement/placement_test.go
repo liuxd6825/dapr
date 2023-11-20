@@ -30,11 +30,11 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/dapr/dapr/pkg/actors/internal"
-	"github.com/dapr/dapr/pkg/placement/hashing"
-	placementv1pb "github.com/dapr/dapr/pkg/proto/placement/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/actors/internal"
+	"github.com/liuxd6825/dapr/pkg/placement/hashing"
+	placementv1pb "github.com/liuxd6825/dapr/pkg/proto/placement/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
 )
 
 func TestAddDNSResolverPrefix(t *testing.T) {

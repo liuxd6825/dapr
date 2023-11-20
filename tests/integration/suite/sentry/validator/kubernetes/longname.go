@@ -26,12 +26,12 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	sentrypbv1 "github.com/dapr/dapr/pkg/proto/sentry/v1"
-	"github.com/dapr/dapr/pkg/sentry/server/ca"
-	"github.com/dapr/dapr/tests/integration/framework"
-	"github.com/dapr/dapr/tests/integration/framework/process/exec"
-	"github.com/dapr/dapr/tests/integration/framework/process/sentry"
-	"github.com/dapr/dapr/tests/integration/suite"
+	sentrypbv1 "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
+	"github.com/liuxd6825/dapr/pkg/sentry/server/ca"
+	"github.com/liuxd6825/dapr/tests/integration/framework"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process/exec"
+	"github.com/liuxd6825/dapr/tests/integration/framework/process/sentry"
+	"github.com/liuxd6825/dapr/tests/integration/suite"
 )
 
 func init() {

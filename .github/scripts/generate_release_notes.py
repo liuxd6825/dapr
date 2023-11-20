@@ -26,7 +26,7 @@ releaseIssueRegex = "^v(.*) Release Planning$"
 releaseNoteRegex = "^RELEASE NOTE:(.*)$"
 dashboardReleaseVersionRegex = "v([0-9\.]+)-?.*"
 majorReleaseRegex = "^([0-9]+\.[0-9]+)\.[0-9]+.*$"
-milestoneRegex = "https://github.com/dapr/(.+)/milestone/([0-9]+)"
+milestoneRegex = "https://github.com/liuxd6825/(.+)/milestone/([0-9]+)"
 
 githubToken = os.getenv("GITHUB_TOKEN")
 

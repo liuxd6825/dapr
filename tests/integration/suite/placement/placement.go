@@ -14,5 +14,5 @@ limitations under the License.
 package placement
 
 import (
-	_ "github.com/dapr/dapr/tests/integration/suite/placement/quorum"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/placement/quorum"
 )

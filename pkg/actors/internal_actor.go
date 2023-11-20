@@ -23,10 +23,10 @@ import (
 	"io"
 	"strings"
 
-	"github.com/dapr/dapr/pkg/apphealth"
-	"github.com/dapr/dapr/pkg/config"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	commonv1pb "github.com/dapr/dapr/pkg/proto/common/v1"
+	"github.com/liuxd6825/dapr/pkg/apphealth"
+	"github.com/liuxd6825/dapr/pkg/config"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	commonv1pb "github.com/liuxd6825/dapr/pkg/proto/common/v1"
 )
 
 const InternalActorTypePrefix = "dapr.internal."

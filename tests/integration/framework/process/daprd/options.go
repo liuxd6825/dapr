@@ -13,7 +13,7 @@ limitations under the License.
 
 package daprd
 
-import "github.com/dapr/dapr/tests/integration/framework/process/exec"
+import "github.com/liuxd6825/dapr/tests/integration/framework/process/exec"
 
 // Option is a function that configures the dapr process.
 type Option func(*options)

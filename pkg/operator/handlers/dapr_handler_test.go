@@ -16,9 +16,9 @@ import (
 	"k8s.io/client-go/kubernetes/scheme"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	"github.com/dapr/dapr/pkg/injector/annotations"
-	"github.com/dapr/dapr/pkg/operator/testobjects"
-	dapr_testing "github.com/dapr/dapr/pkg/testing"
+	"github.com/liuxd6825/dapr/pkg/injector/annotations"
+	"github.com/liuxd6825/dapr/pkg/operator/testobjects"
+	dapr_testing "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 func TestNewDaprHandler(t *testing.T) {

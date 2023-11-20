@@ -23,11 +23,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dapr/dapr/tests/perf/utils"
-	kube "github.com/dapr/dapr/tests/platforms/kubernetes"
-	"github.com/dapr/dapr/tests/runner"
-	"github.com/dapr/dapr/tests/runner/loadtest"
-	"github.com/dapr/dapr/tests/runner/summary"
+	"github.com/liuxd6825/dapr/tests/perf/utils"
+	kube "github.com/liuxd6825/dapr/tests/platforms/kubernetes"
+	"github.com/liuxd6825/dapr/tests/runner"
+	"github.com/liuxd6825/dapr/tests/runner/loadtest"
+	"github.com/liuxd6825/dapr/tests/runner/summary"
 	"github.com/stretchr/testify/require"
 )
 

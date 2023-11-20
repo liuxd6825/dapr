@@ -19,7 +19,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/dapr/dapr/pkg/actors/internal"
+	"github.com/liuxd6825/dapr/pkg/actors/internal"
 )
 
 // ActorMetadata represents information about the actor type.

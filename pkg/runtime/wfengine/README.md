@@ -1,6 +1,6 @@
 # Dapr Workflow Engine
 
-The Dapr Workflow engine enables developers to author workflows using code and execute them using the Dapr sidecar. You can learn more about this project here: [[Proposal] Workflow building block and engine (#4576)](https://github.com/dapr/dapr/issues/4576).
+The Dapr Workflow engine enables developers to author workflows using code and execute them using the Dapr sidecar. You can learn more about this project here: [[Proposal] Workflow building block and engine (#4576)](https://github.com/liuxd6825/dapr/issues/4576).
 
 This README is designed to be used by maintainers to help with getting started. This README will be updated with more information as the project progresses.
 

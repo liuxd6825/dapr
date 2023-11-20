@@ -30,13 +30,13 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	channelt "github.com/dapr/dapr/pkg/channel/testing"
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/pkg/grpc/metadata"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	securityConsts "github.com/dapr/dapr/pkg/security/consts"
-	"github.com/dapr/dapr/utils/streams"
+	channelt "github.com/liuxd6825/dapr/pkg/channel/testing"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/grpc/metadata"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	securityConsts "github.com/liuxd6825/dapr/pkg/security/consts"
+	"github.com/liuxd6825/dapr/utils/streams"
 )
 
 // TODO: Add APIVersion testing

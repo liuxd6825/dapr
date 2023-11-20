@@ -1,16 +1,16 @@
-module github.com/dapr/dapr/tests/apps/pluggable_redis-pubsub
+module github.com/liuxd6825/dapr/tests/apps/pluggable_redis-pubsub
 
 go 1.20
 
 require (
 	github.com/dapr-sandbox/components-go-sdk v0.0.0-20221213200551-bd485eb929ff
-	github.com/dapr/components-contrib v1.9.1-0.20221213185150-c5c985a68514
+	github.com/liuxd6825/components-contrib v1.9.1-0.20221213185150-c5c985a68514
 	github.com/dapr/kit v0.0.4-0.20221211173611-bcf6ee09314e
 )
 
 require (
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
-	github.com/dapr/dapr v1.9.4-0.20221212235750-ac9256f214e0 // indirect
+	github.com/liuxd6825/dapr v1.9.4-0.20221212235750-ac9256f214e0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect

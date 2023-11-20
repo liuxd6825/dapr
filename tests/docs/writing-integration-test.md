@@ -45,7 +45,7 @@ Finally, include your integration test directory with a blank identifier to
 `tests/integration/integration.go` so that the init function is invoked.
 
 ```go
-	_ "github.com/dapr/dapr/tests/integration/suite/my-new-test-scenario"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/my-new-test-scenario"
 ```
 
 You may need to extend the framework options to suit your test scenario. These

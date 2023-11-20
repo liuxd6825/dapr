@@ -27,12 +27,12 @@ import (
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	contribPubsub "github.com/dapr/components-contrib/pubsub"
-	"github.com/dapr/components-contrib/state"
-	"github.com/dapr/dapr/pkg/apis/common"
-	"github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	"github.com/dapr/dapr/pkg/outbox"
 	"github.com/dapr/kit/ptr"
+	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr/pkg/apis/common"
+	"github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/outbox"
 )
 
 func newTestOutbox() outbox.Outbox {

@@ -17,10 +17,10 @@ import (
 	"fmt"
 	"strings"
 
-	middleware "github.com/dapr/components-contrib/middleware"
-	"github.com/dapr/dapr/pkg/components"
-	httpMiddleware "github.com/dapr/dapr/pkg/middleware/http"
 	"github.com/dapr/kit/logger"
+	middleware "github.com/liuxd6825/components-contrib/middleware"
+	"github.com/liuxd6825/dapr/pkg/components"
+	httpMiddleware "github.com/liuxd6825/dapr/pkg/middleware/http"
 )
 
 type (

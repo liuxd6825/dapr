@@ -16,7 +16,7 @@ package http
 import (
 	"net/http"
 
-	"github.com/dapr/dapr/pkg/messages"
+	"github.com/liuxd6825/dapr/pkg/messages"
 )
 
 func (a *api) constructHealthzEndpoints() []Endpoint {

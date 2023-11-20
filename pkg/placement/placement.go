@@ -29,11 +29,11 @@ import (
 	"google.golang.org/grpc/status"
 	"k8s.io/utils/clock"
 
-	"github.com/dapr/dapr/pkg/placement/monitoring"
-	"github.com/dapr/dapr/pkg/placement/raft"
-	placementv1pb "github.com/dapr/dapr/pkg/proto/placement/v1"
-	"github.com/dapr/dapr/pkg/security"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/placement/monitoring"
+	"github.com/liuxd6825/dapr/pkg/placement/raft"
+	placementv1pb "github.com/liuxd6825/dapr/pkg/proto/placement/v1"
+	"github.com/liuxd6825/dapr/pkg/security"
 )
 
 var log = logger.NewLogger("dapr.placement")

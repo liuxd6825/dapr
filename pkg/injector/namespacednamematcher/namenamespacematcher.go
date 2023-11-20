@@ -19,7 +19,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/dapr/dapr/utils"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 // sort by length and if needed by regular comparison

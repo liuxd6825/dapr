@@ -22,10 +22,10 @@ import (
 
 	grpcRetry "github.com/grpc-ecosystem/go-grpc-middleware/retry"
 
-	httpEndpointsV1alpha1 "github.com/dapr/dapr/pkg/apis/httpEndpoint/v1alpha1"
+	httpEndpointsV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/httpEndpoint/v1alpha1"
 
-	config "github.com/dapr/dapr/pkg/config/modes"
-	operatorv1pb "github.com/dapr/dapr/pkg/proto/operator/v1"
+	config "github.com/liuxd6825/dapr/pkg/config/modes"
+	operatorv1pb "github.com/liuxd6825/dapr/pkg/proto/operator/v1"
 )
 
 var log = logger.NewLogger("dapr.runtime.httpendpoints")

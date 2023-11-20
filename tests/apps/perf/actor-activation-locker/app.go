@@ -24,9 +24,9 @@ import (
 	"github.com/bsm/redislock"
 	redis "github.com/go-redis/redis/v9"
 
-	"github.com/dapr/go-sdk/actor"
-	dapr "github.com/dapr/go-sdk/client"
-	daprd "github.com/dapr/go-sdk/service/http"
+	"github.com/liuxd6825/go-sdk/actor"
+	dapr "github.com/liuxd6825/go-sdk/client"
+	daprd "github.com/liuxd6825/go-sdk/service/http"
 )
 
 func testActorFactory(client dapr.Client, redisClient *redis.Client) func() actor.ServerContext {

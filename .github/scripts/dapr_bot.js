@@ -37,14 +37,14 @@ const SDKs = [
 const docsIssueBodyTpl = (
     issueNumber
 ) => `This issue was automatically created by \
-[Dapr Bot](https://github.com/dapr/dapr/blob/master/.github/workflows/dapr-bot.yml) because a \"docs-needed\" label \
+[Dapr Bot](https://github.com/liuxd6825/dapr/blob/master/.github/workflows/dapr-bot.yml) because a \"docs-needed\" label \
 was added to dapr/dapr#${issueNumber}. \n\n\
 TODO: Add more details as per [this template](.github/ISSUE_TEMPLATE/new-content-needed.md).`
 
 const sdkIssueBodyTpl = (
     issueNumber
 ) => `This issue was automatically created by \
-[Dapr Bot](https://github.com/dapr/dapr/blob/master/.github/workflows/dapr-bot.yml) because a \"sdk-needed\" label \
+[Dapr Bot](https://github.com/liuxd6825/dapr/blob/master/.github/workflows/dapr-bot.yml) because a \"sdk-needed\" label \
 was added to dapr/dapr#${issueNumber}. \n\n\
 TODO: Add more details.`
 

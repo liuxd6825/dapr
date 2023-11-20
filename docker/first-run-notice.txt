@@ -1,9 +1,9 @@
 👋 Welcome to the Dapr dev container! You are on our Dapr Contributors image.
-It includes everything to build, run and test the https://github.com/dapr/dapr
-and https://github.com/dapr/components-contrib repositories.
+It includes everything to build, run and test the https://github.com/liuxd6825/dapr
+and https://github.com/liuxd6825/components-contrib repositories.
 
 📚 Dapr contributing docs can be found at: https://docs.dapr.io/contributing
 
 🎓 If you are looking to run the Dapr quickstarts and tutorials, head over to
-https://github.com/dapr/quickstarts instead.
+https://github.com/liuxd6825/quickstarts instead.
 

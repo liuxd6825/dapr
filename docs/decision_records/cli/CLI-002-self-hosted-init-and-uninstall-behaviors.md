@@ -4,7 +4,7 @@
 Accepted
 
 ## Context
-Changes in behavior of `init` and `uninstall` on Self Hosted mode for. Discussed in this [issue](https://github.com/dapr/cli/issues/411).
+Changes in behavior of `init` and `uninstall` on Self Hosted mode for. Discussed in this [issue](https://github.com/liuxd6825/cli/issues/411).
 
 ## Decisions
 

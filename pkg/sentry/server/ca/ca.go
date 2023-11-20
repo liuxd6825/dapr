@@ -25,12 +25,12 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"k8s.io/client-go/kubernetes"
 
-	"github.com/dapr/dapr/pkg/security"
-	"github.com/dapr/dapr/pkg/security/spiffe"
-	"github.com/dapr/dapr/pkg/sentry/config"
-	"github.com/dapr/dapr/pkg/sentry/monitoring"
-	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/security"
+	"github.com/liuxd6825/dapr/pkg/security/spiffe"
+	"github.com/liuxd6825/dapr/pkg/sentry/config"
+	"github.com/liuxd6825/dapr/pkg/sentry/monitoring"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 var log = logger.NewLogger("dapr.sentry.ca")

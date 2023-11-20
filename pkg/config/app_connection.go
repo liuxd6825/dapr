@@ -16,7 +16,7 @@ package config
 import (
 	"time"
 
-	"github.com/dapr/dapr/pkg/config/protocol"
+	"github.com/liuxd6825/dapr/pkg/config/protocol"
 )
 
 const (

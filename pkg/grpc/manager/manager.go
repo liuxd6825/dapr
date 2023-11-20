@@ -28,12 +28,12 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/dapr/dapr/pkg/channel"
-	grpcChannel "github.com/dapr/dapr/pkg/channel/grpc"
-	"github.com/dapr/dapr/pkg/config"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	"github.com/dapr/dapr/pkg/modes"
-	"github.com/dapr/dapr/pkg/security"
+	"github.com/liuxd6825/dapr/pkg/channel"
+	grpcChannel "github.com/liuxd6825/dapr/pkg/channel/grpc"
+	"github.com/liuxd6825/dapr/pkg/config"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	"github.com/liuxd6825/dapr/pkg/modes"
+	"github.com/liuxd6825/dapr/pkg/security"
 )
 
 const (

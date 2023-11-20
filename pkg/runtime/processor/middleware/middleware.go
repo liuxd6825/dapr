@@ -16,7 +16,7 @@ package middleware
 import (
 	"context"
 
-	compapi "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
+	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
 )
 
 // middleware is a component that implements the middleware interface. It's

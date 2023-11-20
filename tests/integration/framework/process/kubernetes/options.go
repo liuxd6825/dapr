@@ -21,7 +21,7 @@ import (
 	"github.com/stretchr/testify/require"
 	corev1 "k8s.io/api/core/v1"
 
-	configapi "github.com/dapr/dapr/pkg/apis/configuration/v1alpha1"
+	configapi "github.com/liuxd6825/dapr/pkg/apis/configuration/v1alpha1"
 )
 
 type handleRoute struct {

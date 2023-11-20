@@ -25,7 +25,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/exp/slices"
 
-	"github.com/dapr/dapr/pkg/injector/patcher"
+	"github.com/liuxd6825/dapr/pkg/injector/patcher"
 )
 
 // This test makes sure that the SidecarConfig struct contains all and only the annotations defined as constants in the annotations package.

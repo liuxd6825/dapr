@@ -16,7 +16,7 @@ package actors
 import (
 	"encoding/json"
 
-	"github.com/dapr/dapr/pkg/actors/internal"
+	"github.com/liuxd6825/dapr/pkg/actors/internal"
 )
 
 // ActorHostedRequest is the request object for checking if an actor is hosted on this instance.

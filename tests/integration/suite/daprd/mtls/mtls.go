@@ -14,6 +14,6 @@ limitations under the License.
 package mtls
 
 import (
-	_ "github.com/dapr/dapr/tests/integration/suite/daprd/mtls/kubernetes"
-	_ "github.com/dapr/dapr/tests/integration/suite/daprd/mtls/standalone"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/daprd/mtls/kubernetes"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/daprd/mtls/standalone"
 )

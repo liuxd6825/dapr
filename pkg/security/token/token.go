@@ -20,9 +20,9 @@ import (
 	"fmt"
 	"os"
 
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
-	securityConsts "github.com/dapr/dapr/pkg/security/consts"
 	"github.com/dapr/kit/logger"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
+	securityConsts "github.com/liuxd6825/dapr/pkg/security/consts"
 )
 
 const (

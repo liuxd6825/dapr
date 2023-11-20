@@ -19,11 +19,11 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/dapr/components-contrib/metadata"
-	"github.com/dapr/dapr/pkg/apis/common"
-	compapi "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	"github.com/dapr/dapr/pkg/components"
-	"github.com/dapr/dapr/pkg/modes"
+	"github.com/liuxd6825/components-contrib/metadata"
+	"github.com/liuxd6825/dapr/pkg/apis/common"
+	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/components"
+	"github.com/liuxd6825/dapr/pkg/modes"
 )
 
 const WasmStrictSandboxMetadataKey = "strictSandbox"

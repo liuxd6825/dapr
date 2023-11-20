@@ -30,9 +30,9 @@ import (
 	"github.com/stretchr/testify/require"
 	apiv1 "k8s.io/api/core/v1"
 
-	"github.com/dapr/dapr/tests/e2e/utils"
-	kube "github.com/dapr/dapr/tests/platforms/kubernetes"
-	"github.com/dapr/dapr/tests/runner"
+	"github.com/liuxd6825/dapr/tests/e2e/utils"
+	kube "github.com/liuxd6825/dapr/tests/platforms/kubernetes"
+	"github.com/liuxd6825/dapr/tests/runner"
 )
 
 const (
@@ -312,7 +312,7 @@ func generateStateTransactionCases(protocolType string) testStateTransactionCase
 	testStateTransactionCase := testStateTransactionCase{
 		[]stateTransactionTestStep{
 			{
-				// Transaction order should be tested in conformance tests: https://github.com/dapr/components-contrib/issues/1210
+				// Transaction order should be tested in conformance tests: https://github.com/liuxd6825/components-contrib/issues/1210
 				"transact",
 				newStateTransactionRequestResponse(
 					utils.StateTransactionKeyValue{testCase1Key, testCase1Value, "upsert"},

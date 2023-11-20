@@ -17,7 +17,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/dapr/dapr/pkg/client/clientset/versioned/scheme"
+	"github.com/liuxd6825/dapr/pkg/client/clientset/versioned/scheme"
 
 	v1 "github.com/grafana/k6-operator/api/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

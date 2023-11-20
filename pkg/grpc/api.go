@@ -18,6 +18,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/liuxd6825/components-contrib/liuxd/applog"
 	"io"
 	"strconv"
 	"sync"
@@ -31,31 +32,33 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/dapr/components-contrib/bindings"
-	"github.com/dapr/components-contrib/configuration"
-	"github.com/dapr/components-contrib/contenttype"
-	contribMetadata "github.com/dapr/components-contrib/metadata"
-	"github.com/dapr/components-contrib/pubsub"
-	"github.com/dapr/components-contrib/state"
-	"github.com/dapr/dapr/pkg/actors"
-	actorerrors "github.com/dapr/dapr/pkg/actors/errors"
-	stateLoader "github.com/dapr/dapr/pkg/components/state"
-	"github.com/dapr/dapr/pkg/config"
-	diag "github.com/dapr/dapr/pkg/diagnostics"
-	diagUtils "github.com/dapr/dapr/pkg/diagnostics/utils"
-	"github.com/dapr/dapr/pkg/encryption"
-	"github.com/dapr/dapr/pkg/grpc/metadata"
-	"github.com/dapr/dapr/pkg/grpc/universalapi"
-	"github.com/dapr/dapr/pkg/messages"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
-	commonv1pb "github.com/dapr/dapr/pkg/proto/common/v1"
-	internalv1pb "github.com/dapr/dapr/pkg/proto/internals/v1"
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
-	"github.com/dapr/dapr/pkg/resiliency"
-	"github.com/dapr/dapr/pkg/resiliency/breaker"
-	"github.com/dapr/dapr/pkg/runtime/channels"
-	runtimePubsub "github.com/dapr/dapr/pkg/runtime/pubsub"
-	"github.com/dapr/dapr/utils"
+	"github.com/liuxd6825/components-contrib/bindings"
+	"github.com/liuxd6825/components-contrib/configuration"
+	"github.com/liuxd6825/components-contrib/contenttype"
+	contribMetadata "github.com/liuxd6825/components-contrib/metadata"
+	"github.com/liuxd6825/components-contrib/pubsub"
+	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/dapr/pkg/actors"
+	actorerrors "github.com/liuxd6825/dapr/pkg/actors/errors"
+	stateLoader "github.com/liuxd6825/dapr/pkg/components/state"
+	"github.com/liuxd6825/dapr/pkg/config"
+	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
+	diagUtils "github.com/liuxd6825/dapr/pkg/diagnostics/utils"
+	"github.com/liuxd6825/dapr/pkg/encryption"
+	"github.com/liuxd6825/dapr/pkg/grpc/metadata"
+	"github.com/liuxd6825/dapr/pkg/grpc/universalapi"
+	"github.com/liuxd6825/dapr/pkg/messages"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
+	commonv1pb "github.com/liuxd6825/dapr/pkg/proto/common/v1"
+	internalv1pb "github.com/liuxd6825/dapr/pkg/proto/internals/v1"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/resiliency"
+	"github.com/liuxd6825/dapr/pkg/resiliency/breaker"
+	"github.com/liuxd6825/dapr/pkg/runtime/channels"
+	runtimePubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
+	"github.com/liuxd6825/dapr/utils"
+
+	"github.com/liuxd6825/components-contrib/liuxd/eventstorage"
 )
 
 const daprHTTPStatusHeader = "dapr-http-status"
@@ -85,6 +88,8 @@ type api struct {
 	closed                atomic.Bool
 	closeCh               chan struct{}
 	wg                    sync.WaitGroup
+	eventStorage          eventstorage.EventStorage
+	appLogger             applog.Logger
 }
 
 // APIOpts contains options for NewAPI.
@@ -224,7 +229,7 @@ type invokeServiceResp struct {
 // These flags are used to make sure that we are printing the deprecation warning log messages in "InvokeService" just once.
 // By using "CompareAndSwap(false, true)" we replace the value "false" with "true" only if it's not already "true".
 // "CompareAndSwap" returns true if the swap happened (i.e. if the value was not already "true"), so we can use that as a flag to make sure we only run the code once.
-// Why not using "sync.Once"? In our tests (https://github.com/dapr/dapr/pull/5740), that seems to be causing a regression in the perf tests. This is probably because when using "sync.Once" and the callback needs to be executed for the first time, all concurrent requests are blocked too. Additionally, the use of closures in this case _could_ have an impact on the GC as well.
+// Why not using "sync.Once"? In our tests (https://github.com/liuxd6825/dapr/pull/5740), that seems to be causing a regression in the perf tests. This is probably because when using "sync.Once" and the callback needs to be executed for the first time, all concurrent requests are blocked too. Additionally, the use of closures in this case _could_ have an impact on the GC as well.
 var (
 	invokeServiceDeprecationNoticeShown     = atomic.Bool{}
 	invokeServiceHTTPDeprecationNoticeShown = atomic.Bool{}

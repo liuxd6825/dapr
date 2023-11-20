@@ -16,8 +16,8 @@ limitations under the License.
 package components
 
 import (
-	"github.com/dapr/components-contrib/secretstores/azure/keyvault"
-	secretstoresLoader "github.com/dapr/dapr/pkg/components/secretstores"
+	"github.com/liuxd6825/components-contrib/secretstores/azure/keyvault"
+	secretstoresLoader "github.com/liuxd6825/dapr/pkg/components/secretstores"
 )
 
 func init() {

@@ -29,8 +29,8 @@ import (
 	"github.com/microsoft/durabletask-go/api"
 	"github.com/microsoft/durabletask-go/backend"
 
-	"github.com/dapr/dapr/pkg/actors"
-	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
+	"github.com/liuxd6825/dapr/pkg/actors"
+	invokev1 "github.com/liuxd6825/dapr/pkg/messaging/v1"
 )
 
 const (

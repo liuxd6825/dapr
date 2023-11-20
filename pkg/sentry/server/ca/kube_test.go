@@ -24,7 +24,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/kubernetes/fake"
 
-	"github.com/dapr/dapr/pkg/sentry/config"
+	"github.com/liuxd6825/dapr/pkg/sentry/config"
 )
 
 func TestKube_get(t *testing.T) {

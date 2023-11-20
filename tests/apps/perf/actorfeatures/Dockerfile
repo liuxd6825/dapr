@@ -9,7 +9,7 @@ FROM golang:1.20-bullseye as fortio_build_env
 
 WORKDIR /fortio
 ADD "https://api.github.com/repos/dapr/fortio/branches/v1.38.4-dapr" skipcache
-RUN git clone https://github.com/dapr/fortio.git
+RUN git clone https://github.com/liuxd6825/fortio.git
 RUN cd fortio && git checkout v1.38.4-dapr && go build
 
 FROM debian:bullseye-slim

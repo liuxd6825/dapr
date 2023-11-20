@@ -14,6 +14,6 @@ limitations under the License.
 package outbox
 
 import (
-	_ "github.com/dapr/dapr/tests/integration/suite/daprd/outbox/grpc"
-	_ "github.com/dapr/dapr/tests/integration/suite/daprd/outbox/http"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/daprd/outbox/grpc"
+	_ "github.com/liuxd6825/dapr/tests/integration/suite/daprd/outbox/http"
 )

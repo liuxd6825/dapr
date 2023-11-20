@@ -22,8 +22,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	contribPubsub "github.com/dapr/components-contrib/pubsub"
-	daprt "github.com/dapr/dapr/pkg/testing"
+	contribPubsub "github.com/liuxd6825/components-contrib/pubsub"
+	daprt "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 func TestBulkPublish_DefaultBulkPublisher(t *testing.T) {

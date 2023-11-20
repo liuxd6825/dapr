@@ -18,7 +18,7 @@ package dapr.proto.components.v1;
 import "google/protobuf/any.proto";
 import "dapr/proto/components/v1/common.proto";
 
-option go_package = "github.com/dapr/dapr/pkg/proto/components/v1;components";
+option go_package = "github.com/liuxd6825/dapr/pkg/proto/components/v1;components";
 
 // QueriableStateStore service provides a gRPC interface for querier state store
 // components. It was designed to embed query features to the StateStore Service

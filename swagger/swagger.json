@@ -4,11 +4,11 @@
         "title": "Service Invocation",
         "version": "1.0",
         "description": "Using the service invocation API, your microservice can find and reliably communicate with other microservices in your system using standard protocols (gRPC or HTTP are currently supported).",
-        "termsOfService": "https://github.com/dapr/docs/blob/master/LICENSE",
+        "termsOfService": "https://github.com/liuxd6825/docs/blob/master/LICENSE",
         "contact": {},
         "license": {
             "name": "Apache 2.0 License",
-            "url": "https://github.com/dapr/docs/blob/master/LICENSE"
+            "url": "https://github.com/liuxd6825/docs/blob/master/LICENSE"
         },
         "x-logo": {
             "url": ""

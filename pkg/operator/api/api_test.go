@@ -29,13 +29,13 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 	"sigs.k8s.io/yaml"
 
-	commonapi "github.com/dapr/dapr/pkg/apis/common"
-	componentsapi "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	httpendpointapi "github.com/dapr/dapr/pkg/apis/httpEndpoint/v1alpha1"
-	resiliencyapi "github.com/dapr/dapr/pkg/apis/resiliency/v1alpha1"
-	subscriptionsapiV2alpha1 "github.com/dapr/dapr/pkg/apis/subscriptions/v2alpha1"
-	"github.com/dapr/dapr/pkg/client/clientset/versioned/scheme"
-	operatorv1pb "github.com/dapr/dapr/pkg/proto/operator/v1"
+	commonapi "github.com/liuxd6825/dapr/pkg/apis/common"
+	componentsapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	httpendpointapi "github.com/liuxd6825/dapr/pkg/apis/httpEndpoint/v1alpha1"
+	resiliencyapi "github.com/liuxd6825/dapr/pkg/apis/resiliency/v1alpha1"
+	subscriptionsapiV2alpha1 "github.com/liuxd6825/dapr/pkg/apis/subscriptions/v2alpha1"
+	"github.com/liuxd6825/dapr/pkg/client/clientset/versioned/scheme"
+	operatorv1pb "github.com/liuxd6825/dapr/pkg/proto/operator/v1"
 )
 
 type mockComponentUpdateServer struct {

@@ -19,8 +19,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	daprDaprConfig "github.com/dapr/dapr/pkg/config"
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
+	daprDaprConfig "github.com/liuxd6825/dapr/pkg/config"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
 )
 
 func TestConfig(t *testing.T) {

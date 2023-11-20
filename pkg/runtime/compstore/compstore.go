@@ -14,19 +14,21 @@ limitations under the License.
 package compstore
 
 import (
+	"github.com/liuxd6825/components-contrib/liuxd/applog"
+	"github.com/liuxd6825/components-contrib/liuxd/eventstorage"
 	"sync"
 
-	"github.com/dapr/components-contrib/bindings"
-	"github.com/dapr/components-contrib/configuration"
-	"github.com/dapr/components-contrib/crypto"
-	"github.com/dapr/components-contrib/lock"
-	"github.com/dapr/components-contrib/secretstores"
-	"github.com/dapr/components-contrib/state"
-	"github.com/dapr/components-contrib/workflows"
-	compsv1alpha1 "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	httpEndpointV1alpha1 "github.com/dapr/dapr/pkg/apis/httpEndpoint/v1alpha1"
-	"github.com/dapr/dapr/pkg/config"
-	rtpubsub "github.com/dapr/dapr/pkg/runtime/pubsub"
+	"github.com/liuxd6825/components-contrib/bindings"
+	"github.com/liuxd6825/components-contrib/configuration"
+	"github.com/liuxd6825/components-contrib/crypto"
+	"github.com/liuxd6825/components-contrib/lock"
+	"github.com/liuxd6825/components-contrib/secretstores"
+	"github.com/liuxd6825/components-contrib/state"
+	"github.com/liuxd6825/components-contrib/workflows"
+	compsv1alpha1 "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	httpEndpointV1alpha1 "github.com/liuxd6825/dapr/pkg/apis/httpEndpoint/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/config"
+	rtpubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 )
 
 // ComponentStore is a store of all components which have been configured for the
@@ -34,6 +36,9 @@ import (
 // Component name.
 type ComponentStore struct {
 	lock sync.RWMutex
+
+	eventStorages map[string]eventstorage.EventStorage
+	appLoggers    map[string]applog.Logger
 
 	states                  map[string]state.Store
 	configurations          map[string]configuration.Store
@@ -68,5 +73,8 @@ func New() *ComponentStore {
 		workflowComponents:      make(map[string]workflows.Workflow),
 		cryptoProviders:         make(map[string]crypto.SubtleCrypto),
 		topicRoutes:             make(map[string]TopicRoutes),
+
+		eventStorages: make(map[string]eventstorage.EventStorage),
+		appLoggers:    make(map[string]applog.Logger),
 	}
 }

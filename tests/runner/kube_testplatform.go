@@ -21,8 +21,8 @@ import (
 	"strconv"
 	"time"
 
-	configurationv1alpha1 "github.com/dapr/dapr/pkg/apis/configuration/v1alpha1"
-	kube "github.com/dapr/dapr/tests/platforms/kubernetes"
+	configurationv1alpha1 "github.com/liuxd6825/dapr/pkg/apis/configuration/v1alpha1"
+	kube "github.com/liuxd6825/dapr/tests/platforms/kubernetes"
 
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"

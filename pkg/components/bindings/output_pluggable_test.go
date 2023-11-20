@@ -25,12 +25,12 @@ import (
 
 	guuid "github.com/google/uuid"
 
-	"github.com/dapr/components-contrib/bindings"
-	"github.com/dapr/dapr/pkg/components/pluggable"
-	proto "github.com/dapr/dapr/pkg/proto/components/v1"
-	testingGrpc "github.com/dapr/dapr/pkg/testing/grpc"
+	"github.com/liuxd6825/components-contrib/bindings"
+	"github.com/liuxd6825/dapr/pkg/components/pluggable"
+	proto "github.com/liuxd6825/dapr/pkg/proto/components/v1"
+	testingGrpc "github.com/liuxd6825/dapr/pkg/testing/grpc"
 
-	contribMetadata "github.com/dapr/components-contrib/metadata"
+	contribMetadata "github.com/liuxd6825/components-contrib/metadata"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

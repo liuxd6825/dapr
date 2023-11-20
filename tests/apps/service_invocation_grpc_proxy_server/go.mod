@@ -1,4 +1,4 @@
-module github.com/dapr/dapr/tests/apps/service_invocation_grpc_proxy_server
+module github.com/liuxd6825/dapr/tests/apps/service_invocation_grpc_proxy_server
 
 go 1.20
 

@@ -23,7 +23,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	runtimev1pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
+	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
 )
 
 // GetGRPCClient returns a gRPC client to connect to Dapr

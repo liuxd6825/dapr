@@ -19,15 +19,15 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/dapr/components-contrib/bindings"
-	compapi "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	"github.com/dapr/dapr/pkg/runtime/meta"
-	"github.com/dapr/dapr/pkg/runtime/processor"
-	"github.com/dapr/dapr/pkg/runtime/registry"
-	daprt "github.com/dapr/dapr/pkg/testing"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/components-contrib/bindings"
+	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	"github.com/liuxd6825/dapr/pkg/runtime/meta"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor"
+	"github.com/liuxd6825/dapr/pkg/runtime/registry"
+	daprt "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 func TestInitBindings(t *testing.T) {

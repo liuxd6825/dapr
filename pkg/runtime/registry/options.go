@@ -14,16 +14,18 @@ limitations under the License.
 package registry
 
 import (
-	"github.com/dapr/dapr/pkg/components/bindings"
-	"github.com/dapr/dapr/pkg/components/configuration"
-	"github.com/dapr/dapr/pkg/components/crypto"
-	"github.com/dapr/dapr/pkg/components/lock"
-	"github.com/dapr/dapr/pkg/components/middleware/http"
-	"github.com/dapr/dapr/pkg/components/nameresolution"
-	"github.com/dapr/dapr/pkg/components/pubsub"
-	"github.com/dapr/dapr/pkg/components/secretstores"
-	"github.com/dapr/dapr/pkg/components/state"
-	"github.com/dapr/dapr/pkg/components/workflows"
+	"github.com/liuxd6825/dapr/pkg/components/bindings"
+	"github.com/liuxd6825/dapr/pkg/components/configuration"
+	"github.com/liuxd6825/dapr/pkg/components/crypto"
+	"github.com/liuxd6825/dapr/pkg/components/liuxd/applogger"
+	"github.com/liuxd6825/dapr/pkg/components/liuxd/eventstorage"
+	"github.com/liuxd6825/dapr/pkg/components/lock"
+	"github.com/liuxd6825/dapr/pkg/components/middleware/http"
+	"github.com/liuxd6825/dapr/pkg/components/nameresolution"
+	"github.com/liuxd6825/dapr/pkg/components/pubsub"
+	"github.com/liuxd6825/dapr/pkg/components/secretstores"
+	"github.com/liuxd6825/dapr/pkg/components/state"
+	"github.com/liuxd6825/dapr/pkg/components/workflows"
 )
 
 // Options is the options to configure the registries
@@ -39,6 +41,8 @@ type Options struct {
 	workflow           *workflows.Registry
 	crypto             *crypto.Registry
 	componentsCallback ComponentsCallback
+	eventStorage       *eventstorage.Registry
+	appLogger          *applogger.Registry
 }
 
 func NewOptions() *Options {
@@ -52,6 +56,7 @@ func NewOptions() *Options {
 		binding:        bindings.DefaultRegistry,
 		httpMiddleware: http.DefaultRegistry,
 		crypto:         crypto.DefaultRegistry,
+		eventStorage:   eventstorage.DefaultRegistry,
 	}
 }
 
@@ -118,5 +123,17 @@ func (o *Options) WithCryptoProviders(registry *crypto.Registry) *Options {
 // WithComponentsCallback sets the components callback for applications that embed Dapr.
 func (o *Options) WithComponentsCallback(componentsCallback ComponentsCallback) *Options {
 	o.componentsCallback = componentsCallback
+	return o
+}
+
+// WithEventStorage adds event storage to the runtime.
+func (o *Options) WithEventStorage(registry *eventstorage.Registry) *Options {
+	o.eventStorage = registry
+	return o
+}
+
+// WithAppLogger adds app logger to the runtime.
+func (o *Options) WithAppLogger(registry *applogger.Registry) *Options {
+	o.appLogger = registry
 	return o
 }

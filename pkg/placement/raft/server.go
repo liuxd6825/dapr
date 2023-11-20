@@ -27,7 +27,7 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"k8s.io/utils/clock"
 
-	"github.com/dapr/dapr/pkg/security"
+	"github.com/liuxd6825/dapr/pkg/security"
 )
 
 const (

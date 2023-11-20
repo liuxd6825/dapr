@@ -20,9 +20,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	cp "github.com/dapr/components-contrib/crypto"
-	"github.com/dapr/dapr/pkg/components/crypto"
 	"github.com/dapr/kit/logger"
+	cp "github.com/liuxd6825/components-contrib/crypto"
+	"github.com/liuxd6825/dapr/pkg/components/crypto"
 )
 
 type mockCryptoProvider struct {

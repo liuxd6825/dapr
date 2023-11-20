@@ -7,7 +7,7 @@ import (
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/tag"
 
-	diagUtils "github.com/dapr/dapr/pkg/diagnostics/utils"
+	diagUtils "github.com/liuxd6825/dapr/pkg/diagnostics/utils"
 )
 
 var (

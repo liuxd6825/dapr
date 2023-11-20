@@ -31,8 +31,8 @@ import (
 	core "k8s.io/client-go/testing"
 	clientfake "sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	configapi "github.com/dapr/dapr/pkg/apis/configuration/v1alpha1"
-	sentryv1pb "github.com/dapr/dapr/pkg/proto/sentry/v1"
+	configapi "github.com/liuxd6825/dapr/pkg/apis/configuration/v1alpha1"
+	sentryv1pb "github.com/liuxd6825/dapr/pkg/proto/sentry/v1"
 )
 
 func TestValidate(t *testing.T) {

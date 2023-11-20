@@ -9,9 +9,9 @@ import (
 
 	clocktesting "k8s.io/utils/clock/testing"
 
-	"github.com/dapr/dapr/pkg/placement/raft"
-	"github.com/dapr/dapr/pkg/security/fake"
-	daprtesting "github.com/dapr/dapr/pkg/testing"
+	"github.com/liuxd6825/dapr/pkg/placement/raft"
+	"github.com/liuxd6825/dapr/pkg/security/fake"
+	daprtesting "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 var testRaftServer *raft.Server

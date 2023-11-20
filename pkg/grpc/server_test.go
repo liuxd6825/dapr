@@ -17,12 +17,12 @@ import (
 	"google.golang.org/grpc"
 	grpcMetadata "google.golang.org/grpc/metadata"
 
-	"github.com/dapr/dapr/pkg/config"
-	"github.com/dapr/dapr/pkg/grpc/metadata"
-	"github.com/dapr/dapr/pkg/grpc/universalapi"
-	"github.com/dapr/dapr/pkg/runtime/compstore"
-	dapr_testing "github.com/dapr/dapr/pkg/testing"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/config"
+	"github.com/liuxd6825/dapr/pkg/grpc/metadata"
+	"github.com/liuxd6825/dapr/pkg/grpc/universalapi"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	dapr_testing "github.com/liuxd6825/dapr/pkg/testing"
 )
 
 func TestGetMiddlewareOptions(t *testing.T) {

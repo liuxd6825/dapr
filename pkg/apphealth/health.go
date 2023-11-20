@@ -23,8 +23,8 @@ import (
 
 	"k8s.io/utils/clock"
 
-	"github.com/dapr/dapr/pkg/config"
 	"github.com/dapr/kit/logger"
+	"github.com/liuxd6825/dapr/pkg/config"
 )
 
 const (

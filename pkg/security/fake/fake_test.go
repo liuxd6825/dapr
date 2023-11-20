@@ -19,7 +19,7 @@ package fake
 import (
 	"testing"
 
-	"github.com/dapr/dapr/pkg/security"
+	"github.com/liuxd6825/dapr/pkg/security"
 )
 
 func TestFake(t *testing.T) {

@@ -70,8 +70,8 @@ package hellodapr_e2e
 import (
     "testing"
 
-    kube "github.com/dapr/dapr/tests/platforms/kubernetes"
-    "github.com/dapr/dapr/tests/runner"
+    kube "github.com/liuxd6825/dapr/tests/platforms/kubernetes"
+    "github.com/liuxd6825/dapr/tests/runner"
     "github.com/stretchr/testify/require"
 
     ...
@@ -164,7 +164,7 @@ func TestHelloDapr(t *testing.T) {
     dlv test --build-flags='-tags=e2e' ./tests/e2e/... -- -test.run ^TestHelloDapr$
     ```
   * Using VSCode + Go plugin (recommended)
-  [VSCode + Go plugin](https://github.com/Microsoft/vscode-go/wiki/Debugging-Go-code-using-VS-Code) provides the good debugging experience. However, it does not provide a way to add build tag to build option so you need to remove `// +build e2e` build constraints in your go test and [helpers.go](https://github.com/dapr/dapr/blob/53bf10569fe9a9a5f484c5c9cf5760881db9a3e4/tests/e2e/helpers.go#L1) temporarily during debugging.
+  [VSCode + Go plugin](https://github.com/Microsoft/vscode-go/wiki/Debugging-Go-code-using-VS-Code) provides the good debugging experience. However, it does not provide a way to add build tag to build option so you need to remove `// +build e2e` build constraints in your go test and [helpers.go](https://github.com/liuxd6825/dapr/blob/53bf10569fe9a9a5f484c5c9cf5760881db9a3e4/tests/e2e/helpers.go#L1) temporarily during debugging.
 
 3. Run all e2e tests
 ```bash
