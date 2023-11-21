@@ -23,6 +23,11 @@ option java_package = "io.dapr.v1";
 option go_package = "github.com/liuxd6825/dapr/pkg/proto/runtime/v1;runtime";
 
 
+message RequestHeaders {
+  string spec_name = 1;
+  map<string, string> values = 2;
+}
+
 message ResponseHeaders {
   ResponseStatus status = 1;
   string message = 2;
@@ -40,13 +45,14 @@ enum ResponseStatus {
 // LoadEvent
 
 message LoadEventRequest {
-  string tenantId = 1;
-  string aggregate_id = 2;
-  string aggregate_type = 3;
-  uint64 sequence_number = 4;
-  uint64 page_num = 5;
-  uint64 page_size = 6;
-  bool is_total_rows = 7;
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string aggregate_id = 3;
+  string aggregate_type = 4;
+  uint64 sequence_number = 5;
+  uint64 page_num = 6;
+  uint64 page_size = 7;
+  bool is_total_rows = 8;
 }
 
 message LoadEventResponse{
@@ -82,13 +88,14 @@ message LoadEventResponse{
 // SaveSnapshot
 
 message SaveSnapshotRequest{
-  string tenant_id = 1;
-  string aggregate_id = 2;
-  string aggregate_type = 3;
-  string aggregate_data = 4; // json format
-  string aggregate_version = 5;
-  uint64 sequence_number = 6;
-  string metadata = 7;
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string aggregate_id = 3;
+  string aggregate_type = 4;
+  string aggregate_data = 5; // json format
+  string aggregate_version = 6;
+  uint64 sequence_number = 7;
+  string metadata = 8;
 }
 
 message SaveSnapshotResponse{
@@ -97,8 +104,9 @@ message SaveSnapshotResponse{
 
 // Commit
 message CommitRequest {
-  string session_id = 1;
-  string tenant_id = 2;
+  RequestHeaders headers = 1;
+  string session_id = 2;
+  string tenant_id = 3;
 }
 
 message CommitResponse {
@@ -108,8 +116,9 @@ message CommitResponse {
 //  Rollback
 
 message RollbackRequest {
-  string session_id = 1;
-  string tenant_id = 2;
+  RequestHeaders headers = 1;
+  string session_id = 2;
+  string tenant_id = 3;
 }
 
 message RollbackResponse {
@@ -119,11 +128,12 @@ message RollbackResponse {
 // ApplyEvent
 
 message ApplyEventRequest{
-  string session_id = 1;
-  string tenant_id = 2;
-  string aggregate_id = 3;
-  string aggregate_type = 4;
-  repeated EventDto events = 5;
+  RequestHeaders headers = 1;
+  string session_id = 2;
+  string tenant_id = 3;
+  string aggregate_id = 4;
+  string aggregate_type = 5;
+  repeated EventDto events = 6;
 }
 
 message ApplyEventResponse{
@@ -133,10 +143,11 @@ message ApplyEventResponse{
 // CreateEvent
 
 message CreateEventRequest{
-  string tenant_id = 1;
-  string aggregate_id = 2;
-  string aggregate_type = 3;
-  repeated EventDto events = 4;
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string aggregate_id = 3;
+  string aggregate_type = 4;
+  repeated EventDto events = 5;
 }
 
 message CreateEventResponse{
@@ -146,10 +157,11 @@ message CreateEventResponse{
 // DeleteEvent
 
 message DeleteEventRequest{
-  string tenant_id = 1;
-  string aggregate_id = 2;
-  string aggregate_type = 3;
-  EventDto event = 4;
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string aggregate_id = 3;
+  string aggregate_type = 4;
+  EventDto event = 5;
 }
 
 message DeleteEventResponse{
@@ -187,12 +199,13 @@ message EventTypeDto {
 // GetRelations
 
 message GetRelationsRequest {
-  string tenantId = 1;
-  string aggregate_type = 2;
-  string filter = 3;
-  string sort = 4;
-  uint64 pageNum = 5;
-  uint64 pageSize = 6;
+  RequestHeaders headers = 1;
+  string tenantId = 2;
+  string aggregate_type = 3;
+  string filter = 4;
+  string sort = 5;
+  uint64 pageNum = 6;
+  uint64 pageSize = 7;
 }
 
 message GetRelationsResponse {
@@ -222,13 +235,14 @@ message RelationDto {
 // GetEvents
 
 message GetEventsRequest {
-  string tenant_id = 1;
-  string aggregate_type = 2;
-  string filter = 3;
-  string sort = 4;
-  uint64 page_num = 5;
-  uint64 page_size = 6;
-  bool is_total_rows = 7;
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string aggregate_type = 3;
+  string filter = 4;
+  string sort = 5;
+  uint64 page_num = 6;
+  uint64 page_size = 7;
+  bool is_total_rows = 8;
 }
 
 message GetEventsResponse {
@@ -260,6 +274,7 @@ message GetEventsItemDto {
 // Application Log
 
 message WriteEventLogRequest{
+  RequestHeaders headers = 1;
 
   string tenant_id = 2;
   string id = 3;
@@ -284,18 +299,19 @@ message WriteEventLogResponse{
 }
 
 message UpdateEventLogRequest {
-  string tenant_id = 1;
-  string id = 2;
-  string app_id = 3;
-  string class = 4;
-  string func = 5;
-  string level = 6;
-  google.protobuf.Timestamp time = 7;
-  bool status = 8;
-  string message = 9;
-  string pub_app_id = 10;
-  string event_id = 11;
-  string command_id = 12;
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string id = 3;
+  string app_id = 4;
+  string class = 5;
+  string func = 6;
+  string level = 7;
+  google.protobuf.Timestamp time = 8;
+  bool status = 9;
+  string message = 10;
+  string pub_app_id = 11;
+  string event_id = 12;
+  string command_id = 13;
 }
 
 message UpdateEventLogResponse {
@@ -307,9 +323,10 @@ message UpdateEventLogResponse {
 // GetLogByCommandId
 
 message GetEventLogByCommandIdRequest {
-  string tenant_id = 1;
-  string app_id = 2;
-  string command_id = 3;
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string app_id = 3;
+  string command_id = 4;
 }
 
 message GetEventLogByCommandIdResponse {
@@ -335,15 +352,16 @@ message GetEventLogByCommandIdResponse {
 
 //
 message WriteAppLogRequest {
-  string  tenant_id = 1;
-  string  id = 2;
-  string  app_id = 3;
-  string  class = 4;
-  string  func = 5;
-  string  level = 6;
-  google.protobuf.Timestamp time = 7;
-  bool status = 8;
-  string  message = 9;
+  RequestHeaders headers = 1;
+  string  tenant_id = 2;
+  string  id = 3;
+  string  app_id = 4;
+  string  class = 5;
+  string  func = 6;
+  string  level = 7;
+  google.protobuf.Timestamp time = 8;
+  bool status = 9;
+  string  message = 10;
 }
 
 message WriteAppLogResponse {
@@ -351,15 +369,16 @@ message WriteAppLogResponse {
 }
 
 message UpdateAppLogRequest {
-  string  id = 2;
-  string  tenant_id = 1;
-  string  app_id = 3;
-  string  class = 4;
-  string  func = 5;
-  string  level = 6;
-  google.protobuf.Timestamp time = 7;
-  bool status = 8;
-  string  message = 9;
+  RequestHeaders headers = 1;
+  string  tenant_id = 2;
+  string  id = 3;
+  string  app_id = 4;
+  string  class = 5;
+  string  func = 6;
+  string  level = 7;
+  google.protobuf.Timestamp time = 8;
+  bool status = 9;
+  string  message = 10;
 }
 
 message UpdateAppLogResponse {
@@ -369,8 +388,9 @@ message UpdateAppLogResponse {
 // GetLogByCommandId
 
 message GetAppLogByIdRequest {
-  string  tenant_id = 1;
-  string  id = 2;
+  RequestHeaders headers = 1;
+  string  tenant_id = 2;
+  string  id = 3;
 }
 
 message GetAppLogByIdResponse {

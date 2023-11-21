@@ -9,6 +9,7 @@ import (
 	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
 	"github.com/pkg/errors"
 	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"k8s.io/apimachinery/pkg/util/json"
 	"time"
 )
@@ -31,14 +32,14 @@ type Request interface {
 	ProtoReflect() protoreflect.Message
 }
 
-// LoadEvents
+// LoadDomainEvent
 // @Description:
 // @receiver a
 // @param ctx
 // @param request
 // @return *runtimev1pb.LoadEventResponse
 // @return error
-func (a *api) LoadEvents(ctx context.Context, req *runtimev1pb.LoadEventRequest) (resp *runtimev1pb.LoadEventResponse, respErr error) {
+func (a *api) LoadDomainEvent(ctx context.Context, req *runtimev1pb.LoadDomainEventRequest) (resp *runtimev1pb.LoadDomainEventResponse, respErr error) {
 	defer func() {
 		if e := recover(); e != nil {
 			if err, ok := e.(error); ok {
@@ -47,7 +48,7 @@ func (a *api) LoadEvents(ctx context.Context, req *runtimev1pb.LoadEventRequest)
 		}
 	}()
 
-	_, err := do[*runtimev1pb.LoadEventResponse](ctx, "LoadEvents", req, func(ctx context.Context) (*runtimev1pb.LoadEventResponse, error) {
+	_, err := do[*runtimev1pb.LoadDomainEventResponse](ctx, "LoadEvents", req, func(ctx context.Context) (*runtimev1pb.LoadDomainEventResponse, error) {
 		if err := a.checkEventStorageComponent(); err != nil {
 			return nil, err
 		}
@@ -67,7 +68,7 @@ func (a *api) LoadEvents(ctx context.Context, req *runtimev1pb.LoadEventRequest)
 			return nil, err
 		}
 
-		resp = &runtimev1pb.LoadEventResponse{
+		resp = &runtimev1pb.LoadDomainEventResponse{
 			TenantId:      out.TenantId,
 			AggregateId:   out.AggregateId,
 			AggregateType: out.AggregateType,
@@ -85,7 +86,7 @@ func (a *api) LoadEvents(ctx context.Context, req *runtimev1pb.LoadEventRequest)
 			if err != nil {
 				return nil, err
 			}
-			snapshot := &runtimev1pb.LoadEventResponse_SnapshotDto{
+			snapshot := &runtimev1pb.LoadDomainEventResponse_SnapshotDto{
 				AggregateData:  *outAggData,
 				SequenceNumber: out.Snapshot.SequenceNumber,
 				Metadata:       string(metadata),
@@ -93,14 +94,14 @@ func (a *api) LoadEvents(ctx context.Context, req *runtimev1pb.LoadEventRequest)
 			resp.Snapshot = snapshot
 		}
 
-		events := make([]*runtimev1pb.LoadEventResponse_EventDto, 0)
+		events := make([]*runtimev1pb.LoadDomainEventResponse_EventDto, 0)
 		if out.Events != nil {
 			for _, item := range *out.Events {
 				eventData, err := mapAsStr(item.EventData)
 				if err != nil {
 					return nil, err
 				}
-				event := &runtimev1pb.LoadEventResponse_EventDto{
+				event := &runtimev1pb.LoadDomainEventResponse_EventDto{
 					EventId:        item.EventId,
 					EventType:      item.EventType,
 					EventData:      *eventData,
@@ -120,18 +121,18 @@ func (a *api) LoadEvents(ctx context.Context, req *runtimev1pb.LoadEventRequest)
 		resp.Headers = headers
 		return resp, err
 	}
-	return &runtimev1pb.LoadEventResponse{Headers: headers}, err
+	return &runtimev1pb.LoadDomainEventResponse{Headers: headers}, err
 }
 
-// SaveSnapshot
+// SaveDomainEventSnapshot
 // @Description:
 // @receiver a
 // @param ctx
 // @param request
-// @return *runtimev1pb.SaveSnapshotResponse
+// @return *runtimev1pb.SaveDomainEventSnapshotResponse
 // @return error
-func (a *api) SaveSnapshot(ctx context.Context, req *runtimev1pb.SaveSnapshotRequest) (resp *runtimev1pb.SaveSnapshotResponse, respErr error) {
-	_, err := do[*runtimev1pb.SaveSnapshotResponse](ctx, "SaveSnapshot", req, func(ctx context.Context) (*runtimev1pb.SaveSnapshotResponse, error) {
+func (a *api) SaveDomainEventSnapshot(ctx context.Context, req *runtimev1pb.SaveDomainEventSnapshotRequest) (resp *runtimev1pb.SaveDomainEventSnapshotResponse, respErr error) {
+	_, err := do[*runtimev1pb.SaveDomainEventSnapshotResponse](ctx, "SaveSnapshot", req, func(ctx context.Context) (*runtimev1pb.SaveDomainEventSnapshotResponse, error) {
 		if err := a.checkEventStorageComponent(); err != nil {
 			return nil, err
 		}
@@ -163,7 +164,7 @@ func (a *api) SaveSnapshot(ctx context.Context, req *runtimev1pb.SaveSnapshotReq
 		if err != nil {
 			return nil, err
 		}
-		resp = &runtimev1pb.SaveSnapshotResponse{}
+		resp = &runtimev1pb.SaveDomainEventSnapshotResponse{}
 		return resp, err
 	})
 	headers := NewResponseHeaders(runtimev1pb.ResponseStatus_SUCCESS, err, nil)
@@ -172,25 +173,25 @@ func (a *api) SaveSnapshot(ctx context.Context, req *runtimev1pb.SaveSnapshotReq
 		resp.Headers = headers
 		return resp, err
 	}
-	return &runtimev1pb.SaveSnapshotResponse{Headers: headers}, err
+	return &runtimev1pb.SaveDomainEventSnapshotResponse{Headers: headers}, err
 }
 
-// Commit
+// CommitDomainEvents
 // @Description:
 // @receiver a
 // @param ctx
 // @param request
 // @return *runtimev1pb.CommitResponse
 // @return error
-func (a *api) Commit(ctx context.Context, req *runtimev1pb.CommitRequest) (*runtimev1pb.CommitResponse, error) {
-	return do[*runtimev1pb.CommitResponse](ctx, "Commit", req, func(ctx context.Context) (*runtimev1pb.CommitResponse, error) {
+func (a *api) CommitDomainEvents(ctx context.Context, req *runtimev1pb.CommitDomainEventsRequest) (*runtimev1pb.CommitDomainEventsResponse, error) {
+	return do[*runtimev1pb.CommitDomainEventsResponse](ctx, "Commit", req, func(ctx context.Context) (*runtimev1pb.CommitDomainEventsResponse, error) {
 		in := &dto.CommitRequest{
 			SessionId: req.SessionId,
 			TenantId:  req.TenantId,
 		}
 
 		_, err := a.eventStorage.Commit(ctx, in)
-		resp := &runtimev1pb.CommitResponse{}
+		resp := &runtimev1pb.CommitDomainEventsResponse{}
 		if resp != nil && resp.Headers == nil {
 			resp.Headers = NewResponseHeaders(runtimev1pb.ResponseStatus_SUCCESS, err, nil)
 		}
@@ -198,15 +199,15 @@ func (a *api) Commit(ctx context.Context, req *runtimev1pb.CommitRequest) (*runt
 	})
 }
 
-// Rollback
+// RollbackDomainEvents
 // @Description:
 // @receiver a
 // @param ctx
 // @param request
 // @return *runtimev1pb.RollbackResponse
 // @return error
-func (a *api) Rollback(ctx context.Context, req *runtimev1pb.RollbackRequest) (*runtimev1pb.RollbackResponse, error) {
-	return do[*runtimev1pb.RollbackResponse](ctx, "Rollback", req, func(ctx context.Context) (*runtimev1pb.RollbackResponse, error) {
+func (a *api) RollbackDomainEvents(ctx context.Context, req *runtimev1pb.RollbackDomainEventsRequest) (*runtimev1pb.RollbackDomainEventsResponse, error) {
+	return do[*runtimev1pb.RollbackDomainEventsResponse](ctx, "Rollback", req, func(ctx context.Context) (*runtimev1pb.RollbackDomainEventsResponse, error) {
 		in := &dto.RollbackRequest{
 			SessionId: req.SessionId,
 			TenantId:  req.TenantId,
@@ -216,7 +217,7 @@ func (a *api) Rollback(ctx context.Context, req *runtimev1pb.RollbackRequest) (*
 
 		_, err := a.eventStorage.Rollback(ctx, in)
 
-		resp := &runtimev1pb.RollbackResponse{}
+		resp := &runtimev1pb.RollbackDomainEventsResponse{}
 		if resp != nil && resp.Headers == nil {
 			resp.Headers = NewResponseHeaders(runtimev1pb.ResponseStatus_SUCCESS, err, nil)
 		}
@@ -224,14 +225,14 @@ func (a *api) Rollback(ctx context.Context, req *runtimev1pb.RollbackRequest) (*
 	})
 }
 
-// ApplyEvent
+// ApplyDomainEvent
 // @Description: 应用领域事件
 // @receiver a
 // @param ctx
 // @param request
 // @return *runtimev1pb.ApplyEventsResponse
 // @return error
-func (a *api) ApplyEvent(ctx context.Context, req *runtimev1pb.ApplyEventRequest) (resp *runtimev1pb.ApplyEventResponse, reserr error) {
+func (a *api) ApplyDomainEvent(ctx context.Context, req *runtimev1pb.ApplyDomainEventRequest) (resp *runtimev1pb.ApplyDomainEventResponse, reserr error) {
 	defer func() {
 		if e := recover(); e != nil {
 			if err, ok := e.(error); ok {
@@ -249,7 +250,7 @@ func (a *api) ApplyEvent(ctx context.Context, req *runtimev1pb.ApplyEventRequest
 	}
 	apiServerLogger.Info(log)
 
-	return do[*runtimev1pb.ApplyEventResponse](ctx, "ApplyEvent", req, func(ctx context.Context) (*runtimev1pb.ApplyEventResponse, error) {
+	return do[*runtimev1pb.ApplyDomainEventResponse](ctx, "ApplyEvent", req, func(ctx context.Context) (*runtimev1pb.ApplyDomainEventResponse, error) {
 		if err := a.checkEventStorageComponent(); err != nil {
 			apiServerLogger.Debug(err)
 			return nil, err
@@ -281,7 +282,7 @@ func (a *api) ApplyEvent(ctx context.Context, req *runtimev1pb.ApplyEventRequest
 			headers = a.newResponseHeaders(out.Headers)
 		}
 		headers.Values["Date"] = time.Now().String()
-		return &runtimev1pb.ApplyEventResponse{Headers: headers}, err
+		return &runtimev1pb.ApplyDomainEventResponse{Headers: headers}, err
 	})
 
 }
@@ -393,7 +394,7 @@ func (a *api) newResponseHeaders(out *dto.ResponseHeaders) *runtimev1pb.Response
 	return &runtimev1pb.DeleteEventResponse{Headers: headers}, err
 }*/
 
-func (a *api) GetEvents(ctx context.Context, req *runtimev1pb.GetEventsRequest) (resp *runtimev1pb.GetEventsResponse, respErr error) {
+func (a *api) GetDomainEvents(ctx context.Context, req *runtimev1pb.GetDomainEventsRequest) (resp *runtimev1pb.GetDomainEventsResponse, respErr error) {
 	defer func() {
 		if e := recover(); e != nil {
 			if err, ok := e.(error); ok {
@@ -404,7 +405,7 @@ func (a *api) GetEvents(ctx context.Context, req *runtimev1pb.GetEventsRequest) 
 		}
 	}()
 
-	return do[*runtimev1pb.GetEventsResponse](ctx, "GetEvents", req, func(ctx context.Context) (*runtimev1pb.GetEventsResponse, error) {
+	return do[*runtimev1pb.GetDomainEventsResponse](ctx, "GetEvents", req, func(ctx context.Context) (*runtimev1pb.GetDomainEventsResponse, error) {
 		if err := a.checkEventStorageComponent(); err != nil {
 			return nil, err
 		}
@@ -426,7 +427,7 @@ func (a *api) GetEvents(ctx context.Context, req *runtimev1pb.GetEventsRequest) 
 			return nil, err
 		}
 
-		var events []*runtimev1pb.GetEventsItemDto
+		var events []*runtimev1pb.GetDomainEventsItemDto
 
 		if out != nil && len(out.Data) > 0 {
 			for _, item := range out.Data {
@@ -438,7 +439,7 @@ func (a *api) GetEvents(ctx context.Context, req *runtimev1pb.GetEventsRequest) 
 				if err != nil {
 					return nil, err
 				}
-				event := &runtimev1pb.GetEventsItemDto{
+				event := &runtimev1pb.GetDomainEventsItemDto{
 					EventId:      item.EventId,
 					EventType:    item.EventType,
 					EventData:    string(eventData),
@@ -452,7 +453,7 @@ func (a *api) GetEvents(ctx context.Context, req *runtimev1pb.GetEventsRequest) 
 			}
 		}
 
-		resp = &runtimev1pb.GetEventsResponse{
+		resp = &runtimev1pb.GetDomainEventsResponse{
 			TotalRows:  out.TotalRows,
 			TotalPages: out.TotalPages,
 			Filter:     out.Filter,
@@ -468,7 +469,7 @@ func (a *api) GetEvents(ctx context.Context, req *runtimev1pb.GetEventsRequest) 
 	})
 }
 
-func (a *api) GetRelations(ctx context.Context, req *runtimev1pb.GetRelationsRequest) (resp *runtimev1pb.GetRelationsResponse, respErr error) {
+func (a *api) GetDomainEventRelations(ctx context.Context, req *runtimev1pb.GetDomainEventRelationsRequest) (resp *runtimev1pb.GetDomainEventRelationsResponse, respErr error) {
 	defer func() {
 		if e := recover(); e != nil {
 			if err, ok := e.(error); ok {
@@ -479,7 +480,7 @@ func (a *api) GetRelations(ctx context.Context, req *runtimev1pb.GetRelationsReq
 		}
 	}()
 
-	return do[*runtimev1pb.GetRelationsResponse](ctx, "GetRelations", req, func(ctx context.Context) (*runtimev1pb.GetRelationsResponse, error) {
+	return do[*runtimev1pb.GetDomainEventRelationsResponse](ctx, "GetRelations", req, func(ctx context.Context) (*runtimev1pb.GetDomainEventRelationsResponse, error) {
 		if err := a.checkEventStorageComponent(); err != nil {
 			return nil, err
 		}
@@ -513,7 +514,7 @@ func (a *api) GetRelations(ctx context.Context, req *runtimev1pb.GetRelationsReq
 				relations = append(relations, &relDto)
 			}
 		}
-		resp = &runtimev1pb.GetRelationsResponse{
+		resp = &runtimev1pb.GetDomainEventRelationsResponse{
 			TotalRows:  out.TotalRows,
 			TotalPages: out.TotalPages,
 			Filter:     out.Filter,
@@ -525,7 +526,7 @@ func (a *api) GetRelations(ctx context.Context, req *runtimev1pb.GetRelationsReq
 			Error:      out.Error,
 		}
 		if resp == nil {
-			resp = &runtimev1pb.GetRelationsResponse{Headers: NewResponseHeaders(runtimev1pb.ResponseStatus_SUCCESS, err, nil)}
+			resp = &runtimev1pb.GetDomainEventRelationsResponse{Headers: NewResponseHeaders(runtimev1pb.ResponseStatus_SUCCESS, err, nil)}
 		}
 		resp.Headers = NewResponseHeaders(runtimev1pb.ResponseStatus_SUCCESS, err, nil)
 		return resp, err
@@ -704,4 +705,12 @@ func NewResponseHeadersSuccess(values map[string]string) *runtimev1pb.ResponseHe
 		Values:  values,
 	}
 	return resp
+}
+
+func asTimestamp(t *time.Time) *timestamppb.Timestamp {
+	timestamp := &timestamppb.Timestamp{
+		Seconds: t.Unix(),
+		Nanos:   int32(t.Nanosecond()),
+	}
+	return timestamp
 }

@@ -2016,6 +2016,100 @@ func (*UnimplementedAppCallbackServer) OnBindingEvent(context.Context, *BindingE
 	return nil, status.Errorf(codes.Unimplemented, "method OnBindingEvent not implemented")
 }
 
+func RegisterAppCallbackServer(s *grpc.Server, srv AppCallbackServer) {
+	s.RegisterService(&_AppCallback_serviceDesc, srv)
+}
+
+func _AppCallback_OnInvoke_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v1.InvokeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AppCallbackServer).OnInvoke(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dapr.proto.runtime.v1.AppCallback/OnInvoke",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AppCallbackServer).OnInvoke(ctx, req.(*v1.InvokeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AppCallback_ListTopicSubscriptions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AppCallbackServer).ListTopicSubscriptions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dapr.proto.runtime.v1.AppCallback/ListTopicSubscriptions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AppCallbackServer).ListTopicSubscriptions(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AppCallback_OnTopicEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TopicEventRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AppCallbackServer).OnTopicEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dapr.proto.runtime.v1.AppCallback/OnTopicEvent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AppCallbackServer).OnTopicEvent(ctx, req.(*TopicEventRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AppCallback_ListInputBindings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AppCallbackServer).ListInputBindings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dapr.proto.runtime.v1.AppCallback/ListInputBindings",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AppCallbackServer).ListInputBindings(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AppCallback_OnBindingEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BindingEventRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AppCallbackServer).OnBindingEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dapr.proto.runtime.v1.AppCallback/OnBindingEvent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AppCallbackServer).OnBindingEvent(ctx, req.(*BindingEventRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _AppCallback_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "dapr.proto.runtime.v1.AppCallback",
 	HandlerType: (*AppCallbackServer)(nil),
@@ -2045,6 +2139,22 @@ var _AppCallback_serviceDesc = grpc.ServiceDesc{
 	Metadata: "dapr/proto/runtime/v1/appcallback.proto",
 }
 
+// AppCallbackHealthCheckClient is the client API for AppCallbackHealthCheck service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type AppCallbackHealthCheckClient interface {
+	// Health check.
+	HealthCheck(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*HealthCheckResponse, error)
+}
+
+type appCallbackHealthCheckClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewAppCallbackHealthCheckClient(cc grpc.ClientConnInterface) AppCallbackHealthCheckClient {
+	return &appCallbackHealthCheckClient{cc}
+}
+
 func (c *appCallbackHealthCheckClient) HealthCheck(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*HealthCheckResponse, error) {
 	out := new(HealthCheckResponse)
 	err := c.cc.Invoke(ctx, "/dapr.proto.runtime.v1.AppCallbackHealthCheck/HealthCheck", in, out, opts...)
@@ -2052,6 +2162,42 @@ func (c *appCallbackHealthCheckClient) HealthCheck(ctx context.Context, in *empt
 		return nil, err
 	}
 	return out, nil
+}
+
+// AppCallbackHealthCheckServer is the server API for AppCallbackHealthCheck service.
+type AppCallbackHealthCheckServer interface {
+	// Health check.
+	HealthCheck(context.Context, *emptypb.Empty) (*HealthCheckResponse, error)
+}
+
+// UnimplementedAppCallbackHealthCheckServer can be embedded to have forward compatible implementations.
+type UnimplementedAppCallbackHealthCheckServer struct {
+}
+
+func (*UnimplementedAppCallbackHealthCheckServer) HealthCheck(context.Context, *emptypb.Empty) (*HealthCheckResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HealthCheck not implemented")
+}
+
+func RegisterAppCallbackHealthCheckServer(s *grpc.Server, srv AppCallbackHealthCheckServer) {
+	s.RegisterService(&_AppCallbackHealthCheck_serviceDesc, srv)
+}
+
+func _AppCallbackHealthCheck_HealthCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AppCallbackHealthCheckServer).HealthCheck(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dapr.proto.runtime.v1.AppCallbackHealthCheck/HealthCheck",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AppCallbackHealthCheckServer).HealthCheck(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 var _AppCallbackHealthCheck_serviceDesc = grpc.ServiceDesc{
@@ -2067,6 +2213,22 @@ var _AppCallbackHealthCheck_serviceDesc = grpc.ServiceDesc{
 	Metadata: "dapr/proto/runtime/v1/appcallback.proto",
 }
 
+// AppCallbackAlphaClient is the client API for AppCallbackAlpha service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type AppCallbackAlphaClient interface {
+	// Subscribes bulk events from Pubsub
+	OnBulkTopicEventAlpha1(ctx context.Context, in *TopicEventBulkRequest, opts ...grpc.CallOption) (*TopicEventBulkResponse, error)
+}
+
+type appCallbackAlphaClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewAppCallbackAlphaClient(cc grpc.ClientConnInterface) AppCallbackAlphaClient {
+	return &appCallbackAlphaClient{cc}
+}
+
 func (c *appCallbackAlphaClient) OnBulkTopicEventAlpha1(ctx context.Context, in *TopicEventBulkRequest, opts ...grpc.CallOption) (*TopicEventBulkResponse, error) {
 	out := new(TopicEventBulkResponse)
 	err := c.cc.Invoke(ctx, "/dapr.proto.runtime.v1.AppCallbackAlpha/OnBulkTopicEventAlpha1", in, out, opts...)
@@ -2076,8 +2238,40 @@ func (c *appCallbackAlphaClient) OnBulkTopicEventAlpha1(ctx context.Context, in 
 	return out, nil
 }
 
+// AppCallbackAlphaServer is the server API for AppCallbackAlpha service.
+type AppCallbackAlphaServer interface {
+	// Subscribes bulk events from Pubsub
+	OnBulkTopicEventAlpha1(context.Context, *TopicEventBulkRequest) (*TopicEventBulkResponse, error)
+}
+
+// UnimplementedAppCallbackAlphaServer can be embedded to have forward compatible implementations.
+type UnimplementedAppCallbackAlphaServer struct {
+}
+
 func (*UnimplementedAppCallbackAlphaServer) OnBulkTopicEventAlpha1(context.Context, *TopicEventBulkRequest) (*TopicEventBulkResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OnBulkTopicEventAlpha1 not implemented")
+}
+
+func RegisterAppCallbackAlphaServer(s *grpc.Server, srv AppCallbackAlphaServer) {
+	s.RegisterService(&_AppCallbackAlpha_serviceDesc, srv)
+}
+
+func _AppCallbackAlpha_OnBulkTopicEventAlpha1_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TopicEventBulkRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AppCallbackAlphaServer).OnBulkTopicEventAlpha1(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dapr.proto.runtime.v1.AppCallbackAlpha/OnBulkTopicEventAlpha1",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AppCallbackAlphaServer).OnBulkTopicEventAlpha1(ctx, req.(*TopicEventBulkRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 var _AppCallbackAlpha_serviceDesc = grpc.ServiceDesc{

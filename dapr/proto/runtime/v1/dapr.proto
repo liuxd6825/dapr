@@ -20,8 +20,6 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "dapr/proto/common/v1/common.proto";
 
-import "dapr/proto/runtime/v1/dapr_liuxd.proto";
-
 option csharp_namespace = "Dapr.Client.Autogen.Grpc.v1";
 option java_outer_classname = "DaprProtos";
 option java_package = "io.dapr.v1";
@@ -195,37 +193,43 @@ service Dapr {
   rpc Shutdown (google.protobuf.Empty) returns (google.protobuf.Empty) {}
 
 
-  // LoadEvents  加载事件
-  rpc LoadEvents(LoadEventRequest)returns(LoadEventResponse){}
+  // ApplyDomainEvent 应用领域事件到聚合根上
+  rpc ApplyDomainEvent(ApplyDomainEventRequest)returns(ApplyDomainEventResponse){}
+  
+  // LoadDomainEvents  加载领域事件
+  rpc LoadDomainEvent(LoadDomainEventRequest)returns(LoadDomainEventResponse){}
 
-  // SaveSnapshot 保存事件快照
-  rpc SaveSnapshot(SaveSnapshotRequest) returns(SaveSnapshotResponse) {}
+  // SaveDomainEventSnapshot 保存领域事件快照
+  rpc SaveDomainEventSnapshot(SaveDomainEventSnapshotRequest) returns(SaveDomainEventSnapshotResponse) {}
 
   /*
-    // CreateEvent 创建聚合根事件
-    rpc CreateEvent(CreateEventRequest)returns(CreateEventResponse){}
+  // CreateDomainEvent 创建聚合根事件
+  rpc CreateDomainEvent(CreateDomainEventRequest)returns(CreateDomainEventResponse){}
 
-    // DeleteEvent 删除聚合根事件
-    rpc DeleteEvent(DeleteEventRequest)returns(DeleteEventResponse){}
+  // DeleteDomainEvent 删除聚合根事件
+  rpc DeleteDomainEvent(DeleteDomainEventRequest)returns(DeleteDomainEventResponse){}
   */
 
-  // Commit 提交Session
-  rpc Commit(CommitRequest)returns(CommitResponse){}
+  // CommitDomainEvents 提交Session
+  rpc CommitDomainEvents(CommitDomainEventsRequest)returns(CommitDomainEventsResponse){}
 
-  // Rollback 回滚Session
-  rpc Rollback(RollbackRequest)returns(RollbackResponse){}
+  // RollbackDomainEvents 回滚Session
+  rpc RollbackDomainEvents(RollbackDomainEventsRequest)returns(RollbackDomainEventsResponse){}
 
-  // ApplyEvent 应用事件到聚合根上
-  rpc ApplyEvent(ApplyEventRequest)returns(ApplyEventResponse){}
+  // GetDomainEventRelations 获取事件聚合关系
+  rpc GetDomainEventRelations(GetDomainEventRelationsRequest)returns(GetDomainEventRelationsResponse){}
 
-  // WriteEventLog 写事件日志
-  rpc WriteEventLog(WriteEventLogRequest)returns(WriteEventLogResponse){}
+  // GetDomainEventRelations 获取事件聚合关系
+  rpc GetDomainEvents(GetDomainEventsRequest)returns(GetDomainEventsResponse){}
+  
+  // WriteAppEventLog 写事件日志
+  rpc WriteAppEventLog(WriteAppEventLogRequest)returns(WriteAppEventLogResponse){}
 
-  // UpdateEventLog 更新事件日志
-  rpc UpdateEventLog(UpdateEventLogRequest)returns(UpdateEventLogResponse){}
+  // UpdateAppEventLog 更新事件日志
+  rpc UpdateAppEventLog(UpdateAppEventLogRequest)returns(UpdateAppEventLogResponse){}
 
-  // GetEventLogByCommandId 按命令id获取事件日志
-  rpc GetEventLogByCommandId(GetEventLogByCommandIdRequest)returns(GetEventLogByCommandIdResponse){}
+  // GetAppEventLogByCommandId 按命令id获取事件日志
+  rpc GetAppEventLogByCommandId(GetAppEventLogByCommandIdRequest)returns(GetAppEventLogByCommandIdResponse){}
 
   // WriteAppLog 写应用日志
   rpc WriteAppLog(WriteAppLogRequest)returns(WriteAppLogResponse){}
@@ -235,12 +239,6 @@ service Dapr {
 
   // GetAppLogById 按id获取应用日志
   rpc GetAppLogById(GetAppLogByIdRequest)returns(GetAppLogByIdResponse){}
-
-  // GetRelations 获取聚合关系
-  rpc GetRelations(GetRelationsRequest)returns(GetRelationsResponse){}
-
-  // GetRelations 获取聚合关系
-  rpc GetEvents(GetEventsRequest)returns(GetEventsResponse){}
 
 }
 
@@ -1138,4 +1136,397 @@ message PurgeWorkflowRequest {
   string instance_id = 1 [json_name = "instanceID"];
   // Name of the workflow component.
   string workflow_component = 2 [json_name = "workflowComponent"];
+}
+
+
+
+///////////////////////////////////////////////////////////////////////
+
+
+
+message RequestHeaders {
+  string spec_name = 1;
+  map<string, string> values = 2;
+}
+
+message ResponseHeaders {
+  ResponseStatus status = 1;
+  string message = 2;
+  map<string, string> values = 3;
+}
+
+enum ResponseStatus {
+  SUCCESS = 0;  // 执行成功
+  ERROR = 1;    // 执行错误
+  EVENT_DUPLICATE = 2; // 事件已经存在，被重复执行，
+}
+
+////////////////////
+
+// LoadDomainEvent
+
+message LoadDomainEventRequest {
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string aggregate_id = 3;
+  string aggregate_type = 4;
+  uint64 sequence_number = 5;
+  uint64 page_num = 6;
+  uint64 page_size = 7;
+  bool is_total_rows = 8;
+}
+
+message LoadDomainEventResponse{
+
+  message SnapshotDto {
+    string aggregate_data = 1;     // json format
+    string aggregate_revision = 2;
+    uint64 sequence_number = 3;
+    string metadata = 4;
+  }
+
+  message EventDto {
+    string event_id = 1;
+    string event_data = 2;  // json format
+    string event_type = 3;
+    string event_version = 4;
+    uint64 sequence_number = 5;
+  }
+
+  ResponseHeaders headers = 1;
+  string tenant_id = 4;
+  string aggregate_id = 5;
+  string aggregate_type = 6;
+  SnapshotDto snapshot = 7;
+  repeated EventDto events = 8;
+  uint64 page_num = 9;
+  uint64 page_size = 10;
+  uint64 total_rows = 11;
+  uint64 total_pages = 12;
+
+}
+
+// SaveDomainEventSnapshot
+
+message SaveDomainEventSnapshotRequest{
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string aggregate_id = 3;
+  string aggregate_type = 4;
+  string aggregate_data = 5; // json format
+  string aggregate_version = 6;
+  uint64 sequence_number = 7;
+  string metadata = 8;
+}
+
+message SaveDomainEventSnapshotResponse{
+  ResponseHeaders headers = 1;
+}
+
+// Commit
+message CommitDomainEventsRequest {
+  RequestHeaders headers = 1;
+  string session_id = 2;
+  string tenant_id = 3;
+}
+
+message CommitDomainEventsResponse {
+  ResponseHeaders headers = 1;
+}
+
+//  Rollback
+
+message RollbackDomainEventsRequest {
+  RequestHeaders headers = 1;
+  string session_id = 2;
+  string tenant_id = 3;
+}
+
+message RollbackDomainEventsResponse {
+  ResponseHeaders headers = 1;
+}
+
+// ApplyDomainEvent
+
+message ApplyDomainEventRequest{
+  RequestHeaders headers = 1;
+  string session_id = 2;
+  string tenant_id = 3;
+  string aggregate_id = 4;
+  string aggregate_type = 5;
+  repeated EventDto events = 6;
+}
+
+message ApplyDomainEventResponse{
+  ResponseHeaders headers = 1;
+}
+
+// CreateEvent
+
+message CreateEventRequest{
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string aggregate_id = 3;
+  string aggregate_type = 4;
+  repeated EventDto events = 5;
+}
+
+message CreateEventResponse{
+  ResponseHeaders headers = 1;
+}
+
+// DeleteEvent
+
+message DeleteEventRequest{
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string aggregate_id = 3;
+  string aggregate_type = 4;
+  EventDto event = 5;
+}
+
+message DeleteEventResponse{
+  ResponseHeaders headers = 1;
+}
+
+message EventDto {
+  string apply_type = 1;  // 事件应用类型  "create":创建聚合根; "apply":应用业务事件; "delete":聚合根删除事件
+  string event_id = 2;
+  string command_id = 3;
+  string event_data = 4;   // json format
+  string event_type = 5;
+  string event_version = 6;
+  google.protobuf.Timestamp  event_time = 7;
+  string pubsub_name = 8;
+  string topic = 9;
+  string metadata = 10;  // json format
+  map<string, string> relations = 11; // aggregate relations
+  bool is_sourcing = 12; // event sourcing
+}
+
+// EventType
+/*
+message EventTypeDto {
+  string id=1;
+  string title=2;
+  string version=3;
+  string aggregate_type=4;
+  map<string, string> properties=5;
+  string description=6;
+  bool is_sourcing=7;
+}*/
+
+
+// GetDomainEventRelations
+
+message GetDomainEventRelationsRequest {
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string aggregate_type = 3;
+  string filter = 4;
+  string sort = 5;
+  uint64 pageNum = 6;
+  uint64 pageSize = 7;
+}
+
+message GetDomainEventRelationsResponse {
+  ResponseHeaders headers = 1;
+  repeated RelationDto data = 2;
+  uint64 total_rows = 3;
+  uint64 total_pages = 4;
+  uint64 page_num = 5;
+  uint64 page_size = 6;
+  string filter = 7;
+  string sort = 8;
+  string error = 9;
+  bool is_found = 10;
+}
+
+
+message RelationDto {
+  string id = 1;
+  string tenant_id = 2;
+  string table_name = 3;
+  string aggregate_id = 4;
+  string aggregate_type = 5;
+  bool is_deleted = 6;
+  string rel_name = 7 ;  // 关系名
+  string rel_value = 8; // 关系值
+}
+
+// GetDomainEvents
+
+message GetDomainEventsRequest {
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string aggregate_type = 3;
+  string filter = 4;
+  string sort = 5;
+  uint64 page_num = 6;
+  uint64 page_size = 7;
+  bool is_total_rows = 8;
+}
+
+message GetDomainEventsResponse {
+  ResponseHeaders headers = 1;
+  repeated GetDomainEventsItemDto data = 2;
+  uint64 total_rows = 3;
+  uint64 total_pages = 4;
+  uint64 page_num = 5;
+  uint64 page_size = 6;
+  string filter = 7;
+  string sort = 8;
+  string error = 9;
+  bool is_found = 10;
+}
+
+message GetDomainEventsItemDto {
+  string event_id = 1;
+  string command_id = 2;
+  string event_data = 3;   // json format
+  string event_type = 4;
+  string event_version = 5;
+  google.protobuf.Timestamp  event_time = 6;
+  string pubsub_name = 7;
+  string topic = 8;
+  string metadata = 9;  // json format
+}
+
+
+// Application Log
+
+message WriteAppEventLogRequest{
+  RequestHeaders headers = 1;
+
+  string tenant_id = 2;
+  string id = 3;
+  string app_id = 4;
+
+  string class = 5;
+  string func = 6;
+
+  string level = 7;
+  google.protobuf.Timestamp  time = 8;
+  bool status = 9;
+  string message = 10;
+
+  string pub_app_id = 11;
+  string event_id = 12;
+  string command_id = 13;
+
+}
+
+message WriteAppEventLogResponse{
+  ResponseHeaders headers = 1;
+}
+
+message UpdateAppEventLogRequest {
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string id = 3;
+  string app_id = 4;
+  string class = 5;
+  string func = 6;
+  string level = 7;
+  google.protobuf.Timestamp time = 8;
+  bool status = 9;
+  string message = 10;
+  string pub_app_id = 11;
+  string event_id = 12;
+  string command_id = 13;
+}
+
+message UpdateAppEventLogResponse {
+  ResponseHeaders headers = 1;
+}
+
+
+
+// GetAppEventLogByCommandId
+
+message GetAppEventLogByCommandIdRequest {
+  RequestHeaders headers = 1;
+  string tenant_id = 2;
+  string app_id = 3;
+  string command_id = 4;
+}
+
+message GetAppEventLogByCommandIdResponse {
+
+  message EventLogDto {
+    string tenant_id = 1;
+    string id = 2;
+    string app_id = 3;
+    string class = 4;
+    string func = 5;
+    string level = 6;
+    google.protobuf.Timestamp time = 7;
+    bool status = 8;
+    string message = 9;
+
+    string pub_app_id = 10;
+    string event_id = 11;
+    string command_id = 12;
+  }
+  ResponseHeaders headers = 1;
+  repeated EventLogDto data = 2;
+}
+
+
+//  WriteAppLog
+
+
+message WriteAppLogRequest {
+  RequestHeaders headers = 1;
+  string  tenant_id = 2;
+  string  id = 3;
+  string  app_id = 4;
+  string  class = 5;
+  string  func = 6;
+  string  level = 7;
+  google.protobuf.Timestamp time = 8;
+  bool status = 9;
+  string  message = 10;
+}
+
+message WriteAppLogResponse {
+  ResponseHeaders headers = 1;
+}
+
+message UpdateAppLogRequest {
+  RequestHeaders headers = 1;
+  string  tenant_id = 2;
+  string  id = 3;
+  string  app_id = 4;
+  string  class = 5;
+  string  func = 6;
+  string  level = 7;
+  google.protobuf.Timestamp time = 8;
+  bool status = 9;
+  string  message = 10;
+}
+
+message UpdateAppLogResponse {
+  ResponseHeaders headers = 1;
+}
+
+// GetAppLogById
+
+message GetAppLogByIdRequest {
+  RequestHeaders headers = 1;
+  string  tenant_id = 2;
+  string  id = 3;
+}
+
+message GetAppLogByIdResponse {
+  ResponseHeaders headers = 1;
+  string tenant_id = 2;
+  string id = 3;
+  string app_id = 4;
+  string class = 5;
+  string func = 6;
+  string level = 7;
+  google.protobuf.Timestamp time = 8;
+  bool status = 9;
+  string  message = 10;
 }

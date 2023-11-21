@@ -15,15 +15,6 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-func (UnimplementedDaprServer) mustEmbedUnimplementedDaprServer() {}
-
-// UnsafeDaprServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DaprServer will
-// result in compilation errors.
-type UnsafeDaprServer interface {
-	mustEmbedUnimplementedDaprServer()
-}
-
 // Dapr_ServiceDesc is the grpc.ServiceDesc for Dapr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -236,36 +227,44 @@ var Dapr_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Dapr_Shutdown_Handler,
 		},
 		{
-			MethodName: "LoadEvents",
-			Handler:    _Dapr_LoadEvents_Handler,
+			MethodName: "ApplyDomainEvent",
+			Handler:    _Dapr_ApplyDomainEvent_Handler,
 		},
 		{
-			MethodName: "SaveSnapshot",
-			Handler:    _Dapr_SaveSnapshot_Handler,
+			MethodName: "LoadDomainEvent",
+			Handler:    _Dapr_LoadDomainEvent_Handler,
 		},
 		{
-			MethodName: "Commit",
-			Handler:    _Dapr_Commit_Handler,
+			MethodName: "SaveDomainEventSnapshot",
+			Handler:    _Dapr_SaveDomainEventSnapshot_Handler,
 		},
 		{
-			MethodName: "Rollback",
-			Handler:    _Dapr_Rollback_Handler,
+			MethodName: "CommitDomainEvents",
+			Handler:    _Dapr_CommitDomainEvents_Handler,
 		},
 		{
-			MethodName: "ApplyEvent",
-			Handler:    _Dapr_ApplyEvent_Handler,
+			MethodName: "RollbackDomainEvents",
+			Handler:    _Dapr_RollbackDomainEvents_Handler,
 		},
 		{
-			MethodName: "WriteEventLog",
-			Handler:    _Dapr_WriteEventLog_Handler,
+			MethodName: "GetDomainEventRelations",
+			Handler:    _Dapr_GetDomainEventRelations_Handler,
 		},
 		{
-			MethodName: "UpdateEventLog",
-			Handler:    _Dapr_UpdateEventLog_Handler,
+			MethodName: "GetDomainEvents",
+			Handler:    _Dapr_GetDomainEvents_Handler,
 		},
 		{
-			MethodName: "GetEventLogByCommandId",
-			Handler:    _Dapr_GetEventLogByCommandId_Handler,
+			MethodName: "WriteAppEventLog",
+			Handler:    _Dapr_WriteAppEventLog_Handler,
+		},
+		{
+			MethodName: "UpdateAppEventLog",
+			Handler:    _Dapr_UpdateAppEventLog_Handler,
+		},
+		{
+			MethodName: "GetAppEventLogByCommandId",
+			Handler:    _Dapr_GetAppEventLogByCommandId_Handler,
 		},
 		{
 			MethodName: "WriteAppLog",
@@ -278,14 +277,6 @@ var Dapr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAppLogById",
 			Handler:    _Dapr_GetAppLogById_Handler,
-		},
-		{
-			MethodName: "GetRelations",
-			Handler:    _Dapr_GetRelations_Handler,
-		},
-		{
-			MethodName: "GetEvents",
-			Handler:    _Dapr_GetEvents_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

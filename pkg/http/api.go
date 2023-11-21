@@ -133,6 +133,10 @@ func NewAPI(opts APIOpts) API {
 	metadataEndpoints := api.constructMetadataEndpoints()
 	healthEndpoints := api.constructHealthzEndpoints()
 
+	// liuxd:注册事件溯源HTTP路由
+	api.endpoints = append(api.endpoints, api.constructEventSourcingEndpoints()...)
+	api.endpoints = append(api.endpoints, api.constructLoggerEndpoints()...)
+
 	api.endpoints = append(api.endpoints, api.constructStateEndpoints()...)
 	api.endpoints = append(api.endpoints, api.constructSecretEndpoints()...)
 	api.endpoints = append(api.endpoints, api.constructPubSubEndpoints()...)
