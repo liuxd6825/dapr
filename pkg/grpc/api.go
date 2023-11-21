@@ -18,7 +18,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/liuxd6825/dapr-components-contrib/liuxd/applog"
 	"io"
 	"strconv"
 	"sync"
@@ -57,8 +56,6 @@ import (
 	"github.com/liuxd6825/dapr/pkg/runtime/channels"
 	runtimePubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 	"github.com/liuxd6825/dapr/utils"
-
-	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage"
 )
 
 const daprHTTPStatusHeader = "dapr-http-status"
@@ -88,8 +85,6 @@ type api struct {
 	closed                atomic.Bool
 	closeCh               chan struct{}
 	wg                    sync.WaitGroup
-	eventStorage          eventstorage.EventStorage
-	appLogger             applog.Logger
 }
 
 // APIOpts contains options for NewAPI.

@@ -209,7 +209,6 @@ func (a *api) doAppLogger(headers *runtimev1pb.RequestHeaders, fun func(logger a
 			}
 		}
 	}()
-
 	appLogger, err := a.getAppLogger(headers.SpecName)
 	if err != nil {
 		return nil, err
@@ -217,8 +216,19 @@ func (a *api) doAppLogger(headers *runtimev1pb.RequestHeaders, fun func(logger a
 	return fun(appLogger)
 }
 
-func (a *api) getAppLogger(specName string) (applog.Logger, error) {
-	appLogger, ok := a.CompStore.GetAppLogger(specName)
+func (a *api) getAppLogger(specName string) (appLogger applog.Logger, err error) {
+	ok := false
+	if len(specName) == 0 {
+		loggers := a.CompStore.ListAppLogger()
+		for _, item := range loggers {
+			appLogger = item
+			ok = true
+			break
+		}
+	}
+	if !ok {
+		appLogger, ok = a.CompStore.GetAppLogger(specName)
+	}
 	if !ok {
 		return nil, errors.New(fmt.Sprintf(notFindAppLoggerErrorMsg, specName))
 	}
