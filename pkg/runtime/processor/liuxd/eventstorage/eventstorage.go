@@ -11,7 +11,6 @@ import (
 	components "github.com/liuxd6825/dapr/pkg/components/liuxd/eventstorage"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
 	"github.com/liuxd6825/dapr/pkg/encryption"
-	"github.com/liuxd6825/dapr/pkg/outbox"
 	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
 	rterrors "github.com/liuxd6825/dapr/pkg/runtime/errors"
 	"github.com/liuxd6825/dapr/pkg/runtime/meta"
@@ -32,9 +31,8 @@ type Options struct {
 	Registry         *components.Registry
 	ComponentStore   *compstore.ComponentStore
 	Meta             *meta.Meta
-	PubSubAdapter    pubsub_adapter.Adapter
+	PubsubAdapter    pubsub_adapter.Adapter
 	PlacementEnabled bool
-	Outbox           outbox.Outbox
 }
 
 type eventStorage struct {
@@ -42,10 +40,9 @@ type eventStorage struct {
 	compStore           *compstore.ComponentStore
 	meta                *meta.Meta
 	lock                sync.RWMutex
-	pubSubAdapter       pubsub_adapter.Adapter
+	pubsubAdapter       pubsub_adapter.Adapter
 	actorStateStoreName *string
 	placementEnabled    bool
-	outbox              outbox.Outbox
 }
 
 func New(opts Options) *eventStorage {
@@ -54,8 +51,7 @@ func New(opts Options) *eventStorage {
 		compStore:        opts.ComponentStore,
 		meta:             opts.Meta,
 		placementEnabled: opts.PlacementEnabled,
-		outbox:           opts.Outbox,
-		pubSubAdapter:    opts.PubSubAdapter,
+		pubsubAdapter:    opts.PubsubAdapter,
 	}
 }
 
@@ -94,7 +90,7 @@ func (s *eventStorage) Init(ctx context.Context, comp compapi.Component) error {
 		}
 
 		getAdapter := func() pubsub_adapter.Adapter {
-			return s.pubSubAdapter
+			return s.pubsubAdapter
 		}
 
 		props := meta.Properties
@@ -120,8 +116,6 @@ func (s *eventStorage) Init(ctx context.Context, comp compapi.Component) error {
 		}
 
 		s.compStore.AddEventStorage(comp.ObjectMeta.Name, store)
-
-		s.outbox.AddOrUpdateOutbox(comp)
 
 		diag.DefaultMonitoring.ComponentInitialized(comp.Spec.Type)
 	}

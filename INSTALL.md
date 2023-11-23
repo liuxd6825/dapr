@@ -27,10 +27,10 @@
   $ make build-linux GOOS=linux GOARCH=arm64 \
   
   windows-amd64 \
-  $ make build GOOS=windows GOARCH=amd64 \
+  $ make build GOOS=windows GOARCH=amd64 DAPR_GO_BUILD_TAGS=stablecomponents \
 
   mac-arm64 \
-  $ make build GOOS=darwin GOARCH=arm64 \
+  $ make build GOOS=darwin GOARCH=arm64 DAPR_GO_BUILD_TAGS=stablecomponents \
 
 - 修改docker/docker.rm文件， 增加参数 --load
   

@@ -44,7 +44,6 @@ import (
 	"github.com/liuxd6825/dapr/pkg/runtime/processor/secret"
 	"github.com/liuxd6825/dapr/pkg/runtime/processor/state"
 	"github.com/liuxd6825/dapr/pkg/runtime/processor/workflow"
-	pubsub_adapter "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 	"github.com/liuxd6825/dapr/pkg/runtime/registry"
 )
 
@@ -90,8 +89,6 @@ type Options struct {
 	Channels *channels.Channels
 
 	OperatorClient operatorv1.OperatorClient
-
-	PubSubAdapter pubsub_adapter.Adapter
 }
 
 // manager implements the life cycle events of a component category.
@@ -210,15 +207,13 @@ func New(opts Options) *Processor {
 				Registry:       opts.Registry.AppLogger(),
 				ComponentStore: opts.ComponentStore,
 				Meta:           opts.Meta,
-				PubSubAdapter:  opts.PubSubAdapter,
-				Outbox:         ps.Outbox(),
+				PubsubAdapter:  ps,
 			}),
 			components.CategoryEventStorage: eventstorage.New(eventstorage.Options{
 				Registry:       opts.Registry.EventStorage(),
 				ComponentStore: opts.ComponentStore,
 				Meta:           opts.Meta,
-				PubSubAdapter:  opts.PubSubAdapter,
-				Outbox:         ps.Outbox(),
+				PubsubAdapter:  ps,
 			}),
 		},
 	}

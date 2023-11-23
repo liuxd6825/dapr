@@ -30,7 +30,7 @@ FORCE_INMEM ?= true
 # Dapr sidecar "flavor" build tag:
 # allcomponents - (default) includes all components in Dapr sidecar
 # stablecomponents - includes all stable components in Dapr sidecar
-DAPR_SIDECAR_FLAVOR ?= allcomponents
+DAPR_SIDECAR_FLAVOR ?= stablecomponents
 # Additional build tags
 DAPR_GO_BUILD_TAGS ?=
 ifneq ($(DAPR_GO_BUILD_TAGS),)

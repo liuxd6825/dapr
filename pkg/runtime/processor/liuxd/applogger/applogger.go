@@ -10,11 +10,10 @@ import (
 	compstate "github.com/liuxd6825/dapr/pkg/components/state"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
 	"github.com/liuxd6825/dapr/pkg/encryption"
-	"github.com/liuxd6825/dapr/pkg/outbox"
 	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
 	rterrors "github.com/liuxd6825/dapr/pkg/runtime/errors"
 	"github.com/liuxd6825/dapr/pkg/runtime/meta"
-	pubsubPubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
+	"github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 	"github.com/liuxd6825/dapr/utils"
 	"io"
 	"strings"
@@ -32,8 +31,7 @@ type Options struct {
 	ComponentStore   *compstore.ComponentStore
 	Meta             *meta.Meta
 	PlacementEnabled bool
-	Outbox           outbox.Outbox
-	PubSubAdapter    pubsubPubsub.Adapter
+	PubsubAdapter    pubsub.Adapter
 }
 
 type appLogger struct {
@@ -41,10 +39,9 @@ type appLogger struct {
 	compStore           *compstore.ComponentStore
 	meta                *meta.Meta
 	lock                sync.RWMutex
-	pubSubAdapter       pubsubPubsub.Adapter
+	pubSubAdapter       pubsub.Adapter
 	actorStateStoreName *string
 	placementEnabled    bool
-	outbox              outbox.Outbox
 }
 
 func New(opts Options) *appLogger {
@@ -53,8 +50,7 @@ func New(opts Options) *appLogger {
 		compStore:        opts.ComponentStore,
 		meta:             opts.Meta,
 		placementEnabled: opts.PlacementEnabled,
-		outbox:           opts.Outbox,
-		pubSubAdapter:    opts.PubSubAdapter,
+		pubSubAdapter:    opts.PubsubAdapter,
 	}
 }
 
@@ -94,7 +90,7 @@ func (s *appLogger) Init(ctx context.Context, comp compapi.Component) error {
 		}
 
 		props := meta.Properties
-		err = store.Init(ctx, common.Metadata{Properties: props}, func() pubsubPubsub.Adapter {
+		err = store.Init(ctx, common.Metadata{Properties: props}, func() pubsub.Adapter {
 			return s.pubSubAdapter
 		})
 
@@ -110,8 +106,6 @@ func (s *appLogger) Init(ctx context.Context, comp compapi.Component) error {
 			wrapError := fmt.Errorf("failed to save lock keyprefix: %s", err.Error())
 			return rterrors.NewInit(rterrors.InitComponentFailure, fName, wrapError)
 		}
-
-		s.outbox.AddOrUpdateOutbox(comp)
 
 		// when placement address list is not empty, set specified actor store.
 		if s.placementEnabled {

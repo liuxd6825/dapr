@@ -22,7 +22,6 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/liuxd6825/dapr-components-contrib/liuxd/applog"
-	"github.com/liuxd6825/dapr/pkg/outbox"
 	"io"
 	"net"
 	"os"
@@ -208,13 +207,25 @@ func newDaprRuntime(ctx context.Context,
 		GRPC:                grpc,
 	})
 
-	var rt *DaprRuntime
-
-	pubSubAdapter := NewPubSubAdapter(runtimeConfig, func() outbox.Outbox {
-		return rt.processor.PubSub().Outbox()
+	processor := processor.New(processor.Options{
+		ID:               runtimeConfig.id,
+		Namespace:        getNamespace(),
+		IsHTTP:           runtimeConfig.appConnectionConfig.Protocol.IsHTTP(),
+		PlacementEnabled: len(runtimeConfig.placementAddresses) > 0,
+		Registry:         runtimeConfig.registry,
+		ComponentStore:   compStore,
+		Meta:             meta,
+		GlobalConfig:     globalConfig,
+		Resiliency:       resiliencyProvider,
+		Mode:             runtimeConfig.mode,
+		PodName:          getPodName(),
+		Standalone:       runtimeConfig.standalone,
+		OperatorClient:   operatorClient,
+		GRPC:             grpc,
+		Channels:         channels,
 	})
 
-	rt = &DaprRuntime{
+	rt := &DaprRuntime{
 		runtimeConfig:              runtimeConfig,
 		globalConfig:               globalConfig,
 		accessControlList:          accessControlList,
@@ -231,24 +242,7 @@ func newDaprRuntime(ctx context.Context,
 		operatorClient:             operatorClient,
 		channels:                   channels,
 		sec:                        sec,
-		processor: processor.New(processor.Options{
-			ID:               runtimeConfig.id,
-			Namespace:        getNamespace(),
-			IsHTTP:           runtimeConfig.appConnectionConfig.Protocol.IsHTTP(),
-			PlacementEnabled: len(runtimeConfig.placementAddresses) > 0,
-			Registry:         runtimeConfig.registry,
-			ComponentStore:   compStore,
-			Meta:             meta,
-			GlobalConfig:     globalConfig,
-			Resiliency:       resiliencyProvider,
-			Mode:             runtimeConfig.mode,
-			PodName:          getPodName(),
-			Standalone:       runtimeConfig.standalone,
-			OperatorClient:   operatorClient,
-			GRPC:             grpc,
-			Channels:         channels,
-			PubSubAdapter:    pubSubAdapter,
-		}),
+		processor:                  processor,
 	}
 
 	rt.componentAuthorizers = []ComponentAuthorizer{rt.namespaceComponentAuthorizer}
