@@ -5,70 +5,61 @@ import (
 	"strings"
 
 	es "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage"
-	"github.com/liuxd6825/dapr/pkg/components"
 	"github.com/pkg/errors"
 )
 
 type (
-	EventStorage struct {
-		Name          string
+	EventStoreFactory struct {
+		SpaceType     string
+		Version       string
 		FactoryMethod func(logger logger.Logger) es.EventStorage
 	}
 
 	Registry struct {
-		Logger       logger.Logger
-		messageBuses map[string]func(logger logger.Logger) es.EventStorage
+		Logger    logger.Logger
+		factories map[string]*EventStoreFactory
 	}
 )
 
 // DefaultRegistry is the singleton with the registry.
 var DefaultRegistry *Registry = NewRegistry()
 
-func New(name string, factoryMethod func(logger logger.Logger) es.EventStorage) EventStorage {
-	return EventStorage{
-		Name:          name,
+func New(spaceType string, factoryMethod func(logger logger.Logger) es.EventStorage) EventStoreFactory {
+	return EventStoreFactory{
+		SpaceType:     spaceType,
 		FactoryMethod: factoryMethod,
 	}
 }
 
 func NewRegistry() *Registry {
 	return &Registry{
-		messageBuses: map[string]func(logger logger.Logger) es.EventStorage{},
+		factories: make(map[string]*EventStoreFactory),
 	}
 }
 
 // Register registers one or more new message buses.
-func (p *Registry) Register(components ...EventStorage) {
-	for _, component := range components {
-		p.messageBuses[createFullName(component.Name)] = component.FactoryMethod
+func (p *Registry) Register(newFactory func(logger.Logger) es.EventStorage, spaceType string, version string) {
+	p.factories[createFullName(spaceType, version)] = &EventStoreFactory{
+		SpaceType:     spaceType,
+		Version:       version,
+		FactoryMethod: newFactory,
 	}
 }
 
-func (p *Registry) RegisterComponent(factoryMethod func(logger logger.Logger) es.EventStorage, name string) {
-	p.messageBuses[createFullName(name)] = factoryMethod
+// Create instantiates a EventStorage based on `name`.
+func (p *Registry) Create(compName string, spaceType string, version string) (es.EventStorage, error) {
+	if factory, ok := p.getFactory(spaceType, version); ok {
+		return factory.FactoryMethod(p.Logger), nil
+	}
+	return nil, errors.Errorf("couldn't find eventStore %s/%s", spaceType, version)
 }
 
-// Create instantiates a pub/sub based on `name`.
-func (p *Registry) Create(typeName string, version string) (es.EventStorage, error) {
-	if method, ok := p.getEventStorage(typeName, version); ok {
-		return method(p.Logger), nil
-	}
-	return nil, errors.Errorf("couldn't find message bus %s/%s", typeName, version)
+func (p *Registry) getFactory(name, version string) (*EventStoreFactory, bool) {
+	key := createFullName(name, version)
+	factory, ok := p.factories[key]
+	return factory, ok
 }
 
-func (p *Registry) getEventStorage(typeName, version string) (func(logger logger.Logger) es.EventStorage, bool) {
-	nameLower := strings.ToLower(typeName)
-	versionLower := strings.ToLower(version)
-	pubSubFn, ok := p.messageBuses[nameLower+"/"+versionLower]
-	if ok {
-		return pubSubFn, true
-	}
-	if components.IsInitialVersion(versionLower) {
-		pubSubFn, ok = p.messageBuses[nameLower]
-	}
-	return pubSubFn, ok
-}
-
-func createFullName(name string) string {
-	return strings.ToLower("eventstorage." + name)
+func createFullName(name string, version string) string {
+	return strings.ToLower(name) + "/" + strings.ToLower(version)
 }

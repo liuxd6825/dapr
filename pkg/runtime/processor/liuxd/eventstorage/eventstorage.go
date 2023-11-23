@@ -28,6 +28,7 @@ const (
 var log = logger.NewLogger("dapr.runtime.processor.eventStorage")
 
 type Options struct {
+	Logger           logger.Logger
 	Registry         *components.Registry
 	ComponentStore   *compstore.ComponentStore
 	Meta             *meta.Meta
@@ -60,7 +61,7 @@ func (s *eventStorage) Init(ctx context.Context, comp compapi.Component) error {
 	defer s.lock.Unlock()
 
 	fName := comp.LogName()
-	store, err := s.registry.Create(comp.Spec.Type, comp.Spec.Version)
+	store, err := s.registry.Create(comp.Name, comp.Spec.Type, comp.Spec.Version)
 	if err != nil {
 		diag.DefaultMonitoring.ComponentInitFailed(comp.Spec.Type, "creation", comp.ObjectMeta.Name)
 		return rterrors.NewInit(rterrors.CreateComponentFailure, fName, err)
@@ -68,7 +69,6 @@ func (s *eventStorage) Init(ctx context.Context, comp compapi.Component) error {
 
 	if store != nil {
 		secretStoreName := s.meta.AuthSecretStoreOrDefault(&comp)
-
 		secretStore, _ := s.compStore.GetSecretStore(secretStoreName)
 		encKeys, encErr := encryption.ComponentEncryptionKey(comp, secretStore)
 		if encErr != nil {

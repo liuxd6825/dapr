@@ -1117,7 +1117,7 @@ func (a *api) ExecuteActorStateTransaction(ctx context.Context, in *runtimev1pb.
 			setReq := map[string]any{
 				"key":   op.Key,
 				"value": op.Value.Value,
-				// Actor state do not user other attributes from state request.
+				// Actor state doEventStorage not user other attributes from state request.
 			}
 			if meta := op.GetMetadata(); len(meta) > 0 {
 				setReq["metadata"] = meta
@@ -1130,7 +1130,7 @@ func (a *api) ExecuteActorStateTransaction(ctx context.Context, in *runtimev1pb.
 		case string(state.OperationDelete):
 			delReq := map[string]interface{}{
 				"key": op.Key,
-				// Actor state do not user other attributes from state request.
+				// Actor state doEventStorage not user other attributes from state request.
 			}
 
 			actorOp = actors.TransactionalOperation{

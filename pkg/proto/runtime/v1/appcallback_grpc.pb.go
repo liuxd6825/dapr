@@ -15,12 +15,6 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// UnsafeAppCallbackServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to AppCallbackServer will
-// result in compilation errors.
-type UnsafeAppCallbackServer interface {
-	mustEmbedUnimplementedAppCallbackServer()
-}
 
 // AppCallback_ServiceDesc is the grpc.ServiceDesc for AppCallback service.
 // It's only intended for direct use with grpc.RegisterService,
@@ -54,6 +48,40 @@ var AppCallback_ServiceDesc = grpc.ServiceDesc{
 	Metadata: "dapr/proto/runtime/v1/appcallback.proto",
 }
 
+
+
+// UnsafeAppCallbackHealthCheckServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AppCallbackHealthCheckServer will
+// result in compilation errors.
+type UnsafeAppCallbackHealthCheckServer interface {
+	mustEmbedUnimplementedAppCallbackHealthCheckServer()
+}
+
+
+// AppCallbackHealthCheck_ServiceDesc is the grpc.ServiceDesc for AppCallbackHealthCheck service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var AppCallbackHealthCheck_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "dapr.proto.runtime.v1.AppCallbackHealthCheck",
+	HandlerType: (*AppCallbackHealthCheckServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "HealthCheck",
+			Handler:    _AppCallbackHealthCheck_HealthCheck_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "dapr/proto/runtime/v1/appcallback.proto",
+}
+
+func (UnimplementedAppCallbackAlphaServer) mustEmbedUnimplementedAppCallbackAlphaServer() {}
+
+// UnsafeAppCallbackAlphaServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AppCallbackAlphaServer will
+// result in compilation errors.
+type UnsafeAppCallbackAlphaServer interface {
+	mustEmbedUnimplementedAppCallbackAlphaServer()
+}
 
 // AppCallbackAlpha_ServiceDesc is the grpc.ServiceDesc for AppCallbackAlpha service.
 // It's only intended for direct use with grpc.RegisterService,

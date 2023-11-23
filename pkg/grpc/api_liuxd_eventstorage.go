@@ -8,6 +8,8 @@ import (
 	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage/dto"
 	"github.com/liuxd6825/dapr-components-contrib/liuxd/logs"
 	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	"github.com/liuxd6825/dapr/utils"
 	"github.com/pkg/errors"
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -33,6 +35,10 @@ type Request interface {
 	ProtoReflect() protoreflect.Message
 }
 
+const (
+	NotFindEventStorageErrorMsg = "not find EventStorage name : %v"
+)
+
 // LoadDomainEvent
 // @Description:
 // @receiver a
@@ -42,24 +48,14 @@ type Request interface {
 // @return error
 func (a *api) LoadDomainEvent(ctx context.Context, req *runtimev1pb.LoadDomainEventRequest) (resp *runtimev1pb.LoadDomainEventResponse, respErr error) {
 	defer func() {
-		if e := recover(); e != nil {
-			if err, ok := e.(error); ok {
-				respErr = err
-			}
-		}
+		respErr = utils.GetRecoverError(recover())
 	}()
-
-	_, err := do[*runtimev1pb.LoadDomainEventResponse](ctx, "LoadEvents", req, func(ctx context.Context) (*runtimev1pb.LoadDomainEventResponse, error) {
+	_, err := doEventStorage[*runtimev1pb.LoadDomainEventResponse](ctx, "LoadEvents", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.LoadDomainEventResponse, error) {
 
 		in := &dto.LoadEventRequest{
 			TenantId:      req.GetTenantId(),
 			AggregateId:   req.GetAggregateId(),
 			AggregateType: req.GetAggregateType(),
-		}
-
-		es, err := a.getEventStorage(req.Headers.SpecName)
-		if err != nil {
-			return nil, err
 		}
 
 		out, err := es.LoadEvent(ctx, in)
@@ -131,11 +127,10 @@ func (a *api) LoadDomainEvent(ctx context.Context, req *runtimev1pb.LoadDomainEv
 // @return *runtimev1pb.SaveDomainEventSnapshotResponse
 // @return error
 func (a *api) SaveDomainEventSnapshot(ctx context.Context, req *runtimev1pb.SaveDomainEventSnapshotRequest) (resp *runtimev1pb.SaveDomainEventSnapshotResponse, respErr error) {
-	_, err := do[*runtimev1pb.SaveDomainEventSnapshotResponse](ctx, "SaveSnapshot", req, func(ctx context.Context) (*runtimev1pb.SaveDomainEventSnapshotResponse, error) {
-		if err := a.checkRequest("SaveSnapshot", req); err != nil {
-			return nil, err
-		}
-
+	defer func() {
+		respErr = utils.GetRecoverError(recover())
+	}()
+	_, err := doEventStorage[*runtimev1pb.SaveDomainEventSnapshotResponse](ctx, "SaveSnapshot", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.SaveDomainEventSnapshotResponse, error) {
 		aggregateData, err := newMapInterface(req.AggregateData)
 		if err != nil {
 			return nil, err
@@ -154,11 +149,6 @@ func (a *api) SaveDomainEventSnapshot(ctx context.Context, req *runtimev1pb.Save
 			AggregateVersion: req.GetAggregateVersion(),
 			SequenceNumber:   req.GetSequenceNumber(),
 			Metadata:         *metadata,
-		}
-
-		es, err := a.getEventStorage(req.Headers.SpecName)
-		if err != nil {
-			return nil, err
 		}
 
 		_, err = es.SaveSnapshot(ctx, in)
@@ -184,19 +174,18 @@ func (a *api) SaveDomainEventSnapshot(ctx context.Context, req *runtimev1pb.Save
 // @param request
 // @return *runtimev1pb.CommitResponse
 // @return error
-func (a *api) CommitDomainEvents(ctx context.Context, req *runtimev1pb.CommitDomainEventsRequest) (*runtimev1pb.CommitDomainEventsResponse, error) {
-	return do[*runtimev1pb.CommitDomainEventsResponse](ctx, "Commit", req, func(ctx context.Context) (*runtimev1pb.CommitDomainEventsResponse, error) {
+func (a *api) CommitDomainEvents(ctx context.Context, req *runtimev1pb.CommitDomainEventsRequest) (resResp *runtimev1pb.CommitDomainEventsResponse, resErr error) {
+	defer func() {
+		resErr = utils.GetRecoverError(recover())
+	}()
+
+	return doEventStorage[*runtimev1pb.CommitDomainEventsResponse](ctx, "Commit", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.CommitDomainEventsResponse, error) {
 		in := &dto.CommitRequest{
 			SessionId: req.SessionId,
 			TenantId:  req.TenantId,
 		}
 
-		es, err := a.getEventStorage(req.Headers.SpecName)
-		if err != nil {
-			return nil, err
-		}
-
-		_, err = es.Commit(ctx, in)
+		_, err := es.Commit(ctx, in)
 		resp := &runtimev1pb.CommitDomainEventsResponse{}
 		if resp != nil && resp.Headers == nil {
 			resp.Headers = NewResponseHeaders(runtimev1pb.ResponseStatus_SUCCESS, err, nil)
@@ -212,8 +201,12 @@ func (a *api) CommitDomainEvents(ctx context.Context, req *runtimev1pb.CommitDom
 // @param request
 // @return *runtimev1pb.RollbackResponse
 // @return error
-func (a *api) RollbackDomainEvents(ctx context.Context, req *runtimev1pb.RollbackDomainEventsRequest) (*runtimev1pb.RollbackDomainEventsResponse, error) {
-	return do[*runtimev1pb.RollbackDomainEventsResponse](ctx, "Rollback", req, func(ctx context.Context) (*runtimev1pb.RollbackDomainEventsResponse, error) {
+func (a *api) RollbackDomainEvents(ctx context.Context, req *runtimev1pb.RollbackDomainEventsRequest) (resResp *runtimev1pb.RollbackDomainEventsResponse, resErr error) {
+	defer func() {
+		resErr = utils.GetRecoverError(recover())
+	}()
+
+	return doEventStorage[*runtimev1pb.RollbackDomainEventsResponse](ctx, "Rollback", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.RollbackDomainEventsResponse, error) {
 		in := &dto.RollbackRequest{
 			SessionId: req.SessionId,
 			TenantId:  req.TenantId,
@@ -221,12 +214,7 @@ func (a *api) RollbackDomainEvents(ctx context.Context, req *runtimev1pb.Rollbac
 
 		apiServerLogger.Info(fmt.Sprintf("Rollback (sessionId=%s; tenantId=%s)", req.SessionId, req.TenantId))
 
-		es, err := a.getEventStorage(req.Headers.SpecName)
-		if err != nil {
-			return nil, err
-		}
-
-		_, err = es.Rollback(ctx, in)
+		_, err := es.Rollback(ctx, in)
 		if err != nil {
 			return nil, err
 		}
@@ -246,15 +234,9 @@ func (a *api) RollbackDomainEvents(ctx context.Context, req *runtimev1pb.Rollbac
 // @param request
 // @return *runtimev1pb.ApplyEventsResponse
 // @return error
-func (a *api) ApplyDomainEvent(ctx context.Context, req *runtimev1pb.ApplyDomainEventRequest) (resp *runtimev1pb.ApplyDomainEventResponse, reserr error) {
+func (a *api) ApplyDomainEvent(ctx context.Context, req *runtimev1pb.ApplyDomainEventRequest) (resp *runtimev1pb.ApplyDomainEventResponse, resErr error) {
 	defer func() {
-		if e := recover(); e != nil {
-			if err, ok := e.(error); ok {
-				reserr = err
-			} else {
-				reserr = errors.Errorf("%v", e)
-			}
-		}
+		resErr = utils.GetRecoverError(recover())
 	}()
 
 	log := fmt.Sprintf("ApplyEvent (sessionId=%s; aggregateId=%s; aggregateType=%s; events=%v; )", req.SessionId, req.AggregateId, req.AggregateType, len(req.Events))
@@ -264,16 +246,7 @@ func (a *api) ApplyDomainEvent(ctx context.Context, req *runtimev1pb.ApplyDomain
 	}
 	apiServerLogger.Info(log)
 
-	return do[*runtimev1pb.ApplyDomainEventResponse](ctx, "ApplyEvent", req, func(ctx context.Context) (*runtimev1pb.ApplyDomainEventResponse, error) {
-		if err := a.checkRequest("ApplyEvent", req); err != nil {
-			return nil, err
-		}
-
-		es, err := a.getEventStorage(req.Headers.SpecName)
-		if err != nil {
-			return nil, err
-		}
-
+	return doEventStorage[*runtimev1pb.ApplyDomainEventResponse](ctx, "ApplyDomainEvent", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.ApplyDomainEventResponse, error) {
 		events, err := newEvents(req.Events)
 		if err != nil {
 			apiServerLogger.Debug(err)
@@ -319,7 +292,7 @@ func (a *api) ApplyDomainEvent(ctx context.Context, req *runtimev1pb.ApplyDomain
 		}
 	}()
 
-	out, err := a.do(func() (any, error) {
+	out, err := a.doEventStorage(func() (any, error) {
 		if err := a.checkEventStorageComponent(); err != nil {
 			return nil, err
 		}
@@ -378,7 +351,7 @@ func (a *api) newResponseHeaders(out *dto.ResponseHeaders) *runtimev1pb.Response
 		}
 	}()
 
-	out, err := a.do(func() (any, error) {
+	out, err := a.doEventStorage(func() (any, error) {
 		if err := a.checkEventStorageComponent(); err != nil {
 			return nil, err
 		}
@@ -410,21 +383,10 @@ func (a *api) newResponseHeaders(out *dto.ResponseHeaders) *runtimev1pb.Response
 
 func (a *api) GetDomainEvents(ctx context.Context, req *runtimev1pb.GetDomainEventsRequest) (resp *runtimev1pb.GetDomainEventsResponse, respErr error) {
 	defer func() {
-		if e := recover(); e != nil {
-			if err, ok := e.(error); ok {
-				respErr = err
-			} else {
-				respErr = errors.Errorf("%v", e)
-			}
-		}
+		respErr = utils.GetRecoverError(recover())
 	}()
 
-	return do[*runtimev1pb.GetDomainEventsResponse](ctx, "GetEvents", req, func(ctx context.Context) (*runtimev1pb.GetDomainEventsResponse, error) {
-
-		if err := a.checkRequest("GetEvents", req); err != nil {
-			return nil, err
-		}
-
+	return doEventStorage[*runtimev1pb.GetDomainEventsResponse](ctx, "GetEvents", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.GetDomainEventsResponse, error) {
 		in := &dto.FindEventsRequest{
 			TenantId:      req.GetTenantId(),
 			AggregateType: req.GetAggregateType(),
@@ -432,11 +394,6 @@ func (a *api) GetDomainEvents(ctx context.Context, req *runtimev1pb.GetDomainEve
 			Sort:          req.GetSort(),
 			PageNum:       req.GetPageNum(),
 			PageSize:      req.GetPageSize(),
-		}
-
-		es, err := a.getEventStorage(req.Headers.SpecName)
-		if err != nil {
-			return nil, err
 		}
 
 		out, err := es.FindEvents(ctx, in)
@@ -488,19 +445,11 @@ func (a *api) GetDomainEvents(ctx context.Context, req *runtimev1pb.GetDomainEve
 
 func (a *api) GetDomainEventRelations(ctx context.Context, req *runtimev1pb.GetDomainEventRelationsRequest) (resp *runtimev1pb.GetDomainEventRelationsResponse, respErr error) {
 	defer func() {
-		if e := recover(); e != nil {
-			if err, ok := e.(error); ok {
-				respErr = err
-			} else {
-				respErr = errors.Errorf("%v", e)
-			}
-		}
+		respErr = utils.GetRecoverError(recover())
 	}()
 
-	return do[*runtimev1pb.GetDomainEventRelationsResponse](ctx, "GetRelations", req, func(ctx context.Context) (*runtimev1pb.GetDomainEventRelationsResponse, error) {
-		if err := a.checkRequest("GetRelations", req); err != nil {
-			return nil, err
-		}
+	return doEventStorage[*runtimev1pb.GetDomainEventRelationsResponse](ctx, "GetRelations", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.GetDomainEventRelationsResponse, error) {
+
 		in := &dto.FindRelationsRequest{
 			TenantId:      req.TenantId,
 			AggregateType: req.AggregateType,
@@ -508,11 +457,6 @@ func (a *api) GetDomainEventRelations(ctx context.Context, req *runtimev1pb.GetD
 			Sort:          req.Sort,
 			PageNum:       req.PageNum,
 			PageSize:      req.PageSize,
-		}
-
-		es, err := a.getEventStorage(req.Headers.SpecName)
-		if err != nil {
-			return nil, err
 		}
 
 		out, err := es.FindRelations(ctx, in)
@@ -558,7 +502,7 @@ func (a *api) mustEmbedUnimplementedDaprServer() {
 
 }
 
-func (a *api) checkRequest(methodName string, request interface{}) error {
+func checkRequest(methodName string, request interface{}) error {
 	if i, ok := request.(GetTenantId); ok {
 		if len(i.GetTenantId()) == 0 {
 			return fmt.Errorf("grpc.%s(request) error: request.TenantId is nil", methodName)
@@ -648,16 +592,16 @@ func mapAsStr(data map[string]interface{}) (*string, error) {
 	return &res, nil
 }
 
-func do[T any](ctx context.Context, funcName string, request Request, fun func(ctx context.Context) (T, error)) (res T, err error) {
+func doEventStorage[T any](ctx context.Context, funcName string, compName string, compStore *compstore.ComponentStore, request Request, fun func(ctx context.Context, es eventstorage.EventStorage) (T, error)) (res T, err error) {
 	defer func() {
-		if rec := recover(); rec != nil {
-			if e, ok := rec.(error); ok {
-				err = e
-			} else {
-				err = errors.Errorf("%s() error:%s", funcName, e.Error())
-			}
-		}
+		err = utils.GetRecoverError(recover())
 	}()
+
+	var null T
+
+	if err := checkRequest(funcName, request); err != nil {
+		return null, err
+	}
 
 	reqJson := ""
 	if request != nil {
@@ -673,13 +617,36 @@ func do[T any](ctx context.Context, funcName string, request Request, fun func(c
 
 	logs.Infof(newCtx, "<%s> %s() start, request: %s,. ", id, funcName, reqJson)
 
-	res, err = fun(newCtx)
+	es, err := getEventStorage(compStore, compName)
+	if err != nil {
+		return null, err
+	}
+	res, err = fun(newCtx, es)
 
 	endTime := time.Now()
 	space := endTime.Sub(startTime)
 
 	logs.Infof(newCtx, "<%s> %s() completed. useTime:%s. ", id, funcName, space.String())
 	return res, err
+}
+
+func getEventStorage(compStore *compstore.ComponentStore, compName string) (es eventstorage.EventStorage, err error) {
+	ok := false
+	if len(compName) == 0 && compStore.EventStoragesLen() == 1 {
+		loggers := compStore.ListEventStorage()
+		for _, item := range loggers {
+			es = item
+			ok = true
+			break
+		}
+	}
+	if !ok {
+		es, ok = compStore.GetEventStorage(compName)
+	}
+	if !ok {
+		return nil, errors.New(fmt.Sprintf(NotFindEventStorageErrorMsg, compName))
+	}
+	return es, nil
 }
 
 func NewResponseHeaders(status runtimev1pb.ResponseStatus, err error, values map[string]string) *runtimev1pb.ResponseHeaders {
@@ -727,23 +694,4 @@ func asTimestamp(t *time.Time) *timestamppb.Timestamp {
 		Nanos:   int32(t.Nanosecond()),
 	}
 	return timestamp
-}
-
-func (a *api) getEventStorage(specName string) (es eventstorage.EventStorage, err error) {
-	ok := false
-	if len(specName) == 0 && a.CompStore.EventStoragesLen() == 1 {
-		loggers := a.CompStore.ListEventStorage()
-		for _, item := range loggers {
-			es = item
-			ok = true
-			break
-		}
-	}
-	if !ok {
-		es, ok = a.CompStore.GetEventStorage(specName)
-	}
-	if !ok {
-		return nil, errors.New(fmt.Sprintf(notFindAppLoggerErrorMsg, specName))
-	}
-	return es, nil
 }

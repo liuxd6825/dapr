@@ -21,5 +21,5 @@ import (
 )
 
 func init() {
-	eventStorageLoader.DefaultRegistry.RegisterComponent(api.NewEventStorage, "mongodb")
+	eventStorageLoader.DefaultRegistry.Register(api.NewEventStorage, "eventstorage.mongodb", "v1")
 }

@@ -1145,7 +1145,6 @@ message PurgeWorkflowRequest {
 
 
 message RequestHeaders {
-  string spec_name = 1;
   map<string, string> values = 2;
 }
 
@@ -1166,7 +1165,7 @@ enum ResponseStatus {
 // LoadDomainEvent
 
 message LoadDomainEventRequest {
-  RequestHeaders headers = 1;
+  string comp_name = 1;
   string tenant_id = 2;
   string aggregate_id = 3;
   string aggregate_type = 4;
@@ -1174,6 +1173,7 @@ message LoadDomainEventRequest {
   uint64 page_num = 6;
   uint64 page_size = 7;
   bool is_total_rows = 8;
+  RequestHeaders headers = 100;
 }
 
 message LoadDomainEventResponse{
@@ -1209,7 +1209,8 @@ message LoadDomainEventResponse{
 // SaveDomainEventSnapshot
 
 message SaveDomainEventSnapshotRequest{
-  RequestHeaders headers = 1;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
   string tenant_id = 2;
   string aggregate_id = 3;
   string aggregate_type = 4;
@@ -1225,7 +1226,8 @@ message SaveDomainEventSnapshotResponse{
 
 // Commit
 message CommitDomainEventsRequest {
-  RequestHeaders headers = 1;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
   string session_id = 2;
   string tenant_id = 3;
 }
@@ -1237,7 +1239,8 @@ message CommitDomainEventsResponse {
 //  Rollback
 
 message RollbackDomainEventsRequest {
-  RequestHeaders headers = 1;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
   string session_id = 2;
   string tenant_id = 3;
 }
@@ -1249,12 +1252,13 @@ message RollbackDomainEventsResponse {
 // ApplyDomainEvent
 
 message ApplyDomainEventRequest{
-  RequestHeaders headers = 1;
-  string session_id = 2;
-  string tenant_id = 3;
-  string aggregate_id = 4;
-  string aggregate_type = 5;
-  repeated EventDto events = 6;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
+  string session_id = 3;
+  string tenant_id = 4;
+  string aggregate_id = 5;
+  string aggregate_type = 6;
+  repeated EventDto events = 7;
 }
 
 message ApplyDomainEventResponse{
@@ -1264,7 +1268,8 @@ message ApplyDomainEventResponse{
 // CreateEvent
 
 message CreateEventRequest{
-  RequestHeaders headers = 1;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
   string tenant_id = 2;
   string aggregate_id = 3;
   string aggregate_type = 4;
@@ -1278,7 +1283,8 @@ message CreateEventResponse{
 // DeleteEvent
 
 message DeleteEventRequest{
-  RequestHeaders headers = 1;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
   string tenant_id = 2;
   string aggregate_id = 3;
   string aggregate_type = 4;
@@ -1320,7 +1326,8 @@ message EventTypeDto {
 // GetDomainEventRelations
 
 message GetDomainEventRelationsRequest {
-  RequestHeaders headers = 1;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
   string tenant_id = 2;
   string aggregate_type = 3;
   string filter = 4;
@@ -1357,7 +1364,8 @@ message RelationDto {
 // GetDomainEvents
 
 message GetDomainEventsRequest {
-  RequestHeaders headers = 1;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
   string tenant_id = 2;
   string aggregate_type = 3;
   string filter = 4;
@@ -1394,10 +1402,9 @@ message GetDomainEventsItemDto {
 
 
 // Application Log
-
 message WriteAppEventLogRequest{
-  RequestHeaders headers = 1;
-
+  RequestHeaders headers = 100;
+  string comp_name = 1;
   string tenant_id = 2;
   string id = 3;
   string app_id = 4;
@@ -1421,7 +1428,8 @@ message WriteAppEventLogResponse{
 }
 
 message UpdateAppEventLogRequest {
-  RequestHeaders headers = 1;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
   string tenant_id = 2;
   string id = 3;
   string app_id = 4;
@@ -1445,7 +1453,8 @@ message UpdateAppEventLogResponse {
 // GetAppEventLogByCommandId
 
 message GetAppEventLogByCommandIdRequest {
-  RequestHeaders headers = 1;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
   string tenant_id = 2;
   string app_id = 3;
   string command_id = 4;
@@ -1477,16 +1486,17 @@ message GetAppEventLogByCommandIdResponse {
 
 
 message WriteAppLogRequest {
-  RequestHeaders headers = 1;
-  string  tenant_id = 2;
-  string  id = 3;
-  string  app_id = 4;
-  string  class = 5;
-  string  func = 6;
-  string  level = 7;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
+  string tenant_id = 2;
+  string id = 3;
+  string app_id = 4;
+  string class = 5;
+  string func = 6;
+  string level = 7;
   google.protobuf.Timestamp time = 8;
   bool status = 9;
-  string  message = 10;
+  string message = 10;
 }
 
 message WriteAppLogResponse {
@@ -1494,16 +1504,17 @@ message WriteAppLogResponse {
 }
 
 message UpdateAppLogRequest {
-  RequestHeaders headers = 1;
-  string  tenant_id = 2;
-  string  id = 3;
-  string  app_id = 4;
-  string  class = 5;
-  string  func = 6;
-  string  level = 7;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
+  string tenant_id = 2;
+  string id = 3;
+  string app_id = 4;
+  string class = 5;
+  string func = 6;
+  string level = 7;
   google.protobuf.Timestamp time = 8;
   bool status = 9;
-  string  message = 10;
+  string message = 10;
 }
 
 message UpdateAppLogResponse {
@@ -1513,9 +1524,10 @@ message UpdateAppLogResponse {
 // GetAppLogById
 
 message GetAppLogByIdRequest {
-  RequestHeaders headers = 1;
-  string  tenant_id = 2;
-  string  id = 3;
+  RequestHeaders headers = 100;
+  string comp_name = 1;
+  string tenant_id = 2;
+  string id = 3;
 }
 
 message GetAppLogByIdResponse {

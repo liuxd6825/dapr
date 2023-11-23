@@ -286,7 +286,7 @@ func (a *api) CallActor(ctx context.Context, in *internalv1pb.InternalInvokeRequ
 	}
 	defer req.Close()
 
-	// We don't do resiliency here as it is handled in the API layer. See InvokeActor().
+	// We don't doEventStorage resiliency here as it is handled in the API layer. See InvokeActor().
 	resp, err := a.Actors.Call(ctx, req)
 	if err != nil {
 		// We have to remove the error to keep the body, so callers must re-inspect for the header in the actual response.

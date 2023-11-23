@@ -6,25 +6,27 @@ import (
 	"fmt"
 	"github.com/liuxd6825/dapr-components-contrib/liuxd/applog"
 	runtimev1pb "github.com/liuxd6825/dapr/pkg/proto/runtime/v1"
+	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
+	"github.com/liuxd6825/dapr/utils"
 )
 
 const (
-	notFindAppLoggerErrorMsg = "not find appLogger spec name %v"
+	NotFindAppLoggerErrorMsg = "not find AppLogger name:%v "
 )
 
-func (a *api) WriteAppEventLog(ctx context.Context, request *runtimev1pb.WriteAppEventLogRequest) (*runtimev1pb.WriteAppEventLogResponse, error) {
-	resp, err := a.doAppLogger(request.Headers, func(logger applog.Logger) (any, error) {
-		time := request.Time.AsTime()
+func (a *api) WriteAppEventLog(ctx context.Context, req *runtimev1pb.WriteAppEventLogRequest) (*runtimev1pb.WriteAppEventLogResponse, error) {
+	return doAppLogger(ctx, req.CompName, a.CompStore, func(ctx context.Context, logger applog.Logger) (*runtimev1pb.WriteAppEventLogResponse, error) {
+		time := req.Time.AsTime()
 		req := &applog.WriteAppLogRequest{
-			Id:       request.Id,
-			TenantId: request.TenantId,
-			AppId:    request.AppId,
-			Class:    request.Class,
-			Func:     request.Func,
-			Level:    request.Level,
+			Id:       req.Id,
+			TenantId: req.TenantId,
+			AppId:    req.AppId,
+			Class:    req.Class,
+			Func:     req.Func,
+			Level:    req.Level,
 			Time:     &time,
-			Status:   request.Status,
-			Message:  request.Message,
+			Status:   req.Status,
+			Message:  req.Message,
 		}
 
 		_, err := logger.WriteAppLog(ctx, req)
@@ -36,26 +38,25 @@ func (a *api) WriteAppEventLog(ctx context.Context, request *runtimev1pb.WriteAp
 		}
 		return resp, err
 	})
-	return resp.(*runtimev1pb.WriteAppEventLogResponse), err
 }
 
-func (a *api) UpdateAppEventLog(ctx context.Context, request *runtimev1pb.UpdateAppEventLogRequest) (*runtimev1pb.UpdateAppEventLogResponse, error) {
-	resp, err := a.doAppLogger(request.Headers, func(logger applog.Logger) (any, error) {
-		time := request.Time.AsTime()
+func (a *api) UpdateAppEventLog(ctx context.Context, req *runtimev1pb.UpdateAppEventLogRequest) (*runtimev1pb.UpdateAppEventLogResponse, error) {
+	return doAppLogger[*runtimev1pb.UpdateAppEventLogResponse](ctx, req.CompName, a.CompStore, func(ctx context.Context, logger applog.Logger) (*runtimev1pb.UpdateAppEventLogResponse, error) {
+		time := req.Time.AsTime()
 		req := &applog.WriteEventLogRequest{
-			Id:       request.Id,
-			TenantId: request.TenantId,
-			AppId:    request.AppId,
-			Class:    request.Class,
-			Func:     request.Func,
-			Level:    request.Level,
+			Id:       req.Id,
+			TenantId: req.TenantId,
+			AppId:    req.AppId,
+			Class:    req.Class,
+			Func:     req.Func,
+			Level:    req.Level,
 			Time:     &time,
-			Status:   request.Status,
-			Message:  request.Message,
+			Status:   req.Status,
+			Message:  req.Message,
 
-			PubAppId:  request.PubAppId,
-			EventId:   request.EventId,
-			CommandId: request.CommandId,
+			PubAppId:  req.PubAppId,
+			EventId:   req.EventId,
+			CommandId: req.CommandId,
 		}
 
 		_, err := logger.WriteEventLog(ctx, req)
@@ -65,24 +66,22 @@ func (a *api) UpdateAppEventLog(ctx context.Context, request *runtimev1pb.Update
 		resp := &runtimev1pb.UpdateAppEventLogResponse{}
 		return resp, err
 	})
-	return resp.(*runtimev1pb.UpdateAppEventLogResponse), err
 }
 
-func (a *api) GetAppEventLogByCommandId(ctx context.Context, request *runtimev1pb.GetAppEventLogByCommandIdRequest) (*runtimev1pb.GetAppEventLogByCommandIdResponse, error) {
-	req := &applog.GetEventLogByCommandIdRequest{
-		TenantId:  request.TenantId,
-		AppId:     request.AppId,
-		CommandId: request.CommandId,
-	}
+func (a *api) GetAppEventLogByCommandId(ctx context.Context, req *runtimev1pb.GetAppEventLogByCommandIdRequest) (*runtimev1pb.GetAppEventLogByCommandIdResponse, error) {
+	return doAppLogger[*runtimev1pb.GetAppEventLogByCommandIdResponse](ctx, req.CompName, a.CompStore, func(ctx context.Context, logger applog.Logger) (*runtimev1pb.GetAppEventLogByCommandIdResponse, error) {
+		req := &applog.GetEventLogByCommandIdRequest{
+			TenantId:  req.TenantId,
+			AppId:     req.AppId,
+			CommandId: req.CommandId,
+		}
 
-	val, err := a.doAppLogger(request.Headers, func(logger applog.Logger) (any, error) {
-		return logger.GetEventLogByCommandId(ctx, req)
+		val, err := logger.GetEventLogByCommandId(ctx, req)
+		if err != nil {
+			return nil, err
+		}
+		return a.newGetAppEventLogByCommandIdResponse(val)
 	})
-	if err != nil {
-		return nil, err
-	}
-
-	return a.newGetAppEventLogByCommandIdResponse(val.(*applog.GetEventLogByCommandIdResponse))
 }
 
 func (a *api) newGetAppEventLogByCommandIdResponse(val *applog.GetEventLogByCommandIdResponse) (*runtimev1pb.GetAppEventLogByCommandIdResponse, error) {
@@ -112,19 +111,19 @@ func (a *api) newGetAppEventLogByCommandIdResponse(val *applog.GetEventLogByComm
 	return resp, nil
 }
 
-func (a *api) WriteAppLog(ctx context.Context, request *runtimev1pb.WriteAppLogRequest) (*runtimev1pb.WriteAppLogResponse, error) {
-	resp, err := a.doAppLogger(request.Headers, func(logger applog.Logger) (any, error) {
-		time := request.Time.AsTime()
+func (a *api) WriteAppLog(ctx context.Context, req *runtimev1pb.WriteAppLogRequest) (*runtimev1pb.WriteAppLogResponse, error) {
+	return doAppLogger[*runtimev1pb.WriteAppLogResponse](ctx, req.CompName, a.CompStore, func(ctx context.Context, logger applog.Logger) (*runtimev1pb.WriteAppLogResponse, error) {
+		time := req.Time.AsTime()
 		req := &applog.WriteAppLogRequest{
-			Id:       request.Id,
-			TenantId: request.TenantId,
-			AppId:    request.AppId,
-			Class:    request.Class,
-			Func:     request.Func,
-			Level:    request.Level,
+			Id:       req.Id,
+			TenantId: req.TenantId,
+			AppId:    req.AppId,
+			Class:    req.Class,
+			Func:     req.Func,
+			Level:    req.Level,
 			Time:     &time,
-			Status:   request.Status,
-			Message:  request.Message,
+			Status:   req.Status,
+			Message:  req.Message,
 		}
 
 		_, err := logger.WriteAppLog(ctx, req)
@@ -137,23 +136,21 @@ func (a *api) WriteAppLog(ctx context.Context, request *runtimev1pb.WriteAppLogR
 		}
 		return resp, nil
 	})
-
-	return resp.(*runtimev1pb.WriteAppLogResponse), err
 }
 
-func (a *api) UpdateAppLog(ctx context.Context, request *runtimev1pb.UpdateAppLogRequest) (*runtimev1pb.UpdateAppLogResponse, error) {
-	resp, err := a.doAppLogger(request.Headers, func(logger applog.Logger) (any, error) {
-		time := request.Time.AsTime()
+func (a *api) UpdateAppLog(ctx context.Context, req *runtimev1pb.UpdateAppLogRequest) (*runtimev1pb.UpdateAppLogResponse, error) {
+	return doAppLogger[*runtimev1pb.UpdateAppLogResponse](ctx, req.CompName, a.CompStore, func(ctx context.Context, logger applog.Logger) (*runtimev1pb.UpdateAppLogResponse, error) {
+		time := req.Time.AsTime()
 		req := &applog.UpdateAppLogRequest{
-			Id:       request.Id,
-			TenantId: request.TenantId,
-			AppId:    request.AppId,
-			Class:    request.Class,
-			Func:     request.Func,
-			Level:    request.Level,
+			Id:       req.Id,
+			TenantId: req.TenantId,
+			AppId:    req.AppId,
+			Class:    req.Class,
+			Func:     req.Func,
+			Level:    req.Level,
 			Time:     &time,
-			Status:   request.Status,
-			Message:  request.Message,
+			Status:   req.Status,
+			Message:  req.Message,
 		}
 
 		_, err := logger.UpdateAppLog(ctx, req)
@@ -166,12 +163,10 @@ func (a *api) UpdateAppLog(ctx context.Context, request *runtimev1pb.UpdateAppLo
 		}
 		return resp, nil
 	})
-
-	return resp.(*runtimev1pb.UpdateAppLogResponse), err
 }
 
 func (a *api) GetAppLogById(ctx context.Context, request *runtimev1pb.GetAppLogByIdRequest) (*runtimev1pb.GetAppLogByIdResponse, error) {
-	resp, err := a.doAppLogger(request.Headers, func(logger applog.Logger) (any, error) {
+	return doAppLogger[*runtimev1pb.GetAppLogByIdResponse](ctx, request.CompName, a.CompStore, func(ctx context.Context, logger applog.Logger) (*runtimev1pb.GetAppLogByIdResponse, error) {
 		req := &applog.GetAppLogByIdRequest{
 			TenantId: request.TenantId,
 			Id:       request.Id,
@@ -182,7 +177,6 @@ func (a *api) GetAppLogById(ctx context.Context, request *runtimev1pb.GetAppLogB
 		}
 		return a.newGetAppLogByIdResponse(data)
 	})
-	return resp.(*runtimev1pb.GetAppLogByIdResponse), err
 }
 
 func (a *api) newGetAppLogByIdResponse(val *applog.GetAppLogByIdResponse) (*runtimev1pb.GetAppLogByIdResponse, error) {
@@ -201,25 +195,22 @@ func (a *api) newGetAppLogByIdResponse(val *applog.GetAppLogByIdResponse) (*runt
 	return resp, nil
 }
 
-func (a *api) doAppLogger(headers *runtimev1pb.RequestHeaders, fun func(logger applog.Logger) (any, error)) (response any, err error) {
+func doAppLogger[T any](ctx context.Context, compName string, compStore *compstore.ComponentStore, fun func(ctx context.Context, logger applog.Logger) (T, error)) (response T, err error) {
 	defer func() {
-		if e := recover(); e != nil {
-			if e1, ok := e.(error); ok {
-				err = e1
-			}
-		}
+		err = utils.GetRecoverError(recover())
 	}()
-	appLogger, err := a.getAppLogger(headers.SpecName)
+	var null T
+	appLogger, err := getAppLogger(compName, compStore)
 	if err != nil {
-		return nil, err
+		return null, err
 	}
-	return fun(appLogger)
+	return fun(ctx, appLogger)
 }
 
-func (a *api) getAppLogger(specName string) (appLogger applog.Logger, err error) {
+func getAppLogger(compName string, compStore *compstore.ComponentStore) (appLogger applog.Logger, err error) {
 	ok := false
-	if len(specName) == 0 {
-		loggers := a.CompStore.ListAppLogger()
+	if len(compName) == 0 {
+		loggers := compStore.ListAppLogger()
 		for _, item := range loggers {
 			appLogger = item
 			ok = true
@@ -227,10 +218,10 @@ func (a *api) getAppLogger(specName string) (appLogger applog.Logger, err error)
 		}
 	}
 	if !ok {
-		appLogger, ok = a.CompStore.GetAppLogger(specName)
+		appLogger, ok = compStore.GetAppLogger(compName)
 	}
 	if !ok {
-		return nil, errors.New(fmt.Sprintf(notFindAppLoggerErrorMsg, specName))
+		return nil, errors.New(fmt.Sprintf(NotFindAppLoggerErrorMsg, compName))
 	}
 	return appLogger, nil
 }
