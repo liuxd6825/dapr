@@ -48,7 +48,7 @@ const (
 // @return error
 func (a *api) LoadDomainEvent(ctx context.Context, req *runtimev1pb.LoadDomainEventRequest) (resp *runtimev1pb.LoadDomainEventResponse, respErr error) {
 	defer func() {
-		respErr = utils.GetRecoverError(recover())
+		respErr = utils.GetRecoverError(respErr, recover())
 	}()
 	_, err := doEventStorage[*runtimev1pb.LoadDomainEventResponse](ctx, "LoadEvents", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.LoadDomainEventResponse, error) {
 
@@ -128,7 +128,7 @@ func (a *api) LoadDomainEvent(ctx context.Context, req *runtimev1pb.LoadDomainEv
 // @return error
 func (a *api) SaveDomainEventSnapshot(ctx context.Context, req *runtimev1pb.SaveDomainEventSnapshotRequest) (resp *runtimev1pb.SaveDomainEventSnapshotResponse, respErr error) {
 	defer func() {
-		respErr = utils.GetRecoverError(recover())
+		respErr = utils.GetRecoverError(respErr, recover())
 	}()
 	_, err := doEventStorage[*runtimev1pb.SaveDomainEventSnapshotResponse](ctx, "SaveSnapshot", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.SaveDomainEventSnapshotResponse, error) {
 		aggregateData, err := newMapInterface(req.AggregateData)
@@ -176,7 +176,7 @@ func (a *api) SaveDomainEventSnapshot(ctx context.Context, req *runtimev1pb.Save
 // @return error
 func (a *api) CommitDomainEvents(ctx context.Context, req *runtimev1pb.CommitDomainEventsRequest) (resResp *runtimev1pb.CommitDomainEventsResponse, resErr error) {
 	defer func() {
-		resErr = utils.GetRecoverError(recover())
+		resErr = utils.GetRecoverError(resErr, recover())
 	}()
 
 	return doEventStorage[*runtimev1pb.CommitDomainEventsResponse](ctx, "Commit", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.CommitDomainEventsResponse, error) {
@@ -203,7 +203,7 @@ func (a *api) CommitDomainEvents(ctx context.Context, req *runtimev1pb.CommitDom
 // @return error
 func (a *api) RollbackDomainEvents(ctx context.Context, req *runtimev1pb.RollbackDomainEventsRequest) (resResp *runtimev1pb.RollbackDomainEventsResponse, resErr error) {
 	defer func() {
-		resErr = utils.GetRecoverError(recover())
+		resErr = utils.GetRecoverError(resErr, recover())
 	}()
 
 	return doEventStorage[*runtimev1pb.RollbackDomainEventsResponse](ctx, "Rollback", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.RollbackDomainEventsResponse, error) {
@@ -236,7 +236,7 @@ func (a *api) RollbackDomainEvents(ctx context.Context, req *runtimev1pb.Rollbac
 // @return error
 func (a *api) ApplyDomainEvent(ctx context.Context, req *runtimev1pb.ApplyDomainEventRequest) (resp *runtimev1pb.ApplyDomainEventResponse, resErr error) {
 	defer func() {
-		resErr = utils.GetRecoverError(recover())
+		resErr = utils.GetRecoverError(resErr, recover())
 	}()
 
 	log := fmt.Sprintf("ApplyEvent (sessionId=%s; aggregateId=%s; aggregateType=%s; events=%v; )", req.SessionId, req.AggregateId, req.AggregateType, len(req.Events))
@@ -383,7 +383,7 @@ func (a *api) newResponseHeaders(out *dto.ResponseHeaders) *runtimev1pb.Response
 
 func (a *api) GetDomainEvents(ctx context.Context, req *runtimev1pb.GetDomainEventsRequest) (resp *runtimev1pb.GetDomainEventsResponse, respErr error) {
 	defer func() {
-		respErr = utils.GetRecoverError(recover())
+		respErr = utils.GetRecoverError(respErr, recover())
 	}()
 
 	return doEventStorage[*runtimev1pb.GetDomainEventsResponse](ctx, "GetEvents", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.GetDomainEventsResponse, error) {
@@ -445,7 +445,7 @@ func (a *api) GetDomainEvents(ctx context.Context, req *runtimev1pb.GetDomainEve
 
 func (a *api) GetDomainEventRelations(ctx context.Context, req *runtimev1pb.GetDomainEventRelationsRequest) (resp *runtimev1pb.GetDomainEventRelationsResponse, respErr error) {
 	defer func() {
-		respErr = utils.GetRecoverError(recover())
+		respErr = utils.GetRecoverError(respErr, recover())
 	}()
 
 	return doEventStorage[*runtimev1pb.GetDomainEventRelationsResponse](ctx, "GetRelations", req.CompName, a.CompStore, req, func(ctx context.Context, es eventstorage.EventStorage) (*runtimev1pb.GetDomainEventRelationsResponse, error) {
@@ -594,7 +594,7 @@ func mapAsStr(data map[string]interface{}) (*string, error) {
 
 func doEventStorage[T any](ctx context.Context, funcName string, compName string, compStore *compstore.ComponentStore, request Request, fun func(ctx context.Context, es eventstorage.EventStorage) (T, error)) (res T, err error) {
 	defer func() {
-		err = utils.GetRecoverError(recover())
+		err = utils.GetRecoverError(err, recover())
 	}()
 
 	var null T

@@ -2,22 +2,24 @@ package utils
 
 import "errors"
 
-func GetRecoverError(re any) (err error) {
-	err = nil
-	if re != nil {
-		switch re.(type) {
+func GetRecoverError(err error, recErr any) (resErr error) {
+	if err != nil {
+		return err
+	}
+	if recErr != nil {
+		switch recErr.(type) {
 		case string:
 			{
-				msg, _ := re.(string)
-				err = errors.New(msg)
+				msg, _ := recErr.(string)
+				resErr = errors.New(msg)
 			}
 		case error:
 			{
-				if e, ok := re.(error); ok {
-					err = e
+				if e, ok := recErr.(error); ok {
+					resErr = e
 				}
 			}
 		}
 	}
-	return err
+	return resErr
 }

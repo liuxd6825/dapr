@@ -197,7 +197,7 @@ func (a *api) newGetAppLogByIdResponse(val *applog.GetAppLogByIdResponse) (*runt
 
 func doAppLogger[T any](ctx context.Context, compName string, compStore *compstore.ComponentStore, fun func(ctx context.Context, logger applog.Logger) (T, error)) (response T, err error) {
 	defer func() {
-		err = utils.GetRecoverError(recover())
+		err = utils.GetRecoverError(err, recover())
 	}()
 	var null T
 	appLogger, err := getAppLogger(compName, compStore)
