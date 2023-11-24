@@ -15,7 +15,7 @@ package compstore
 
 import (
 	"github.com/liuxd6825/dapr-components-contrib/liuxd/applog"
-	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstore"
 	"sync"
 
 	"github.com/liuxd6825/dapr-components-contrib/bindings"
@@ -37,7 +37,7 @@ import (
 type ComponentStore struct {
 	lock sync.RWMutex
 
-	eventStorages map[string]eventstorage.EventStorage
+	eventStorages map[string]eventstore.EventStore
 	appLoggers    map[string]applog.Logger
 
 	states                  map[string]state.Store
@@ -74,7 +74,7 @@ func New() *ComponentStore {
 		cryptoProviders:         make(map[string]crypto.SubtleCrypto),
 		topicRoutes:             make(map[string]TopicRoutes),
 
-		eventStorages: make(map[string]eventstorage.EventStorage),
+		eventStorages: make(map[string]eventstore.EventStore),
 		appLoggers:    make(map[string]applog.Logger),
 	}
 }

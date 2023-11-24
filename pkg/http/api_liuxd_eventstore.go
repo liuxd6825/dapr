@@ -3,8 +3,8 @@ package http
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage"
-	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage/dto"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstore"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstore/dto"
 	"github.com/pkg/errors"
 	"github.com/valyala/fasthttp"
 	"net/http"
@@ -26,37 +26,37 @@ func (a *api) constructEventSourcingEndpoints() []Endpoint {
 	return []Endpoint{
 		{
 			Methods:         []string{fasthttp.MethodGet},
-			Route:           "event-storage/{specName}/events/tenants/{tenantId}/aggregate-types/{aggregateType}/aggregate-id/{aggregateId}",
+			Route:           "event-store/{specName}/events/tenants/{tenantId}/aggregate-types/{aggregateType}/aggregate-id/{aggregateId}",
 			Version:         apiVersionV1,
 			FastHTTPHandler: a.getEventById,
 		},
 		{
 			Methods:         []string{fasthttp.MethodPost},
-			Route:           "event-storage/{specName}/events/apply-events",
+			Route:           "event-store/{specName}/events/apply-events",
 			Version:         apiVersionV1,
 			FastHTTPHandler: a.applyEvents,
 		},
 		/*		{
 				Methods: []string{fasthttp.MethodPost},
-				Route:   "event-storage/events/create-aggregate",
+				Route:   "event-store/events/create-aggregate",
 				Version: apiVersionV1,
 				Handler: a.createEvent,
 			},*/
 		/*		{
 				Methods: []string{fasthttp.MethodGet},
-				Route:   "event-storage/aggregates/{tenantId}/{id}",
+				Route:   "event-store/aggregates/{tenantId}/{id}",
 				Version: apiVersionV1,
 				Handler: a.getAggregateById,
 			},*/
 		{
 			Methods:         []string{fasthttp.MethodPost},
-			Route:           "event-storage/{specName}/snapshot/save",
+			Route:           "event-store/{specName}/snapshot/save",
 			Version:         apiVersionV1,
 			FastHTTPHandler: a.saveSnapshot,
 		},
 		{
 			Methods:         []string{fasthttp.MethodGet},
-			Route:           "event-storage/{specName}/relations/tenants/{tenantId}/aggregate-types/{aggregateType}",
+			Route:           "event-store/{specName}/relations/tenants/{tenantId}/aggregate-types/{aggregateType}",
 			Version:         apiVersionV1,
 			FastHTTPHandler: a.getRelations,
 		},
@@ -67,9 +67,9 @@ func (a *api) getEventSourcingName(reqCtx *fasthttp.RequestCtx) string {
 	return reqCtx.UserValue(eventSourcingSpecName).(string)
 }
 
-func (a *api) getEventSourcing(ctx *fasthttp.RequestCtx) (eventstorage.EventStorage, error) {
+func (a *api) getEventSourcing(ctx *fasthttp.RequestCtx) (eventstore.EventStore, error) {
 	name := a.getAppLoggerName(ctx)
-	es, ok := a.universal.CompStore.GetEventStorage(name)
+	es, ok := a.universal.CompStore.GetEventStore(name)
 	if !ok {
 		return nil, errors.New(fmt.Sprintf(notFindEventSourcingErrorMsg, name))
 	}
@@ -82,7 +82,7 @@ func (a *api) getEventSourcing(ctx *fasthttp.RequestCtx) (eventstorage.EventStor
 	}
 	tenantId := ctx.UserValue("tenantId").(string)
 	id := ctx.UserValue("id").(string)
-	req := &eventstorage.ExistAggregateRequest{
+	req := &eventstore.ExistAggregateRequest{
 		TenantId:    tenantId,
 		AggregateId: id,
 	}
@@ -258,7 +258,7 @@ func setResponseData(ctx *fasthttp.RequestCtx, data interface{}, err error) {
 		respErr := &ResponseError{
 			Error:         err.Error(),
 			AppName:       "dapr",
-			ComponentName: "eventstorage",
+			ComponentName: "eventstore",
 		}
 		_, _ = ctx.Write(getJsonBytes(respErr))
 		ctx.SetStatusCode(http.StatusInternalServerError)

@@ -17,7 +17,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/liuxd6825/dapr/pkg/runtime/processor/liuxd/applogger"
-	"github.com/liuxd6825/dapr/pkg/runtime/processor/liuxd/eventstorage"
+	"github.com/liuxd6825/dapr/pkg/runtime/processor/liuxd/eventstore"
 	"strings"
 	"sync"
 
@@ -209,8 +209,8 @@ func New(opts Options) *Processor {
 				Meta:           opts.Meta,
 				PubsubAdapter:  ps,
 			}),
-			components.CategoryEventStorage: eventstorage.New(eventstorage.Options{
-				Registry:       opts.Registry.EventStorage(),
+			components.CategoryEventStore: eventstore.New(eventstore.Options{
+				Registry:       opts.Registry.EventStore(),
 				ComponentStore: opts.ComponentStore,
 				Meta:           opts.Meta,
 				PubsubAdapter:  ps,

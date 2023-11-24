@@ -18,7 +18,7 @@ import (
 	"github.com/liuxd6825/dapr/pkg/components/configuration"
 	"github.com/liuxd6825/dapr/pkg/components/crypto"
 	"github.com/liuxd6825/dapr/pkg/components/liuxd/applogger"
-	"github.com/liuxd6825/dapr/pkg/components/liuxd/eventstorage"
+	"github.com/liuxd6825/dapr/pkg/components/liuxd/eventstore"
 	"github.com/liuxd6825/dapr/pkg/components/lock"
 	"github.com/liuxd6825/dapr/pkg/components/middleware/http"
 	"github.com/liuxd6825/dapr/pkg/components/nameresolution"
@@ -41,7 +41,7 @@ type Options struct {
 	workflow           *workflows.Registry
 	crypto             *crypto.Registry
 	componentsCallback ComponentsCallback
-	eventStorage       *eventstorage.Registry
+	eventStore         *eventstore.Registry
 	appLogger          *applogger.Registry
 }
 
@@ -56,7 +56,7 @@ func NewOptions() *Options {
 		binding:        bindings.DefaultRegistry,
 		httpMiddleware: http.DefaultRegistry,
 		crypto:         crypto.DefaultRegistry,
-		eventStorage:   eventstorage.DefaultRegistry,
+		eventStore:     eventstore.DefaultRegistry,
 	}
 }
 
@@ -126,9 +126,9 @@ func (o *Options) WithComponentsCallback(componentsCallback ComponentsCallback) 
 	return o
 }
 
-// WithEventStorage adds event storage to the runtime.
-func (o *Options) WithEventStorage(registry *eventstorage.Registry) *Options {
-	o.eventStorage = registry
+// WithEventStore adds event storage to the runtime.
+func (o *Options) WithEventStore(registry *eventstore.Registry) *Options {
+	o.eventStore = registry
 	return o
 }
 

@@ -16,10 +16,10 @@ limitations under the License.
 package components
 
 import (
-	api "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage/api"
-	eventStorageLoader "github.com/liuxd6825/dapr/pkg/components/liuxd/eventstorage"
+	api "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstore/api"
+	eventStoreLoader "github.com/liuxd6825/dapr/pkg/components/liuxd/eventstore"
 )
 
 func init() {
-	eventStorageLoader.DefaultRegistry.Register(api.NewEventStorage, "eventstorage.mongodb", "v1")
+	eventStoreLoader.DefaultRegistry.Register(api.NewEventStore, "eventstore.mongodb", "v1")
 }

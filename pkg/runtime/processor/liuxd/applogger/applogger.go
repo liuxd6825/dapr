@@ -139,7 +139,7 @@ func (s *appLogger) Close(comp compapi.Component) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	ss, ok := s.compStore.GetEventStorage(comp.Name)
+	ss, ok := s.compStore.GetEventStore(comp.Name)
 	if !ok {
 		return nil
 	}

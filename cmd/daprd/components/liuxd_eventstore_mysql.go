@@ -17,7 +17,7 @@ package components
 
 import (
 	api "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage/api"
-	eventStorageLoader "github.com/liuxd6825/dapr/pkg/components/liuxd/eventstorage"
+	eventStorageLoader "github.com/liuxd6825/dapr/pkg/components/liuxd/eventstore"
 )
 
 func init() {

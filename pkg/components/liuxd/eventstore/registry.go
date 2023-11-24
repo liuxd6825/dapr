@@ -1,10 +1,10 @@
-package eventstorage
+package eventstore
 
 import (
 	"github.com/dapr/kit/logger"
 	"strings"
 
-	es "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage"
+	es "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstore"
 	"github.com/pkg/errors"
 )
 
@@ -12,7 +12,7 @@ type (
 	EventStoreFactory struct {
 		SpaceType     string
 		Version       string
-		FactoryMethod func(logger logger.Logger) es.EventStorage
+		FactoryMethod func(logger logger.Logger) es.EventStore
 	}
 
 	Registry struct {
@@ -24,7 +24,7 @@ type (
 // DefaultRegistry is the singleton with the registry.
 var DefaultRegistry *Registry = NewRegistry()
 
-func New(spaceType string, factoryMethod func(logger logger.Logger) es.EventStorage) EventStoreFactory {
+func New(spaceType string, factoryMethod func(logger logger.Logger) es.EventStore) EventStoreFactory {
 	return EventStoreFactory{
 		SpaceType:     spaceType,
 		FactoryMethod: factoryMethod,
@@ -38,7 +38,7 @@ func NewRegistry() *Registry {
 }
 
 // Register registers one or more new message buses.
-func (p *Registry) Register(newFactory func(logger.Logger) es.EventStorage, spaceType string, version string) {
+func (p *Registry) Register(newFactory func(logger.Logger) es.EventStore, spaceType string, version string) {
 	p.factories[createFullName(spaceType, version)] = &EventStoreFactory{
 		SpaceType:     spaceType,
 		Version:       version,
@@ -46,8 +46,8 @@ func (p *Registry) Register(newFactory func(logger.Logger) es.EventStorage, spac
 	}
 }
 
-// Create instantiates a EventStorage based on `name`.
-func (p *Registry) Create(compName string, spaceType string, version string) (es.EventStorage, error) {
+// Create instantiates a EventStore based on `name`.
+func (p *Registry) Create(compName string, spaceType string, version string) (es.EventStore, error) {
 	if factory, ok := p.getFactory(spaceType, version); ok {
 		return factory.FactoryMethod(p.Logger), nil
 	}

@@ -1,14 +1,14 @@
-package eventstorage
+package eventstore
 
 import (
 	"context"
 	"github.com/dapr/kit/logger"
 	"github.com/liuxd6825/dapr-components-contrib/liuxd/common"
-	contrib "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage"
-	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage/impl/gorm_impl"
-	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage/impl/mongo_impl"
+	contrib "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstore"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstore/impl/gorm_impl"
+	"github.com/liuxd6825/dapr-components-contrib/liuxd/eventstore/impl/mongo_impl"
 	compapi "github.com/liuxd6825/dapr/pkg/apis/components/v1alpha1"
-	components "github.com/liuxd6825/dapr/pkg/components/liuxd/eventstorage"
+	components "github.com/liuxd6825/dapr/pkg/components/liuxd/eventstore"
 	diag "github.com/liuxd6825/dapr/pkg/diagnostics"
 	"github.com/liuxd6825/dapr/pkg/encryption"
 	"github.com/liuxd6825/dapr/pkg/runtime/compstore"
@@ -115,7 +115,7 @@ func (s *eventStorage) Init(ctx context.Context, comp compapi.Component) error {
 			return rterrors.NewInit(rterrors.InitComponentFailure, fName, err)
 		}
 
-		s.compStore.AddEventStorage(comp.ObjectMeta.Name, store)
+		s.compStore.AddEventStore(comp.ObjectMeta.Name, store)
 
 		diag.DefaultMonitoring.ComponentInitialized(comp.Spec.Type)
 	}
@@ -127,7 +127,7 @@ func (s *eventStorage) Close(comp compapi.Component) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
-	ss, ok := s.compStore.GetEventStorage(comp.Name)
+	ss, ok := s.compStore.GetEventStore(comp.Name)
 	if !ok {
 		return nil
 	}

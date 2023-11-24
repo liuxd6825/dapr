@@ -18,7 +18,7 @@ import (
 	"github.com/liuxd6825/dapr/pkg/components/configuration"
 	"github.com/liuxd6825/dapr/pkg/components/crypto"
 	"github.com/liuxd6825/dapr/pkg/components/liuxd/applogger"
-	"github.com/liuxd6825/dapr/pkg/components/liuxd/eventstorage"
+	"github.com/liuxd6825/dapr/pkg/components/liuxd/eventstore"
 	"github.com/liuxd6825/dapr/pkg/components/lock"
 	"github.com/liuxd6825/dapr/pkg/components/middleware/http"
 	"github.com/liuxd6825/dapr/pkg/components/nameresolution"
@@ -50,7 +50,7 @@ type Registry struct {
 	workflow       *workflows.Registry
 	crypto         *crypto.Registry
 
-	eventStorage *eventstorage.Registry
+	eventStorage *eventstore.Registry
 	appLogger    *applogger.Registry
 
 	componentCb ComponentsCallback
@@ -69,7 +69,7 @@ func New(opts *Options) *Registry {
 		workflow:       opts.workflow,
 		crypto:         opts.crypto,
 
-		eventStorage: opts.eventStorage,
+		eventStorage: opts.eventStore,
 		appLogger:    opts.appLogger,
 
 		componentCb: opts.componentsCallback,
@@ -116,7 +116,7 @@ func (r *Registry) Crypto() *crypto.Registry {
 	return r.crypto
 }
 
-func (r *Registry) EventStorage() *eventstorage.Registry {
+func (r *Registry) EventStore() *eventstore.Registry {
 	return r.eventStorage
 }
 

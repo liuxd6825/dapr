@@ -86,10 +86,10 @@ import (
 	"github.com/liuxd6825/dapr-components-contrib/secretstores"
 	"github.com/liuxd6825/dapr-components-contrib/state"
 
-	es "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage"
+	es "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstore"
 	"github.com/liuxd6825/dapr/pkg/apis/common"
 	applog_loader "github.com/liuxd6825/dapr/pkg/components/liuxd/applogger"
-	es_loader "github.com/liuxd6825/dapr/pkg/components/liuxd/eventstorage"
+	es_loader "github.com/liuxd6825/dapr/pkg/components/liuxd/eventstore"
 	runtime_pubsub "github.com/liuxd6825/dapr/pkg/runtime/pubsub"
 )
 
@@ -145,7 +145,7 @@ type DaprRuntime struct {
 	runnerCloser            *concurrency.RunnerCloserManager
 
 	eventStorageRegistry es_loader.Registry // 事件存储注册器
-	eventStorage         es.EventStorage    // 事件存储处理
+	eventStorage         es.EventStore      // 事件存储处理
 
 	applogRegistry applog_loader.Registry
 	appLogger      applog.Logger

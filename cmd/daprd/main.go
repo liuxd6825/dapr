@@ -17,7 +17,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/liuxd6825/dapr/pkg/components/liuxd/applogger"
-	"github.com/liuxd6825/dapr/pkg/components/liuxd/eventstorage"
+	"github.com/liuxd6825/dapr/pkg/components/liuxd/eventstore"
 	"os"
 
 	"go.uber.org/automaxprocs/maxprocs"
@@ -94,7 +94,7 @@ func main() {
 	bindingsLoader.DefaultRegistry.Logger = logContrib
 	workflowsLoader.DefaultRegistry.Logger = logContrib
 	httpMiddlewareLoader.DefaultRegistry.Logger = log // Note this uses log on purpose
-	eventstorage.DefaultRegistry.Logger = logContrib
+	eventstore.DefaultRegistry.Logger = logContrib
 	applogger.DefaultRegistry.Logger = logContrib
 
 	reg := registry.NewOptions().
@@ -108,7 +108,7 @@ func main() {
 		WithCryptoProviders(cryptoLoader.DefaultRegistry).
 		WithHTTPMiddlewares(httpMiddlewareLoader.DefaultRegistry).
 		WithWorkflows(workflowsLoader.DefaultRegistry).
-		WithEventStorage(eventstorage.DefaultRegistry).
+		WithEventStore(eventstore.DefaultRegistry).
 		WithAppLogger(applogger.DefaultRegistry)
 
 	ctx := signals.Context()

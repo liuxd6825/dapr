@@ -27,6 +27,6 @@ const (
 	CategoryCryptoProvider Category = "crypto"
 	CategoryLock           Category = "lock"
 	CategoryNameResolution Category = "nameresolution"
-	CategoryEventStorage   Category = "eventstorage"
 	CategoryAppLogger      Category = "applogger"
+	CategoryEventStore     Category = "eventstore"
 )
