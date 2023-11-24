@@ -40,13 +40,11 @@ func NewRegistry() *Registry {
 // Register registers one or more new message buses.
 func (p *Registry) Register(factoryMethod func(log logger.Logger) applog.Logger, name string, version string) {
 	key := createFullName(name, version)
-	fmt.Println(key)
 	p.messageBuses[key] = factoryMethod
 }
 
 // Create instantiates a applogger on `name`.
 func (p *Registry) Create(typename, version string) (applog.Logger, error) {
-	fmt.Println(typename)
 	if method, ok := p.getAppLoggerSourcing(typename, version); ok {
 		return method(p.Logger), nil
 	}
@@ -57,7 +55,6 @@ func (p *Registry) getAppLoggerSourcing(typename, version string) (func(log logg
 	nameLower := strings.ToLower(typename)
 	versionLower := strings.ToLower(version)
 	key := nameLower + "/" + versionLower
-	fmt.Print(key)
 	pubSubFn, ok := p.messageBuses[key]
 	if ok {
 		return pubSubFn, true

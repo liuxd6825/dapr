@@ -19,8 +19,8 @@ import (
 
 // Values for these are injected by the build.
 var (
-	version = "edge"
-
+	//version = "edge"
+	version               = "v1.12"
 	gitcommit, gitversion string
 	features              string
 )
