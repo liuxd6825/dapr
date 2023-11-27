@@ -16,7 +16,7 @@ limitations under the License.
 package components
 
 import (
-	api "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstorage/api"
+	api "github.com/liuxd6825/dapr-components-contrib/liuxd/eventstore/api"
 	eventStorageLoader "github.com/liuxd6825/dapr/pkg/components/liuxd/eventstore"
 )
 

@@ -122,7 +122,7 @@ See the [Development Guide](https://docs.dapr.io/contributing/) to get started w
 | [Samples](https://github.com/liuxd6825/samples) | This repository holds community maintained samples for various Dapr use cases.
 | [Components-contrib ](https://github.com/liuxd6825/dapr-components-contrib) | The purpose of components contrib is to provide open, community driven reusable components for building distributed applications.
 | [Dashboard ](https://github.com/liuxd6825/dashboard) | General purpose dashboard for Dapr
-| [Go-sdk](https://github.com/liuxd6825/go-sdk) | Dapr SDK for Go
+| [Go-sdk](https://github.com/liuxd6825/dapr-go-sdk) | Dapr SDK for Go
 | [Java-sdk](https://github.com/liuxd6825/java-sdk) | Dapr SDK for Java
 | [JS-sdk](https://github.com/liuxd6825/js-sdk) | Dapr SDK for JavaScript
 | [Python-sdk](https://github.com/liuxd6825/python-sdk) | Dapr SDK for Python

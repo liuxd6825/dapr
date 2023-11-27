@@ -2,7 +2,7 @@ module github.com/liuxd6825/dapr/tests/apps/perf/service_invocation_grpc
 
 go 1.20
 
-require github.com/liuxd6825/go-sdk v1.8.0
+require github.com/liuxd6825/dapr-go-sdk v1.8.0
 
 require (
 	github.com/golang/protobuf v1.5.3 // indirect

@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/bsm/redislock v0.8.2
-	github.com/liuxd6825/go-sdk v1.8.0
+	github.com/liuxd6825/dapr-go-sdk v1.8.0
 	github.com/go-redis/redis/v9 v9.0.0-rc.1
 )
 
