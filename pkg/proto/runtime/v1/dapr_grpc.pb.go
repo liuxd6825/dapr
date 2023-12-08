@@ -14,14 +14,7 @@ import (
 // is compatible with the grpc package it is being compiled against.
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
-func (UnimplementedDaprServer) mustEmbedUnimplementedDaprServer() {}
 
-// UnsafeDaprServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DaprServer will
-// result in compilation errors.
-type UnsafeDaprServer interface {
-	mustEmbedUnimplementedDaprServer()
-}
 
 // Dapr_ServiceDesc is the grpc.ServiceDesc for Dapr service.
 // It's only intended for direct use with grpc.RegisterService,
@@ -285,6 +278,10 @@ var Dapr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAppLogById",
 			Handler:    _Dapr_GetAppLogById_Handler,
+		},
+		{
+			MethodName: "Command",
+			Handler:    _Dapr_Command_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

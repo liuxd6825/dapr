@@ -85,6 +85,7 @@ type api struct {
 	closed                atomic.Bool
 	closeCh               chan struct{}
 	wg                    sync.WaitGroup
+	commandRuntime        CommandRuntime
 }
 
 // APIOpts contains options for NewAPI.
@@ -96,6 +97,7 @@ type APIOpts struct {
 	SendToOutputBindingFn func(ctx context.Context, name string, req *bindings.InvokeRequest) (*bindings.InvokeResponse, error)
 	TracingSpec           config.TracingSpec
 	AccessControlList     *config.AccessControlList
+	CommandRuntime        CommandRuntime
 }
 
 // NewAPI returns a new gRPC API.
@@ -111,6 +113,7 @@ func NewAPI(opts APIOpts) API {
 		tracingSpec:           opts.TracingSpec,
 		accessControlList:     opts.AccessControlList,
 		closeCh:               make(chan struct{}),
+		commandRuntime:        opts.CommandRuntime,
 	}
 }
 

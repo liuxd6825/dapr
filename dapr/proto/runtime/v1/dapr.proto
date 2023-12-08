@@ -240,6 +240,9 @@ service Dapr {
   // GetAppLogById 按id获取应用日志
   rpc GetAppLogById(GetAppLogByIdRequest)returns(GetAppLogByIdResponse){}
 
+  // Command 执行管理命令
+  rpc Command(CommandRequest)returns(CommandResponse){}
+
 }
 
 // InvokeServiceRequest represents the request message for Service invocation.
@@ -1541,4 +1544,18 @@ message GetAppLogByIdResponse {
   google.protobuf.Timestamp time = 8;
   bool status = 9;
   string  message = 10;
+}
+
+
+message CommandRequest {
+  RequestHeaders headers = 100;
+  string command = 1;
+  map<string, string> options=2;
+}
+
+message CommandResponse {
+  RequestHeaders headers = 100;
+  uint64 status = 1;
+  map<string, string> data=2;
+  string error = 3;
 }

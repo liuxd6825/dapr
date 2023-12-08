@@ -18,7 +18,7 @@
 export GO111MODULE ?= on
 export GOPROXY ?= https://proxy.golang.org
 export GOSUMDB ?= sum.golang.org
-export REL_VERSION ?= v1.12
+export REL_VERSION ?= v1.12-231203
 
 GIT_COMMIT  = $(shell git rev-list -1 HEAD)
 GIT_VERSION ?= $(shell git describe --always --abbrev=7 --dirty)
