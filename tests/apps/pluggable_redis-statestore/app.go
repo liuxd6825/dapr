@@ -15,8 +15,6 @@ package main
 
 import (
 	dapr "github.com/dapr-sandbox/components-go-sdk"
-	"github.com/dapr-sandbox/components-go-sdk/state/v1"
-
 	"github.com/dapr/kit/logger"
 	"github.com/liuxd6825/dapr-components-contrib/state/redis"
 )

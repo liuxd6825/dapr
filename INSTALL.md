@@ -24,13 +24,16 @@
 
 - 编译二进制文件 \
   linux-arm64 \
-  $ make build-linux GOOS=linux GOARCH=arm64 \
-  
+  $ make build-linux GOOS=linux GOARCH=arm64 DAPR_GO_BUILD_TAGS=allcomponents  \
+
+  linux-amd64 \
+  $ make build-linux GOOS=linux GOARCH=amd64 DAPR_GO_BUILD_TAGS=allcomponents \
+- 
   windows-amd64 \
-  $ make build GOOS=windows GOARCH=amd64 DAPR_GO_BUILD_TAGS=stablecomponents \
+  $ make build GOOS=windows GOARCH=amd64 DAPR_GO_BUILD_TAGS=allcomponents \
 
   mac-arm64 \
-  $ make build GOOS=darwin GOARCH=arm64 DAPR_GO_BUILD_TAGS=stablecomponents \
+  $ make build GOOS=darwin GOARCH=arm64 DAPR_GO_BUILD_TAGS=allcomponents \
 
 - 修改docker/docker.rm文件， 增加参数 --load
   

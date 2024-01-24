@@ -53,11 +53,11 @@ const (
 	// DefaultMetricsPort is the default port for metrics endpoints.
 	DefaultMetricsPort = 9090
 	// DefaultMaxRequestBodySize is the default option for the maximum body size in MB for Dapr HTTP servers.
-	DefaultMaxRequestBodySize = 4
+	DefaultMaxRequestBodySize = 40
 	// DefaultAPIListenAddress is which address to listen for the Dapr HTTP and GRPC APIs. Empty string is all addresses.
 	DefaultAPIListenAddress = ""
 	// DefaultReadBufferSize is the default option for the maximum header size in KB for Dapr HTTP servers.
-	DefaultReadBufferSize = 4
+	DefaultReadBufferSize = 40
 	// DefaultGracefulShutdownDuration is the default option for the duration of the graceful shutdown.
 	DefaultGracefulShutdownDuration = time.Second * 5
 	// DefaultAppHealthCheckPath is the default path for HTTP health checks.

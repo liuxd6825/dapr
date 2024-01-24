@@ -15,7 +15,9 @@ package options
 
 import (
 	"flag"
+	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -72,13 +74,14 @@ type Options struct {
 	AppChannelAddress            string
 	Logger                       logger.Options
 	Metrics                      *metrics.Options
+	LogFile                      string
 }
 
 func New(args []string) *Options {
 	opts := Options{
 		EnableAPILogging: new(bool),
 	}
-
+	fmt.Println(fmt.Sprintf("args:%v", args))
 	flag.StringVar(&opts.Mode, "mode", string(modes.StandaloneMode), "Runtime mode for Dapr")
 	flag.StringVar(&opts.DaprHTTPPort, "dapr-http-port", strconv.Itoa(runtime.DefaultDaprHTTPPort), "HTTP port for Dapr API to listen on")
 	flag.StringVar(&opts.DaprAPIListenAddresses, "dapr-listen-addresses", runtime.DefaultAPIListenAddress, "One or more addresses for the Dapr API to listen on, CSV limited")
@@ -117,6 +120,7 @@ func New(args []string) *Options {
 	flag.IntVar(&opts.AppHealthProbeTimeout, "app-health-probe-timeout", int(config.AppHealthConfigDefaultProbeTimeout/time.Millisecond), "Timeout for app health probes in milliseconds")
 	flag.IntVar(&opts.AppHealthThreshold, "app-health-threshold", int(config.AppHealthConfigDefaultThreshold), "Number of consecutive failures for the app to be considered unhealthy")
 	flag.StringVar(&opts.AppChannelAddress, "app-channel-address", runtime.DefaultChannelAddress, "The network address the application listens on")
+	flag.StringVar(&opts.LogFile, "log-file", "", "save log file name ")
 
 	opts.Logger = logger.DefaultOptions()
 	opts.Logger.AttachCmdFlags(flag.StringVar, flag.BoolVar)
@@ -150,7 +154,68 @@ func New(args []string) *Options {
 		}
 	}
 
+	initOptions(&opts, args)
+
 	return &opts
+}
+
+// initOptions 1:解决路径参数取不到的问题 2:将路径转为绝对路径
+func initOptions(opts *Options, args []string) {
+	if opts.LogFile == "" {
+		opts.LogFile = getArg(args, "-log-file")
+	}
+	if opts.ComponentsPath == "" {
+		opts.ComponentsPath = getArg(args, "-components-path")
+	}
+	if len(opts.ResourcesPath) == 0 {
+		cfg := getArg(args, "-resources-path")
+		if cfg != "" {
+			_ = opts.Config.Set(cfg)
+		}
+	}
+	if len(opts.Config) == 0 {
+		cfg := getArg(args, "-config")
+		if cfg != "" {
+			_ = opts.Config.Set(cfg)
+		}
+	}
+
+	// 替换绝对路径 set abs path
+	opts.LogFile = getAbsPath(opts.LogFile)
+	opts.ComponentsPath = getAbsPath(opts.ComponentsPath)
+	opts.Config = sliceAbsPath(opts.Config)
+	opts.ResourcesPath = sliceAbsPath(opts.ResourcesPath)
+}
+
+func sliceAbsPath(list stringSliceFlag) stringSliceFlag {
+	var res stringSliceFlag
+	for _, value := range list {
+		_ = res.Set(getAbsPath(value))
+	}
+	return res
+}
+
+func getAbsPath(pathOrFile string) string {
+	s := strings.Trim(pathOrFile, " ")
+	if s != "" {
+		s, _ = filepath.Abs(s)
+	}
+	return s
+}
+
+func getArg(args []string, argName string) string {
+	for i, s := range args {
+		if s == argName {
+			return args[i+1]
+		} else if strings.Contains(s, "=") {
+			idx := strings.Index(s, "=")
+			name := s[:idx]
+			if name == argName {
+				return strings.Trim(s[idx+1:], "")
+			}
+		}
+	}
+	return ""
 }
 
 func isFlagPassed(name string) bool {

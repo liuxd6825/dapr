@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"github.com/liuxd6825/dapr/pkg/components/liuxd/applogger"
 	"github.com/liuxd6825/dapr/pkg/components/liuxd/eventstore"
+	"github.com/liuxd6825/dapr/pkg/logs"
 	"os"
 
 	"go.uber.org/automaxprocs/maxprocs"
@@ -57,6 +58,12 @@ func main() {
 
 	opts := options.New(os.Args[1:])
 
+	if len(opts.LogFile) > 0 {
+		w := logs.NewWriter(opts.LogFile, 7, 1)
+		log.SetOutput(w)
+		logContrib.SetOutput(w)
+	}
+
 	if opts.RuntimeVersion {
 		//nolint:forbidigo
 		fmt.Println(buildinfo.Version())
@@ -82,7 +89,10 @@ func main() {
 	}
 
 	log.Infof("Starting Dapr Runtime -- version %s -- commit %s", buildinfo.Version(), buildinfo.Commit())
-	log.Infof("Log level set to: %s", opts.Logger.OutputLevel)
+	log.Infof("options -config=%v  ", opts.Config)
+	log.Infof("options -components-path=%s  ", opts.ComponentsPath)
+	log.Infof("options -log-level=%s ", opts.Logger.OutputLevel)
+	log.Infof("options -log-file=%s ", opts.LogFile)
 
 	secretstoresLoader.DefaultRegistry.Logger = logContrib
 	stateLoader.DefaultRegistry.Logger = logContrib

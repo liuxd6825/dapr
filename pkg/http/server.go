@@ -260,6 +260,7 @@ func (s *server) Close() error {
 
 func (s *server) getRouter() *chi.Mux {
 	r := chi.NewRouter()
+	//r.Use(CleanPathMiddleware, StripSlashesMiddleware, NewServiceProxy(s.config))
 	r.Use(CleanPathMiddleware, StripSlashesMiddleware)
 	return r
 }
