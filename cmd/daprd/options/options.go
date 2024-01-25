@@ -159,28 +159,15 @@ func New(args []string) *Options {
 	return &opts
 }
 
-// initOptions 1:解决路径参数取不到的问题 2:将路径转为绝对路径
+// initOptions 1:解决路径参数取不到的问题
 func initOptions(opts *Options, args []string) {
-	if opts.LogFile == "" {
-		opts.LogFile = getArg(args, "-log-file")
-	}
-	if opts.ComponentsPath == "" {
-		opts.ComponentsPath = getArg(args, "-components-path")
-	}
-	if len(opts.ResourcesPath) == 0 {
-		cfg := getArg(args, "-resources-path")
-		if cfg != "" {
-			_ = opts.Config.Set(cfg)
-		}
-	}
-	if len(opts.Config) == 0 {
-		cfg := getArg(args, "-config")
-		if cfg != "" {
-			_ = opts.Config.Set(cfg)
-		}
-	}
+	// 1:解决路径参数取不到的问题 flag包的bug
+	opts.LogFile = getArgValue(opts.LogFile, args, "-log-file")
+	opts.ComponentsPath = getArgValue(opts.ComponentsPath, args, "-components-path")
+	opts.ResourcesPath = getArgSlice(opts.ResourcesPath, args, "-resources-path")
+	opts.Config = getArgSlice(opts.Config, args, "-config")
 
-	// 替换绝对路径 set abs path
+	// 2:将路径转为绝对路径
 	opts.LogFile = getAbsPath(opts.LogFile)
 	opts.ComponentsPath = getAbsPath(opts.ComponentsPath)
 	opts.Config = sliceAbsPath(opts.Config)
@@ -195,6 +182,18 @@ func sliceAbsPath(list stringSliceFlag) stringSliceFlag {
 	return res
 }
 
+func getArgSlice(defVal stringSliceFlag, args []string, argName string) stringSliceFlag {
+	if len(defVal) == 0 {
+		var s stringSliceFlag
+		val := getArgValue("", args, argName)
+		if val != "" {
+			_ = s.Set(val)
+		}
+		return s
+	}
+	return defVal
+}
+
 func getAbsPath(pathOrFile string) string {
 	s := strings.Trim(pathOrFile, " ")
 	if s != "" {
@@ -203,9 +202,13 @@ func getAbsPath(pathOrFile string) string {
 	return s
 }
 
-func getArg(args []string, argName string) string {
+func getArgValue(defValue string, args []string, argName string) string {
+	if defValue != "" {
+		return defValue
+	}
+	argName = strings.ToLower(argName)
 	for i, s := range args {
-		if s == argName {
+		if s == argName || s == argName+"=" {
 			return args[i+1]
 		} else if strings.Contains(s, "=") {
 			idx := strings.Index(s, "=")

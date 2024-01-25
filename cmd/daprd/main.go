@@ -18,7 +18,6 @@ import (
 	"fmt"
 	"github.com/liuxd6825/dapr/pkg/components/liuxd/applogger"
 	"github.com/liuxd6825/dapr/pkg/components/liuxd/eventstore"
-	"github.com/liuxd6825/dapr/pkg/logs"
 	"os"
 
 	"go.uber.org/automaxprocs/maxprocs"
@@ -59,9 +58,10 @@ func main() {
 	opts := options.New(os.Args[1:])
 
 	if len(opts.LogFile) > 0 {
-		w := logs.NewWriter(opts.LogFile, 7, 1)
-		log.SetOutput(w)
-		logContrib.SetOutput(w)
+		if _, err := logger.InitFileLogger(opts.LogFile, opts.Logger.OutputLevel, 7, 1); err != nil {
+			fmt.Println(err.Error())
+			os.Exit(0)
+		}
 	}
 
 	if opts.RuntimeVersion {
@@ -93,6 +93,7 @@ func main() {
 	log.Infof("options -components-path=%s  ", opts.ComponentsPath)
 	log.Infof("options -log-level=%s ", opts.Logger.OutputLevel)
 	log.Infof("options -log-file=%s ", opts.LogFile)
+	log.Infof("options -placement-host-address=%s", opts.PlacementServiceHostAddr)
 
 	secretstoresLoader.DefaultRegistry.Logger = logContrib
 	stateLoader.DefaultRegistry.Logger = logContrib

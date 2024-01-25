@@ -478,3 +478,5 @@ replace github.com/microcosm-cc/bluemonday => github.com/microcosm-cc/bluemonday
 replace github.com/liuxd6825/dapr-components-contrib => ../dapr-components-contrib
 
 //replace github.com/liuxd6825/dapr-go-sdk => ../dapr-go-sdk
+
+replace github.com/dapr/kit => ../dapr-kit
