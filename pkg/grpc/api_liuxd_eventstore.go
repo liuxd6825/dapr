@@ -111,7 +111,7 @@ func (a *api) LoadDomainEvent(ctx context.Context, req *runtimev1pb.LoadDomainEv
 	})
 
 	headers := NewResponseHeaders(runtimev1pb.ResponseStatus_SUCCESS, err, nil)
-	headers.Values["Date"] = time.Now().String()
+	headers.Values["Date"] = &runtimev1pb.Strings{Values: []string{time.Now().String()}}
 	if resp != nil && resp.Headers == nil {
 		resp.Headers = headers
 		return resp, err
@@ -145,10 +145,10 @@ func (a *api) SaveDomainEventSnapshot(ctx context.Context, req *runtimev1pb.Save
 			TenantId:         req.GetTenantId(),
 			AggregateId:      req.GetAggregateId(),
 			AggregateType:    req.GetAggregateType(),
-			AggregateData:    *aggregateData,
+			AggregateData:    aggregateData,
 			AggregateVersion: req.GetAggregateVersion(),
 			SequenceNumber:   req.GetSequenceNumber(),
-			Metadata:         *metadata,
+			Metadata:         metadata,
 		}
 
 		_, err = es.SaveSnapshot(ctx, in)
@@ -159,7 +159,7 @@ func (a *api) SaveDomainEventSnapshot(ctx context.Context, req *runtimev1pb.Save
 		return resp, err
 	})
 	headers := NewResponseHeaders(runtimev1pb.ResponseStatus_SUCCESS, err, nil)
-	headers.Values["Date"] = time.Now().String()
+	headers.Values["Date"] = &runtimev1pb.Strings{Values: []string{time.Now().String()}}
 	if resp != nil && resp.Headers == nil {
 		resp.Headers = headers
 		return resp, err
@@ -268,7 +268,7 @@ func (a *api) ApplyDomainEvent(ctx context.Context, req *runtimev1pb.ApplyDomain
 		if out != nil {
 			headers = a.newResponseHeaders(out.Headers)
 		}
-		headers.Values["Date"] = time.Now().String()
+		headers.Values["Date"] = &runtimev1pb.Strings{Values: []string{time.Now().String()}}
 		return &runtimev1pb.ApplyDomainEventResponse{Headers: headers}, err
 	})
 
@@ -325,10 +325,15 @@ func (a *api) ApplyDomainEvent(ctx context.Context, req *runtimev1pb.ApplyDomain
 }*/
 
 func (a *api) newResponseHeaders(out *dto.ResponseHeaders) *runtimev1pb.ResponseHeaders {
+	values := make(map[string]*runtimev1pb.Strings)
+	for k, v := range out.Values {
+		values[k] = &runtimev1pb.Strings{Values: v}
+	}
+
 	headers := &runtimev1pb.ResponseHeaders{
 		Status:  runtimev1pb.ResponseStatus(out.Status),
 		Message: out.Message,
-		Values:  out.Values,
+		Values:  values,
 	}
 	return headers
 }
@@ -551,32 +556,32 @@ func newEvent(e *runtimev1pb.EventDto) (*dto.EventDto, error) {
 		ApplyType:    e.ApplyType,
 		EventId:      e.EventId,
 		CommandId:    e.CommandId,
-		EventData:    *eventData,
+		EventData:    eventData,
 		EventType:    e.EventType,
 		EventVersion: e.EventVersion,
 		PubsubName:   e.PubsubName,
 		EventTime:    e.EventTime.AsTime(),
 		Topic:        e.Topic,
-		Metadata:     *metadata,
+		Metadata:     metadata,
 		IsSourcing:   e.IsSourcing,
 		Relations:    e.Relations,
 	}
 	return event, nil
 }
-func newMapInterface(jsonStr string) (*map[string]interface{}, error) {
+func newMapInterface(jsonStr string) (map[string]interface{}, error) {
 	mapData := map[string]interface{}{}
 	if err := json.Unmarshal([]byte(jsonStr), &mapData); err != nil {
 		return nil, err
 	}
-	return &mapData, nil
+	return mapData, nil
 }
 
-func newMapString(jsonStr string) (*map[string]string, error) {
-	mapData := map[string]string{}
+func newMapString(jsonStr string) (map[string][]string, error) {
+	mapData := map[string][]string{}
 	if err := json.Unmarshal([]byte(jsonStr), &mapData); err != nil {
 		return nil, err
 	}
-	return &mapData, nil
+	return mapData, nil
 }
 
 func mapAsStr(data map[string]interface{}) (*string, error) {
@@ -649,41 +654,49 @@ func getEventStore(compStore *compstore.ComponentStore, compName string) (es eve
 	return es, nil
 }
 
-func NewResponseHeaders(status runtimev1pb.ResponseStatus, err error, values map[string]string) *runtimev1pb.ResponseHeaders {
-	if values == nil {
-		values = make(map[string]string)
-	}
+func NewResponseHeaders(status runtimev1pb.ResponseStatus, err error, values map[string][]string) *runtimev1pb.ResponseHeaders {
+
 	if err != nil {
 		return NewResponseHeadersError(err, values)
 	}
 	headers := &runtimev1pb.ResponseHeaders{
 		Status:  status,
 		Message: "Success",
-		Values:  values,
+		Values:  newPbMapStrings(values),
 	}
 	return headers
 }
 
-func NewResponseHeadersError(err error, values map[string]string) *runtimev1pb.ResponseHeaders {
-	if values == nil {
-		values = make(map[string]string)
+func newPbMapStrings(mapValues map[string][]string) map[string]*runtimev1pb.Strings {
+	values := make(map[string]*runtimev1pb.Strings)
+	for k, v := range mapValues {
+		values[k] = &runtimev1pb.Strings{Values: v}
 	}
+	return values
+}
+
+func newMapStrings(mapValues map[string]*runtimev1pb.Strings) map[string][]string {
+	values := make(map[string][]string)
+	for k, v := range mapValues {
+		values[k] = v.Values
+	}
+	return values
+}
+
+func NewResponseHeadersError(err error, values map[string][]string) *runtimev1pb.ResponseHeaders {
 	resp := &runtimev1pb.ResponseHeaders{
 		Status:  runtimev1pb.ResponseStatus_ERROR,
 		Message: err.Error(),
-		Values:  values,
+		Values:  newPbMapStrings(values),
 	}
 	return resp
 }
 
-func NewResponseHeadersSuccess(values map[string]string) *runtimev1pb.ResponseHeaders {
-	if values == nil {
-		values = make(map[string]string)
-	}
+func NewResponseHeadersSuccess(values map[string][]string) *runtimev1pb.ResponseHeaders {
 	resp := &runtimev1pb.ResponseHeaders{
 		Status:  runtimev1pb.ResponseStatus_SUCCESS,
 		Message: "Success",
-		Values:  values,
+		Values:  newPbMapStrings(values),
 	}
 	return resp
 }

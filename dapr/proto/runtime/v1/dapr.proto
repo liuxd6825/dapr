@@ -1147,14 +1147,18 @@ message PurgeWorkflowRequest {
 
 
 
+message Strings {
+  repeated string values = 1;
+}
+
 message RequestHeaders {
-  map<string, string> values = 2;
+  map<string, Strings> values = 1;
 }
 
 message ResponseHeaders {
   ResponseStatus status = 1;
   string message = 2;
-  map<string, string> values = 3;
+  map<string, Strings> values = 3;
 }
 
 enum ResponseStatus {

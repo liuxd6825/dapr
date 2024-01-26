@@ -15,7 +15,6 @@ package options
 
 import (
 	"flag"
-	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -75,13 +74,14 @@ type Options struct {
 	Logger                       logger.Options
 	Metrics                      *metrics.Options
 	LogFile                      string
+	LogOutputType                string
 }
 
 func New(args []string) *Options {
 	opts := Options{
 		EnableAPILogging: new(bool),
 	}
-	fmt.Println(fmt.Sprintf("args:%v", args))
+
 	flag.StringVar(&opts.Mode, "mode", string(modes.StandaloneMode), "Runtime mode for Dapr")
 	flag.StringVar(&opts.DaprHTTPPort, "dapr-http-port", strconv.Itoa(runtime.DefaultDaprHTTPPort), "HTTP port for Dapr API to listen on")
 	flag.StringVar(&opts.DaprAPIListenAddresses, "dapr-listen-addresses", runtime.DefaultAPIListenAddress, "One or more addresses for the Dapr API to listen on, CSV limited")
@@ -120,7 +120,8 @@ func New(args []string) *Options {
 	flag.IntVar(&opts.AppHealthProbeTimeout, "app-health-probe-timeout", int(config.AppHealthConfigDefaultProbeTimeout/time.Millisecond), "Timeout for app health probes in milliseconds")
 	flag.IntVar(&opts.AppHealthThreshold, "app-health-threshold", int(config.AppHealthConfigDefaultThreshold), "Number of consecutive failures for the app to be considered unhealthy")
 	flag.StringVar(&opts.AppChannelAddress, "app-channel-address", runtime.DefaultChannelAddress, "The network address the application listens on")
-	flag.StringVar(&opts.LogFile, "log-file", "", "save log file name ")
+	flag.StringVar(&opts.LogFile, "log-file", "", "Save log file name ")
+	flag.StringVar(&opts.LogOutputType, "log-output-type", "", "choose output type (console file, all)")
 
 	opts.Logger = logger.DefaultOptions()
 	opts.Logger.AttachCmdFlags(flag.StringVar, flag.BoolVar)

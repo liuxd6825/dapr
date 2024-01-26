@@ -57,11 +57,9 @@ func main() {
 
 	opts := options.New(os.Args[1:])
 
-	if len(opts.LogFile) > 0 {
-		if _, err := logger.InitFileLogger(opts.LogFile, opts.Logger.OutputLevel, 7, 1); err != nil {
-			fmt.Println(err.Error())
-			os.Exit(0)
-		}
+	if err := logger.InitFileLogger(opts.LogFile, opts.Logger.OutputLevel, 7, 1, opts.LogOutputType); err != nil {
+		fmt.Println(err.Error())
+		os.Exit(0)
 	}
 
 	if opts.RuntimeVersion {
@@ -89,10 +87,12 @@ func main() {
 	}
 
 	log.Infof("Starting Dapr Runtime -- version %s -- commit %s", buildinfo.Version(), buildinfo.Commit())
+	log.Infof("options os.Args=%v", os.Args[1:])
 	log.Infof("options -config=%v  ", opts.Config)
 	log.Infof("options -components-path=%s  ", opts.ComponentsPath)
 	log.Infof("options -log-level=%s ", opts.Logger.OutputLevel)
 	log.Infof("options -log-file=%s ", opts.LogFile)
+	log.Infof("options -log-output-type=%s ", opts.LogOutputType)
 	log.Infof("options -placement-host-address=%s", opts.PlacementServiceHostAddr)
 
 	secretstoresLoader.DefaultRegistry.Logger = logContrib
