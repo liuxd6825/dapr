@@ -121,7 +121,7 @@ func New(args []string) *Options {
 	flag.IntVar(&opts.AppHealthThreshold, "app-health-threshold", int(config.AppHealthConfigDefaultThreshold), "Number of consecutive failures for the app to be considered unhealthy")
 	flag.StringVar(&opts.AppChannelAddress, "app-channel-address", runtime.DefaultChannelAddress, "The network address the application listens on")
 	flag.StringVar(&opts.LogFile, "log-file", "", "Save log file name ")
-	flag.StringVar(&opts.LogOutputType, "log-output-type", "", "choose output type (console file, all)")
+	flag.StringVar(&opts.LogOutputType, "log-output-type", "console", "choose output type (console file, all)")
 
 	opts.Logger = logger.DefaultOptions()
 	opts.Logger.AttachCmdFlags(flag.StringVar, flag.BoolVar)
