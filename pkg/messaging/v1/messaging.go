@@ -20,4 +20,6 @@ import (
 // DirectMessaging is the API interface for invoking a remote app.
 type DirectMessaging interface {
 	Invoke(ctx context.Context, targetAppID string, req *InvokeMethodRequest) (*InvokeMethodResponse, error)
+	GetAppID() string
+	GetNamespace() string
 }

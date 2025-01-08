@@ -15,13 +15,9 @@ package http
 
 import (
 	"context"
-	"encoding/base64"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
-	"net/url"
-	"path"
 	"strings"
 
 	"google.golang.org/grpc/codes"
@@ -34,21 +30,21 @@ import (
 	"github.com/liuxd6825/dapr/utils/responsewriter"
 )
 
-func (a *api) constructDirectMessagingEndpoints() []Endpoint {
+func (a *api) constructInvokeEndpoints() []Endpoint {
 	return []Endpoint{
 		{
 			// No method is defined here to match any method
 			Methods: []string{},
-			Route:   "invoke/*",
+			Route:   "*",
 			// This is the fallback route for when no other method is matched by the router
 			IsFallback: true,
 			Version:    apiVersionV1,
-			Handler:    a.onDirectMessage,
+			Handler:    a.onInvoke,
 		},
 	}
 }
 
-func (a *api) onDirectMessage(w http.ResponseWriter, r *http.Request) {
+func (a *api) onInvoke(w http.ResponseWriter, r *http.Request) {
 	// RawPath could be empty
 	reqPath := r.URL.RawPath
 	if reqPath == "" {
@@ -56,12 +52,6 @@ func (a *api) onDirectMessage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	targetID, invokeMethodName := findTargetIDAndMethod(reqPath, r.Header)
-	if targetID == "" {
-		targetID = a.directMessaging.GetAppID()
-	}
-	if invokeMethodName == "" {
-		invokeMethodName = reqPath
-	}
 	if targetID == "" {
 		respondWithError(w, messages.ErrDirectInvokeNoAppID)
 		return
@@ -218,115 +208,4 @@ func (a *api) onDirectMessage(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, messages.ErrDirectInvoke.WithFormat(targetID, err))
 		return
 	}
-}
-
-// findTargetIDAndMethod finds ID of the target service and method from the following three places:
-// 1. HTTP header 'dapr-app-id' (path is method)
-// 2. Basic auth header: `http://dapr-app-id:<service-id>@localhost:3500/<method>`
-// 3. URL parameter: `http://localhost:3500/v1.0/invoke/<app-id>/method/<method>`
-func findTargetIDAndMethod(reqPath string, headers http.Header) (targetID string, method string) {
-	if appID := headers.Get(daprAppID); appID != "" {
-		return appID, strings.TrimPrefix(path.Clean(reqPath), "/")
-	}
-
-	if auth := headers.Get("Authorization"); strings.HasPrefix(auth, "Basic ") {
-		if s, err := base64.StdEncoding.DecodeString(strings.TrimPrefix(auth, "Basic ")); err == nil {
-			pair := strings.Split(string(s), ":")
-			if len(pair) == 2 && pair[0] == daprAppID {
-				return pair[1], strings.TrimPrefix(path.Clean(reqPath), "/")
-			}
-		}
-	}
-
-	// If we're here, the handler was probably invoked with /v1.0/invoke/ (or the invocation is invalid, missing the app id provided as header or Basic auth)
-	// However, we are not relying on wildcardParam because the URL may have been sanitized to remove `//``, so `http://` would have been turned into `http:/`
-	// First, check to make sure that the path has the prefix
-	if idx := pathHasPrefix(reqPath, apiVersionV1, "invoke"); idx > 0 {
-		reqPath = reqPath[idx:]
-
-		// Scan to find app ID and method
-		// Matches `<appid>/method/<method>`.
-		// Examples:
-		// - `appid/method/mymethod`
-		// - `http://example.com/method/mymethod`
-		// - `https://example.com/method/mymethod`
-		// - `http%3A%2F%2Fexample.com/method/mymethod`
-		if idx = strings.Index(reqPath, "/method/"); idx > 0 {
-			targetID := reqPath[:idx]
-			method := reqPath[(idx + len("/method/")):]
-			if t, _ := url.QueryUnescape(targetID); t != "" {
-				targetID = t
-			}
-			return targetID, method
-		}
-	}
-
-	return "", ""
-}
-
-// Returns true if a path has the parts as prefix (and a trailing slash), and returns the index of the first byte after the prefix (and after any trailing slashes).
-func pathHasPrefix(path string, prefixParts ...string) int {
-	pl := len(path)
-	ppl := len(prefixParts)
-	if pl == 0 {
-		return -1
-	}
-
-	var i, start, found int
-	for i = 0; i < pl; i++ {
-		if path[i] != '/' {
-			if found >= ppl {
-				return i
-			}
-			continue
-		}
-
-		if i-start > 0 {
-			if path[start:i] == prefixParts[found] {
-				found++
-			} else {
-				return -1
-			}
-		}
-		start = i + 1
-	}
-	if found >= ppl {
-		return i
-	}
-	return -1
-}
-
-func (a *api) isHTTPEndpoint(appID string) bool {
-	endpoint, ok := a.universal.CompStore.GetHTTPEndpoint(appID)
-	return ok && endpoint.Name == appID
-}
-
-// getBaseURL takes an app id and checks if the app id is an HTTP endpoint CRD.
-// It returns the baseURL if found.
-func (a *api) getBaseURL(targetAppID string) string {
-	endpoint, ok := a.universal.CompStore.GetHTTPEndpoint(targetAppID)
-	if ok && endpoint.Name == targetAppID {
-		return endpoint.Spec.BaseURL
-	}
-	return ""
-}
-
-type invokeError struct {
-	statusCode int
-	msg        []byte
-}
-
-func (ie invokeError) Error() string {
-	return fmt.Sprintf("invokeError (statusCode='%d') msg='%v'", ie.statusCode, string(ie.msg))
-}
-
-type codeError struct {
-	statusCode  int
-	msg         []byte
-	headers     invokev1.DaprInternalMetadata
-	contentType string
-}
-
-func (ce codeError) Error() string {
-	return fmt.Sprintf("received non-successful status code in response: %d", ce.statusCode)
 }
