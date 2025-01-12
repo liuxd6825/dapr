@@ -16,6 +16,8 @@ package app
 import (
 	"context"
 	"fmt"
+	"github.com/dapr/dapr/pkg/components/liuxd/applogger"
+	"github.com/dapr/dapr/pkg/components/liuxd/eventstore"
 	"os"
 
 	"go.uber.org/automaxprocs/maxprocs"
@@ -111,6 +113,11 @@ func Run() {
 		WithCryptoProviders(cryptoLoader.DefaultRegistry).
 		WithHTTPMiddlewares(httpMiddlewareLoader.DefaultRegistry).
 		WithConversations(conversationLoader.DefaultRegistry)
+
+	// liuxd
+	reg = reg.WithEventStore(eventstore.DefaultRegistry).
+		WithAppLogger(applogger.DefaultRegistry)
+	// liuxd end
 
 	ctx := signals.Context()
 	healthz := healthz.New()

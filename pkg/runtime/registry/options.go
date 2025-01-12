@@ -26,6 +26,11 @@ import (
 	"github.com/dapr/dapr/pkg/components/state"
 )
 
+import (
+	"github.com/dapr/dapr/pkg/components/liuxd/applogger"
+	"github.com/dapr/dapr/pkg/components/liuxd/eventstore"
+)
+
 // Options is the options to configure the registries
 type Options struct {
 	secret             *secretstores.Registry
@@ -40,6 +45,9 @@ type Options struct {
 	conversation       *conversation.Registry
 	componentsCallback ComponentsCallback
 	reporter           Reporter
+	// liuxd
+	eventStore *eventstore.Registry
+	appLogger  *applogger.Registry
 }
 
 func NewOptions() *Options {
