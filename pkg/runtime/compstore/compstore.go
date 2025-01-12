@@ -14,6 +14,8 @@ limitations under the License.
 package compstore
 
 import (
+	"github.com/dapr/components-contrib/liuxd/applog"
+	"github.com/dapr/components-contrib/liuxd/eventstore"
 	"sync"
 
 	"github.com/dapr/durabletask-go/backend"
@@ -37,6 +39,9 @@ import (
 // Component name.
 type ComponentStore struct {
 	lock sync.RWMutex
+
+	eventStorages map[string]eventstore.EventStore
+	appLoggers    map[string]applog.Logger
 
 	states                  map[string]state.Store
 	configurations          map[string]configuration.Store
@@ -67,6 +72,9 @@ type ComponentStore struct {
 
 func New() *ComponentStore {
 	return &ComponentStore{
+		eventStorages: make(map[string]eventstore.EventStore),
+		appLoggers:    make(map[string]applog.Logger),
+
 		states:                  make(map[string]state.Store),
 		configurations:          make(map[string]configuration.Store),
 		configurationSubscribes: make(map[string]chan struct{}),

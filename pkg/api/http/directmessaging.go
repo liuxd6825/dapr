@@ -100,6 +100,16 @@ func (a *api) onDirectMessage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	targetID, invokeMethodName := findTargetIDAndMethod(reqPath, r.Header)
+
+	// liuxd 默认转发到当前应用
+	if targetID == "" {
+		targetID = a.universal.AppID()
+	}
+	if invokeMethodName == "" {
+		invokeMethodName = reqPath
+	}
+	// liuxd end
+
 	if targetID == "" {
 		respondWithError(w, messages.ErrDirectInvokeNoAppID)
 		return
