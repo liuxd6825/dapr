@@ -102,7 +102,16 @@ func Run() {
 	conversationLoader.DefaultRegistry.Logger = logContrib
 	httpMiddlewareLoader.DefaultRegistry.Logger = log // Note this uses log on purpose
 
+	// liuxd
+	eventstore.DefaultRegistry.Logger = logContrib
+	applogger.DefaultRegistry.Logger = logContrib
+	// liuxd end
+
 	reg := registry.NewOptions().
+		// liuxd
+		WithEventStore(eventstore.DefaultRegistry).
+		WithAppLogger(applogger.DefaultRegistry).
+		// liuxd end
 		WithSecretStores(secretstoresLoader.DefaultRegistry).
 		WithStateStores(stateLoader.DefaultRegistry).
 		WithConfigurations(configurationLoader.DefaultRegistry).
@@ -113,11 +122,6 @@ func Run() {
 		WithCryptoProviders(cryptoLoader.DefaultRegistry).
 		WithHTTPMiddlewares(httpMiddlewareLoader.DefaultRegistry).
 		WithConversations(conversationLoader.DefaultRegistry)
-
-	// liuxd
-	reg = reg.WithEventStore(eventstore.DefaultRegistry).
-		WithAppLogger(applogger.DefaultRegistry)
-	// liuxd end
 
 	ctx := signals.Context()
 	healthz := healthz.New()
