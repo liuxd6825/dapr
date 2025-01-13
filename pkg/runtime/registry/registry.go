@@ -15,6 +15,8 @@ package registry
 
 import (
 	"context"
+	"github.com/dapr/dapr/pkg/components/liuxd/applogger"
+	"github.com/dapr/dapr/pkg/components/liuxd/eventstore"
 
 	componentsapi "github.com/dapr/dapr/pkg/apis/components/v1alpha1"
 	"github.com/dapr/dapr/pkg/components/bindings"
@@ -55,6 +57,9 @@ type Registry struct {
 	conversations  *conversation.Registry
 	componentCb    ComponentsCallback
 	reporter       Reporter
+	// liuxd
+	eventStorage *eventstore.Registry
+	appLogger    *applogger.Registry
 }
 
 func New(opts *Options) *Registry {
@@ -71,6 +76,9 @@ func New(opts *Options) *Registry {
 		conversations:  opts.conversation,
 		componentCb:    opts.componentsCallback,
 		reporter:       opts.reporter,
+		// liuxd
+		eventStorage: opts.eventStore,
+		appLogger:    opts.appLogger,
 	}
 }
 
@@ -120,4 +128,15 @@ func (r *Registry) ComponentsCallback() ComponentsCallback {
 
 func (r *Registry) Reporter() Reporter {
 	return r.reporter
+}
+
+// liuxd
+
+// EventStore
+func (r *Registry) EventStore() *eventstore.Registry {
+	return r.eventStorage
+}
+
+func (r *Registry) AppLogger() *applogger.Registry {
+	return r.appLogger
 }
