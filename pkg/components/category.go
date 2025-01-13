@@ -29,4 +29,7 @@ const (
 	CategoryLock            Category = "lock"
 	CategoryNameResolution  Category = "nameresolution"
 	CategoryConversation    Category = "conversation"
+	// liuxd
+	CategoryAppLogger  Category = "applogger"
+	CategoryEventStore Category = "eventstore"
 )

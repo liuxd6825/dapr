@@ -89,6 +89,16 @@ func Run() {
 	}
 
 	log.Infof("Starting Dapr Runtime -- version %s -- commit %s", buildinfo.Version(), buildinfo.Commit())
+	log.Infof("options os.Args=%v", os.Args[1:])
+	log.Infof("options --config=%v  ", opts.Config)
+	log.Infof("options --components-path=%s  ", opts.ComponentsPath)
+	log.Infof("options --log-level=%s ", opts.Logger.OutputLevel)
+	/*
+		log.Infof("options -log-file=%s ", opts.LogFile)
+		log.Infof("options -log-output-type=%s ", opts.LogOutputType)
+		log.Infof("options -placement-host-address=%s", opts.PlacementServiceHostAddr)
+	*/
+	log.Infof("Starting Dapr Runtime -- version %s -- commit %s", buildinfo.Version(), buildinfo.Commit())
 	log.Infof("Log level set to: %s", opts.Logger.OutputLevel)
 
 	secretstoresLoader.DefaultRegistry.Logger = logContrib

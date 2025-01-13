@@ -16,6 +16,8 @@ package processor
 import (
 	"context"
 	"errors"
+	"github.com/dapr/dapr/pkg/runtime/processor/liuxd/applogger"
+	"github.com/dapr/dapr/pkg/runtime/processor/liuxd/eventstore"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -232,6 +234,19 @@ func New(opts Options) *Processor {
 				Meta:     opts.Meta,
 				Registry: opts.Registry.Conversations(),
 				Store:    opts.ComponentStore,
+			}),
+			// liuxd
+			components.CategoryAppLogger: applogger.New(applogger.Options{
+				Registry:       opts.Registry.AppLogger(),
+				ComponentStore: opts.ComponentStore,
+				Meta:           opts.Meta,
+				PubsubAdapter:  subscriber,
+			}),
+			components.CategoryEventStore: eventstore.New(eventstore.Options{
+				Registry:       opts.Registry.EventStore(),
+				ComponentStore: opts.ComponentStore,
+				Meta:           opts.Meta,
+				PubsubAdapter:  subscriber,
 			}),
 		},
 	}
