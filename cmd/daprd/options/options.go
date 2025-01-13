@@ -82,6 +82,9 @@ type Options struct {
 	AppChannelAddress             string
 	Logger                        logger.Options
 	Metrics                       *metrics.FlagOptions
+	// liuxd
+	LogFile       string
+	LogOutputType string
 }
 
 func New(origArgs []string) (*Options, error) {
@@ -172,6 +175,10 @@ func New(origArgs []string) (*Options, error) {
 	fs.StringVar(&opts.ActorsService, "actors-service", "", "Type and address of the actors service, in the format 'type:address'")
 	fs.StringVar(&opts.RemindersService, "reminders-service", "", "Type and address of the reminders service, in the format 'type:address'")
 
+	// liuxd
+	fs.StringVar(&opts.LogFile, "log-file", "", "Save log file name ")
+	fs.StringVar(&opts.LogOutputType, "log-output-type", "console", "choose output type (console file, all)")
+
 	// Add flags for logger and metrics
 	opts.Logger = logger.DefaultOptions()
 	opts.Logger.AttachCmdFlags(fs.StringVar, fs.BoolVar)
@@ -257,6 +264,9 @@ func New(origArgs []string) (*Options, error) {
 			opts.SchedulerAddress = strings.Split(addr, ",")
 		}
 	}
+
+	// liuxd
+	initOptions(&opts, args)
 
 	return &opts, nil
 }
