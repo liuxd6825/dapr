@@ -55,11 +55,11 @@ $ cd dapr
 ``` 
 
 ### 编译二进制文件
-设置版本号：REL_VERSION=v1.12-240123
+设置版本号：REL_VERSION=v1.15-250111
 ```shell
-$ make build GOOS=linux    GOARCH=arm64  REL_VERSION=v1.12-250111
-$ make build GOOS=windows  GOARCH=amd64  REL_VERSION=v1.12-250111
-$ make build GOOS=darwin   GOARCH=arm64  REL_VERSION=v1.12-250111
+$ make build GOOS=linux    GOARCH=arm64  REL_VERSION=v1.15-250111
+$ make build GOOS=windows  GOARCH=amd64  REL_VERSION=v1.15-250111
+$ make build GOOS=darwin   GOARCH=arm64  REL_VERSION=v1.15-250111
 ```
 
 修改docker/docker.rm文件， 增加参数 --load
