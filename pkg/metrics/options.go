@@ -21,7 +21,9 @@ import (
 const (
 	defaultMetricsPort    = "9090"
 	defaultMetricsAddress = "0.0.0.0"
-	defaultMetricsEnabled = true
+	// liuxd
+	defaultMetricsEnabled = false
+	//defaultMetricsEnabled = true
 )
 
 // Options defines the sets of options for exporting metrics.
