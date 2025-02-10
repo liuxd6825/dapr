@@ -7,7 +7,12 @@ import (
 	"github.com/dapr/components-contrib/pubsub"
 )
 
-func (s *Subscriber) Publish(ctx context.Context, request *pubsub.PublishRequest) error {
+func (s *Subscriber) Publish(ctx context.Context, request *pubsub.PublishRequest) (err error) {
+	defer func() {
+		if e := recover(); e != nil {
+			err = fmt.Errorf("panic: %v", e)
+		}
+	}()
 	c, ok := s.compStore.GetPubSubComponent(request.PubsubName)
 	if !ok {
 		return errors.New(fmt.Sprintf("PubSub not found %s", request.PubsubName))

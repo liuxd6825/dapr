@@ -83,6 +83,7 @@ func Run() {
 			Log:     log,
 			Port:    opts.HealthzPort,
 			Healthz: healthz,
+			Enabled: opts.HealthzEnable,
 		}).Start,
 		metricsExporter.Start,
 		secProvider.Run,

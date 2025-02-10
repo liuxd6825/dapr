@@ -33,6 +33,7 @@ var log = logger.NewLogger("dapr.scheduler")
 
 type Options struct {
 	Port                 int
+	HealthzEnable        bool // liuxd 是否启用
 	HealthzPort          int
 	HealthzListenAddress string
 
@@ -78,6 +79,7 @@ func New(origArgs []string) (*Options, error) {
 
 	fs.IntVar(&opts.Port, "port", 50006, "The port for the scheduler server to listen on")
 	fs.IntVar(&opts.HealthzPort, "healthz-port", 8080, "The port for the healthz server to listen on")
+	fs.BoolVar(&opts.HealthzEnable, "healthz-enabled", false, "healthz server be enabled")
 	fs.StringVar(&opts.HealthzListenAddress, "healthz-listen-address", "", "The listening address for the healthz server")
 
 	fs.StringVar(&opts.ListenAddress, "listen-address", "", "The address for the Scheduler to listen on")

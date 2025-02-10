@@ -33,6 +33,7 @@ type Handler struct {
 type Options struct {
 	Healthz  healthz.Healthz
 	Port     int
+	Enabled  bool // liuxd 是否启用
 	Log      logger.Logger
 	Handlers []Handler
 }
@@ -43,10 +44,12 @@ type Server struct {
 	mux     http.Handler
 	port    int
 	htarget healthz.Target
+	enabled bool
 }
 
 // New returns a new healthz server.
 func New(opts Options) *Server {
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
 		if !opts.Healthz.IsReady() {
@@ -79,6 +82,7 @@ func New(opts Options) *Server {
 	return &Server{
 		log:     opts.Log,
 		port:    opts.Port,
+		enabled: opts.Enabled, // liuxd
 		mux:     mux,
 		htarget: opts.Healthz.AddTarget(),
 	}
@@ -86,6 +90,15 @@ func New(opts Options) *Server {
 
 // Start starts a net/http server with a healthz endpoint.
 func (s *Server) Start(ctx context.Context) error {
+
+	// liuxd
+	if !s.enabled {
+		s.htarget.Ready()
+		// Block until context is cancelled.
+		<-ctx.Done()
+		return nil
+	}
+
 	ln, err := net.Listen("tcp", fmt.Sprintf(":%d", s.port))
 	if err != nil {
 		return err

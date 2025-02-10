@@ -1,6 +1,7 @@
 package options
 
 import (
+	"encoding/json"
 	"flag"
 	"path/filepath"
 	"strings"
@@ -94,4 +95,14 @@ func isFlagPassed(name string) bool {
 		}
 	})
 	return found
+}
+
+func (o *Options) GetMap() (map[string]any, error) {
+	data, err := json.Marshal(o)
+	if err != nil {
+		return nil, err
+	}
+	var optsMap map[string]any
+	err = json.Unmarshal(data, &optsMap)
+	return optsMap, err
 }

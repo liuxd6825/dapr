@@ -36,55 +36,55 @@ import (
 )
 
 type Options struct {
-	AppID                         string
-	ComponentsPath                string
-	ControlPlaneAddress           string
-	ControlPlaneTrustDomain       string
-	ControlPlaneNamespace         string
-	SentryAddress                 string
-	TrustAnchors                  []byte
-	AllowedOrigins                string
-	EnableProfiling               bool
-	AppMaxConcurrency             int
-	EnableMTLS                    bool
-	AppSSL                        bool
-	MaxRequestSize                int // In bytes
-	ResourcesPath                 []string
-	AppProtocol                   string
-	EnableAPILogging              *bool
-	RuntimeVersion                bool
-	BuildInfo                     bool
-	WaitCommand                   bool
-	DaprHTTPPort                  string
-	DaprAPIGRPCPort               string
-	ProfilePort                   string
-	DaprInternalGRPCPort          string
-	DaprInternalGRPCListenAddress string
-	DaprPublicPort                string
-	DaprPublicListenAddress       string
-	AppPort                       string
-	DaprGracefulShutdownSeconds   int
-	DaprBlockShutdownDuration     *time.Duration
-	ActorsService                 string
-	RemindersService              string
-	SchedulerAddress              []string
-	DaprAPIListenAddresses        string
-	AppHealthProbeInterval        int
-	AppHealthProbeTimeout         int
-	AppHealthThreshold            int
-	EnableAppHealthCheck          bool
-	Mode                          string
-	Config                        []string
-	UnixDomainSocket              string
-	ReadBufferSize                int // In bytes
-	DisableBuiltinK8sSecretStore  bool
-	AppHealthCheckPath            string
-	AppChannelAddress             string
-	Logger                        logger.Options
-	Metrics                       *metrics.FlagOptions
+	AppID                         string               `json:"app-id"`
+	ComponentsPath                string               `json:"components-path"`
+	ControlPlaneAddress           string               `json:"control-plane-address"`
+	ControlPlaneTrustDomain       string               `json:"control-plane-trust-domain"`
+	ControlPlaneNamespace         string               `json:"control-plane-namespace"`
+	SentryAddress                 string               `json:"sentry-address"`
+	TrustAnchors                  []byte               `json:"trust-anchors"`
+	AllowedOrigins                string               `json:"allowed-origins"`
+	EnableProfiling               bool                 `json:"enable-profiling"`
+	AppMaxConcurrency             int                  `json:"app-max-concurrency"`
+	EnableMTLS                    bool                 `json:"enable-mtls"`
+	AppSSL                        bool                 `json:"app-ssl"`
+	MaxRequestSize                int                  `json:"max-request-size"` // In bytes
+	ResourcesPath                 []string             `json:"resources-path"`
+	AppProtocol                   string               `json:"app-protocol"`
+	EnableAPILogging              *bool                `json:"enable-api-logging"`
+	RuntimeVersion                bool                 `json:"version"`
+	BuildInfo                     bool                 `json:"build-info"`
+	WaitCommand                   bool                 `json:"wait"`
+	DaprHTTPPort                  string               `json:"dapr-http-port"`
+	DaprAPIGRPCPort               string               `json:"dapr-grpc-port"`
+	ProfilePort                   string               `json:"profile-port"`
+	DaprInternalGRPCPort          string               `json:"dapr-internal-grpc-port"`
+	DaprInternalGRPCListenAddress string               `json:"dapr-internal-grpc-listen-address"`
+	DaprPublicPort                string               `json:"dapr-public-port"`
+	DaprPublicListenAddress       string               `json:"dapr-public-listen-address"`
+	AppPort                       string               `json:"app-port"`
+	DaprGracefulShutdownSeconds   int                  `json:"dapr-graceful-shutdown-seconds"`
+	DaprBlockShutdownDuration     *time.Duration       `json:"dapr-block-shutdown-duration"`
+	ActorsService                 string               `json:"actors-service"`
+	RemindersService              string               `json:"reminders-service"`
+	SchedulerAddress              []string             `json:"scheduler-address"`
+	DaprAPIListenAddresses        string               `json:"dapr-listen-addresses"`
+	AppHealthProbeInterval        int                  `json:"app-health-probe-interval"`
+	AppHealthProbeTimeout         int                  `json:"app-health-probe-timeout"`
+	AppHealthThreshold            int                  `json:"app-health-threshold"`
+	EnableAppHealthCheck          bool                 `json:"enable-app-health-check"`
+	Mode                          string               `json:"mode"`
+	Config                        []string             `json:"config"`
+	UnixDomainSocket              string               `json:"unix-domain-socket"`
+	ReadBufferSize                int                  `json:"read-buffer-size"` // In bytes
+	DisableBuiltinK8sSecretStore  bool                 `json:"disable-builtin-k8s-secret-store"`
+	AppHealthCheckPath            string               `json:"app-health-check-path"`
+	AppChannelAddress             string               `json:"app-channel-address"`
+	Logger                        logger.Options       `json:"logger"`
+	Metrics                       *metrics.FlagOptions `json:"metrics"`
 	// liuxd
-	LogFile       string
-	LogOutputType string
+	LogFile       string `json:"log-file"`
+	LogOutputType string `json:"log-output-type"`
 }
 
 func New(origArgs []string) (*Options, error) {
