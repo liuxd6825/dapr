@@ -62,6 +62,7 @@ $ make build GOOS=windows  GOARCH=amd64  REL_VERSION=v1.15-250111
 $ make build GOOS=darwin   GOARCH=arm64  REL_VERSION=v1.15-250111
 ```
 
+
 修改docker/docker.rm文件， 增加参数 --load
 ```shell
 docker-build: check-docker-env check-arch 
