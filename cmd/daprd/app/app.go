@@ -114,6 +114,7 @@ func Run() {
 	// liuxd
 	eventstore.DefaultRegistry.Logger = logContrib
 	applogger.DefaultRegistry.Logger = logContrib
+	//nacos.DefaultRegistry.Logger = logContrib
 	// liuxd end
 
 	reg := registry.NewOptions().
