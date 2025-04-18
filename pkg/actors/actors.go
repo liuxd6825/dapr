@@ -276,7 +276,9 @@ func (a *actors) Run(ctx context.Context) error {
 
 	log.Info("Actor runtime started")
 
-	mngr := concurrency.NewRunnerCloserManager(nil,
+	gracePeriod := time.Duration(5 * time.Second)
+
+	mngr := concurrency.NewRunnerCloserManager(nil, &gracePeriod,
 		func(ctx context.Context) error {
 			// Only wait for host registration before starting the placement client,
 			// since registering Actor host types is dependent on the Actor state

@@ -8,12 +8,14 @@ package runtime
 
 import (
 	grpc "google.golang.org/grpc"
+
 )
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
+
 
 // Dapr_ServiceDesc is the grpc.ServiceDesc for Dapr service.
 // It's only intended for direct use with grpc.RegisterService,
@@ -289,6 +291,10 @@ var Dapr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAppLogById",
 			Handler:    _Dapr_GetAppLogById_Handler,
+		},
+		{
+			MethodName: "Command",
+			Handler:    _Dapr_Command_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

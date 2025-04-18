@@ -350,7 +350,7 @@ func newDaprRuntime(ctx context.Context,
 	}
 
 	rtHealthz := rt.runtimeConfig.healthz.AddTarget()
-	rt.runnerCloser = concurrency.NewRunnerCloserManager(gracePeriod,
+	rt.runnerCloser = concurrency.NewRunnerCloserManager(nil, gracePeriod,
 		rt.runtimeConfig.metricsExporter.Start,
 		rt.processor.Process,
 		rt.reloader.Run,

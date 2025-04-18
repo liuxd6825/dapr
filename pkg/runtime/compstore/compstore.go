@@ -39,7 +39,7 @@ import (
 // Component name.
 type ComponentStore struct {
 	lock sync.RWMutex
-
+	// liuxd
 	eventStorages map[string]eventstore.EventStore
 	appLoggers    map[string]applog.Logger
 
@@ -72,6 +72,7 @@ type ComponentStore struct {
 
 func New() *ComponentStore {
 	return &ComponentStore{
+		// liuxd
 		eventStorages: make(map[string]eventstore.EventStore),
 		appLoggers:    make(map[string]applog.Logger),
 
