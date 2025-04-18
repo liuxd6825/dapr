@@ -2,8 +2,6 @@ module github.com/dapr/dapr/tests/apps/resiliencyapp_grpc
 
 go 1.23.6
 
-toolchain go1.23.8
-
 require (
 	github.com/dapr/dapr v1.7.4
 	google.golang.org/grpc v1.70.0

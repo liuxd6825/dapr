@@ -16,7 +16,9 @@ package placement
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"strconv"
 	"sync"
@@ -34,9 +36,9 @@ import (
 	placementv1pb "github.com/dapr/dapr/pkg/proto/placement/v1"
 	"github.com/dapr/dapr/tests/integration/framework/binary"
 	"github.com/dapr/dapr/tests/integration/framework/client"
+	"github.com/dapr/dapr/tests/integration/framework/metrics"
 	"github.com/dapr/dapr/tests/integration/framework/process"
 	"github.com/dapr/dapr/tests/integration/framework/process/exec"
-	"github.com/dapr/dapr/tests/integration/framework/process/metrics"
 	"github.com/dapr/dapr/tests/integration/framework/process/ports"
 )
 
@@ -65,13 +67,14 @@ func New(t *testing.T, fopts ...Option) *Placement {
 	port := fp.Port(t)
 	opts := options{
 		id:                  uid.String(),
-		logLevel:            "info",
+		logLevel:            "debug",
 		port:                fp.Port(t),
 		healthzPort:         fp.Port(t),
 		metricsPort:         fp.Port(t),
 		initialCluster:      uid.String() + "=127.0.0.1:" + strconv.Itoa(port),
 		initialClusterPorts: []int{port},
 		metadataEnabled:     false,
+		namespace:           "default",
 	}
 
 	for _, fopt := range fopts {
@@ -103,9 +106,19 @@ func New(t *testing.T, fopts ...Option) *Placement {
 	if opts.trustAnchorsFile != nil {
 		args = append(args, "--trust-anchors-file="+*opts.trustAnchorsFile)
 	}
+	if opts.trustDomain != nil {
+		args = append(args, "--trust-domain="+*opts.trustDomain)
+	}
+	if opts.mode != nil {
+		args = append(args, "--mode="+*opts.mode)
+	}
 
 	return &Placement{
-		exec:                exec.New(t, binary.EnvValue("placement"), args, opts.execOpts...),
+		exec: exec.New(t, binary.EnvValue("placement"), args,
+			append(opts.execOpts, exec.WithEnvVars(t,
+				"NAMESPACE", opts.namespace,
+			))...,
+		),
 		ports:               fp,
 		id:                  opts.id,
 		port:                opts.port,
@@ -136,8 +149,8 @@ func (p *Placement) WaitUntilRunning(t *testing.T, ctx context.Context) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf("http://127.0.0.1:%d/healthz", p.healthzPort), nil)
 	require.NoError(t, err)
 	assert.EventuallyWithT(t, func(c *assert.CollectT) {
-		resp, err := client.Do(req)
-		if assert.NoError(c, err) {
+		resp, respErr := client.Do(req)
+		if assert.NoError(c, respErr) {
 			defer resp.Body.Close()
 			assert.Equal(c, http.StatusOK, resp.StatusCode)
 		}
@@ -165,9 +178,7 @@ func (p *Placement) HealthzPort() int {
 }
 
 // Metrics returns a subset of metrics scraped from the metrics endpoint
-func (p *Placement) Metrics(t *testing.T, ctx context.Context) *metrics.Metrics {
-	t.Helper()
-
+func (p *Placement) Metrics(t assert.TestingT, ctx context.Context) *metrics.Metrics {
 	return metrics.New(t, ctx, fmt.Sprintf("http://%s/metrics", p.MetricsAddress()))
 }
 
@@ -228,7 +239,9 @@ func (p *Placement) RegisterHost(t *testing.T, parentCtx context.Context, msg *p
 		cancel()
 		select {
 		case err := <-doneCh:
-			require.NoError(t, err)
+			if !errors.Is(err, io.EOF) {
+				require.NoError(t, err)
+			}
 		case <-time.After(time.Second * 5):
 			assert.Fail(t, "timeout waiting for stream to close")
 		}

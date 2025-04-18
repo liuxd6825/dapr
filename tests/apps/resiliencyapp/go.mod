@@ -2,8 +2,6 @@ module github.com/dapr/dapr/tests/apps/resiliencyapp
 
 go 1.23.6
 
-toolchain go1.23.8
-
 require (
 	github.com/dapr/dapr v0.0.0
 	github.com/gorilla/mux v1.8.1

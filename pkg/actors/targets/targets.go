@@ -22,18 +22,20 @@ import (
 )
 
 type Interface interface {
+	Key() string
+	Type() string
+	ID() string
+
 	InvokeMethod(ctx context.Context, req *internalv1pb.InternalInvokeRequest) (*internalv1pb.InternalInvokeResponse, error)
 	InvokeReminder(ctx context.Context, reminder *api.Reminder) error
 	InvokeTimer(ctx context.Context, reminder *api.Reminder) error
-	Deactivate(ctx context.Context) error
-	CloseUntil(timeout time.Duration)
+	InvokeStream(ctx context.Context, req *internalv1pb.InternalInvokeRequest, stream chan<- *internalv1pb.InternalInvokeResponse) error
+	Deactivate() error
 }
 
 type Idlable interface {
 	Interface
-	Key() string
 	ScheduledTime() time.Time
-	IdleAt(time.Time)
 }
 
 type Factory = func(actorID string) Interface

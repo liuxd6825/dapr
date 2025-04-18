@@ -110,7 +110,7 @@ func (c *SidecarConfig) getSidecarContainer(opts getSidecarContainerOpts) (*core
 
 	// Actor/placement/reminders services
 	// Note that PlacementAddress takes priority over ActorsAddress
-	if c.PlacementAddress != "" {
+	if strings.TrimSpace(c.PlacementAddress) != "" {
 		args = append(args, "--placement-host-address", c.PlacementAddress)
 	} else if c.ActorsService != "" {
 		args = append(args, "--actors-service", c.ActorsService)
@@ -229,7 +229,8 @@ func (c *SidecarConfig) getSidecarContainer(opts getSidecarContainerOpts) (*core
 	}
 
 	// Create the container object
-	probeHTTPHandler := getProbeHTTPHandler(c.SidecarPublicPort, injectorConsts.APIVersionV1, injectorConsts.SidecarHealthzPath)
+	readinessProbeHandler := getReadinessProbeHandler(c.SidecarPublicPort, injectorConsts.APIVersionV1, injectorConsts.SidecarHealthzPath)
+	livenessProbeHandler := getLivenessProbeHandler(c.SidecarPublicPort)
 	env := []corev1.EnvVar{
 		{
 			Name:  "NAMESPACE",
@@ -271,11 +272,17 @@ func (c *SidecarConfig) getSidecarContainer(opts getSidecarContainerOpts) (*core
 	}
 
 	// Scheduler address could be empty if scheduler service is disabled
-	if c.SchedulerAddress != "" {
+	// TODO: remove in v1.16 when daprd no longer needs all scheduler pod
+	// addresses for serving.
+	if strings.TrimSpace(c.SchedulerAddress) != "" {
 		env = append(env,
 			corev1.EnvVar{
 				Name:  injectorConsts.SchedulerHostAddressEnvVar,
 				Value: c.SchedulerAddress,
+			},
+			corev1.EnvVar{
+				Name:  injectorConsts.SchedulerHostAddressDNSAEnvVar,
+				Value: c.SchedulerAddressDNSA,
 			},
 		)
 	}
@@ -290,14 +297,14 @@ func (c *SidecarConfig) getSidecarContainer(opts getSidecarContainerOpts) (*core
 		Env:             env,
 		VolumeMounts:    opts.VolumeMounts,
 		ReadinessProbe: &corev1.Probe{
-			ProbeHandler:        probeHTTPHandler,
+			ProbeHandler:        readinessProbeHandler,
 			InitialDelaySeconds: c.SidecarReadinessProbeDelaySeconds,
 			TimeoutSeconds:      c.SidecarReadinessProbeTimeoutSeconds,
 			PeriodSeconds:       c.SidecarReadinessProbePeriodSeconds,
 			FailureThreshold:    c.SidecarReadinessProbeThreshold,
 		},
 		LivenessProbe: &corev1.Probe{
-			ProbeHandler:        probeHTTPHandler,
+			ProbeHandler:        livenessProbeHandler,
 			InitialDelaySeconds: c.SidecarLivenessProbeDelaySeconds,
 			TimeoutSeconds:      c.SidecarLivenessProbeTimeoutSeconds,
 			PeriodSeconds:       c.SidecarLivenessProbePeriodSeconds,
@@ -568,10 +575,18 @@ func (c *SidecarConfig) GetAppProtocol() string {
 	}
 }
 
-func getProbeHTTPHandler(port int32, pathElements ...string) corev1.ProbeHandler {
+func getReadinessProbeHandler(port int32, pathElements ...string) corev1.ProbeHandler {
 	return corev1.ProbeHandler{
 		HTTPGet: &corev1.HTTPGetAction{
 			Path: formatProbePath(pathElements...),
+			Port: intstr.IntOrString{IntVal: port},
+		},
+	}
+}
+
+func getLivenessProbeHandler(port int32) corev1.ProbeHandler {
+	return corev1.ProbeHandler{
+		TCPSocket: &corev1.TCPSocketAction{
 			Port: intstr.IntOrString{IntVal: port},
 		},
 	}

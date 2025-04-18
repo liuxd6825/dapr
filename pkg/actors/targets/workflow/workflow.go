@@ -23,19 +23,22 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"time"
 
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/anypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	"google.golang.org/protobuf/types/known/wrapperspb"
 
 	"github.com/dapr/dapr/pkg/actors"
 	actorapi "github.com/dapr/dapr/pkg/actors/api"
+	"github.com/dapr/dapr/pkg/actors/engine"
 	actorerrors "github.com/dapr/dapr/pkg/actors/errors"
+	"github.com/dapr/dapr/pkg/actors/reminders"
+	"github.com/dapr/dapr/pkg/actors/state"
+	"github.com/dapr/dapr/pkg/actors/table"
 	"github.com/dapr/dapr/pkg/actors/targets"
-	"github.com/dapr/dapr/pkg/actors/targets/internal"
 	diag "github.com/dapr/dapr/pkg/diagnostics"
 	invokev1 "github.com/dapr/dapr/pkg/messaging/v1"
 	commonv1pb "github.com/dapr/dapr/pkg/proto/common/v1"
@@ -45,11 +48,16 @@ import (
 	wfenginestate "github.com/dapr/dapr/pkg/runtime/wfengine/state"
 	"github.com/dapr/dapr/pkg/runtime/wfengine/todo"
 	"github.com/dapr/durabletask-go/api"
+	"github.com/dapr/durabletask-go/api/protos"
 	"github.com/dapr/durabletask-go/backend"
+	"github.com/dapr/durabletask-go/backend/runtimestate"
+	"github.com/dapr/kit/events/broadcaster"
 	"github.com/dapr/kit/logger"
 )
 
 var log = logger.NewLogger("dapr.runtime.actors.targets.workflow")
+
+type EventSink func(*backend.OrchestrationMetadata)
 
 type workflow struct {
 	appID             string
@@ -58,68 +66,112 @@ type workflow struct {
 	activityActorType string
 
 	resiliency resiliency.Provider
-	actors     actors.Interface
+	engine     engine.Interface
+	table      table.Interface
+	reminders  reminders.Interface
+	actorState state.Interface
 
-	lock             *internal.Lock
 	reminderInterval time.Duration
 
-	state *wfenginestate.State
+	state            *wfenginestate.State
+	rstate           *backend.OrchestrationRuntimeState
+	ometa            *backend.OrchestrationMetadata
+	ometaBroadcaster *broadcaster.Broadcaster[*backend.OrchestrationMetadata]
 
 	scheduler             todo.WorkflowScheduler
 	activityResultAwaited atomic.Bool
 	completed             atomic.Bool
 	schedulerReminders    bool
-
-	// TODO: @joshvanl: remove
-	defaultTimeout time.Duration
+	lock                  sync.Mutex
+	closeCh               chan struct{}
+	closed                atomic.Bool
 }
 
 type WorkflowOptions struct {
 	AppID             string
 	WorkflowActorType string
 	ActivityActorType string
-	CachingDisabled   bool
-	DefaultTimeout    *time.Duration
 	ReminderInterval  *time.Duration
 
 	Resiliency         resiliency.Provider
 	Actors             actors.Interface
 	Scheduler          todo.WorkflowScheduler
 	SchedulerReminders bool
+	EventSink          EventSink
 }
 
-func WorkflowFactory(opts WorkflowOptions) targets.Factory {
+func WorkflowFactory(ctx context.Context, opts WorkflowOptions) (targets.Factory, error) {
+	table, err := opts.Actors.Table(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	astate, err := opts.Actors.State(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	engine, err := opts.Actors.Engine(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	reminders, err := opts.Actors.Reminders(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return func(actorID string) targets.Interface {
 		reminderInterval := time.Minute * 1
-		defaultTimeout := time.Second * 30
 
 		if opts.ReminderInterval != nil {
 			reminderInterval = *opts.ReminderInterval
 		}
-		if opts.DefaultTimeout != nil {
-			defaultTimeout = *opts.DefaultTimeout
-		}
 
-		return &workflow{
+		w := &workflow{
 			appID:              opts.AppID,
 			actorID:            actorID,
 			actorType:          opts.WorkflowActorType,
 			activityActorType:  opts.ActivityActorType,
 			scheduler:          opts.Scheduler,
 			reminderInterval:   reminderInterval,
-			defaultTimeout:     defaultTimeout,
 			resiliency:         opts.Resiliency,
-			actors:             opts.Actors,
+			table:              table,
+			reminders:          reminders,
+			engine:             engine,
+			actorState:         astate,
 			schedulerReminders: opts.SchedulerReminders,
-			lock: internal.NewLock(internal.LockOptions{
-				ActorType: opts.WorkflowActorType,
-			}),
+			ometaBroadcaster:   broadcaster.New[*backend.OrchestrationMetadata](),
+			closeCh:            make(chan struct{}),
+		}
+		if opts.EventSink != nil {
+			ch := make(chan *backend.OrchestrationMetadata)
+			go w.runEventSink(ch, opts.EventSink)
+			// We use a Background context since this subscription should be maintained for the entire lifecycle of this workflow actor. The subscription will be shutdown during the actor deactivation.
+			w.ometaBroadcaster.Subscribe(context.Background(), ch)
+		}
+		return w
+	}, nil
+}
+
+func (w *workflow) runEventSink(ch chan *backend.OrchestrationMetadata, cb func(*backend.OrchestrationMetadata)) {
+	for {
+		select {
+		case <-w.closeCh:
+			return
+		case val, ok := <-ch:
+			if !ok {
+				return
+			}
+			cb(val)
 		}
 	}
 }
 
 // InvokeMethod implements actors.InternalActor
 func (w *workflow) InvokeMethod(ctx context.Context, req *internalsv1pb.InternalInvokeRequest) (*internalsv1pb.InternalInvokeResponse, error) {
+	w.table.RemoveIdler(w)
+
 	if req.GetMessage() == nil {
 		return nil, errors.New("message is nil in request")
 	}
@@ -130,12 +182,6 @@ func (w *workflow) InvokeMethod(ctx context.Context, req *internalsv1pb.Internal
 		return nil, fmt.Errorf("failed to create InvokeMethodRequest: %w", err)
 	}
 	defer imReq.Close()
-
-	cancel, err := w.lock.LockRequest(imReq)
-	if err != nil {
-		return nil, err
-	}
-	defer cancel()
 
 	policyDef := w.resiliency.ActorPostLockPolicy(w.actorType, w.actorID)
 	policyRunner := resiliency.NewRunner[*internalsv1pb.InternalInvokeResponse](ctx, policyDef)
@@ -166,23 +212,6 @@ func (w *workflow) executeMethod(ctx context.Context, methodName string, request
 	case todo.CreateWorkflowInstanceMethod:
 		return nil, w.createWorkflowInstance(ctx, request)
 
-	case todo.GetWorkflowMetadataMethod:
-		meta, err := w.getWorkflowMetadata(ctx)
-		if err != nil {
-			log.Errorf("Workflow actor '%s': failed to get workflow metadata: %v", w.actorID, err)
-			return nil, err
-		}
-		return proto.Marshal(meta)
-
-	case todo.GetWorkflowStateMethod:
-		var state *wfenginestate.State
-		state, err := w.getWorkflowState(ctx)
-		if err != nil {
-			log.Errorf("Workflow actor '%s': failed to get workflow state: %v", w.actorID, err)
-			return nil, err
-		}
-		return state.EncodeWorkflowState()
-
 	case todo.AddWorkflowEventMethod:
 		return nil, w.addWorkflowEvent(ctx, request)
 
@@ -196,76 +225,54 @@ func (w *workflow) executeMethod(ctx context.Context, methodName string, request
 
 // InvokeReminder implements actors.InternalActor
 func (w *workflow) InvokeReminder(ctx context.Context, reminder *actorapi.Reminder) error {
-	cancel, err := w.lock.Lock()
-	if err != nil {
-		return err
-	}
-	defer cancel()
-
 	log.Debugf("Workflow actor '%s': invoking reminder '%s'", w.actorID, reminder.Name)
 
-	// Workflow executions should never take longer than a few seconds at the most
-	timeoutCtx, cancelTimeout := context.WithTimeout(ctx, w.defaultTimeout)
-	defer cancelTimeout()
-	completed, err := w.runWorkflow(timeoutCtx, reminder)
+	completed, err := w.runWorkflow(ctx, reminder)
 
 	if completed == runCompletedTrue {
-		w.completed.Store(true)
+		w.table.DeleteFromTableIn(w, time.Second*10)
 	}
 
 	// We delete the reminder on success and on non-recoverable errors.
 	// Returning nil signals that we want the execution to be retried in the next period interval
 	switch {
 	case err == nil:
+		if w.schedulerReminders {
+			return nil
+		}
 		return actorerrors.ErrReminderCanceled
 	case errors.Is(err, context.DeadlineExceeded):
 		log.Warnf("Workflow actor '%s': execution timed-out and will be retried later: '%v'", w.actorID, err)
 		return err
 	case errors.Is(err, context.Canceled):
 		log.Warnf("Workflow actor '%s': execution was canceled (process shutdown?) and will be retried later: '%v'", w.actorID, err)
+		if w.schedulerReminders {
+			return err
+		}
 		return nil
 	case wferrors.IsRecoverable(err):
 		log.Warnf("Workflow actor '%s': execution failed with a recoverable error and will be retried later: '%v'", w.actorID, err)
+		if w.schedulerReminders {
+			return err
+		}
 		return nil
 	default: // Other error
-		log.Errorf("Workflow actor '%s': execution failed with a non-recoverable error: %v", w.actorID, err)
+		log.Errorf("Workflow actor '%s': execution failed with an error: %v", w.actorID, err)
+		if w.schedulerReminders {
+			return err
+		}
 		return actorerrors.ErrReminderCanceled
 	}
 }
 
 // InvokeTimer implements actors.InternalActor
 func (w *workflow) InvokeTimer(ctx context.Context, reminder *actorapi.Reminder) error {
-	// TODO: @joshvanl: lock actor
 	return errors.New("timers are not implemented")
 }
 
-// DeactivateActor implements actors.InternalActor
-func (w *workflow) DeactivateActor(ctx context.Context) error {
-	// TODO: @joshvanl: Close everything else in this actor and wait
-	log.Debugf("Workflow actor '%s': deactivating", w.actorID)
-	w.state = nil // A bit of extra caution, shouldn't be necessary
-	return nil
-}
-
 func (w *workflow) createWorkflowInstance(ctx context.Context, request []byte) error {
-	// create a new state entry if one doesn't already exist
-	state, err := w.loadInternalState(ctx)
-	if err != nil {
-		return err
-	}
-
-	created := false
-	if state == nil {
-		state = wfenginestate.NewState(wfenginestate.Options{
-			AppID:             w.appID,
-			WorkflowActorType: w.actorType,
-			ActivityActorType: w.activityActorType,
-		})
-		created = true
-	}
-
 	var createWorkflowInstanceRequest backend.CreateWorkflowInstanceRequest
-	if err = proto.Unmarshal(request, &createWorkflowInstanceRequest); err != nil {
+	if err := proto.Unmarshal(request, &createWorkflowInstanceRequest); err != nil {
 		return fmt.Errorf("failed to unmarshal createWorkflowInstanceRequest: %w", err)
 	}
 	reuseIDPolicy := createWorkflowInstanceRequest.GetPolicy()
@@ -281,17 +288,32 @@ func (w *workflow) createWorkflowInstance(ctx context.Context, request []byte) e
 		}
 	}
 
-	// orchestration didn't exist and was just created
-	if created {
+	state, _, err := w.loadInternalState(ctx)
+	if err != nil {
+		return err
+	}
+
+	// orchestration didn't exist
+	// create a new state entry if one doesn't already exist
+	if state == nil {
+		state = wfenginestate.NewState(wfenginestate.Options{
+			AppID:             w.appID,
+			WorkflowActorType: w.actorType,
+			ActivityActorType: w.activityActorType,
+		})
+		w.lock.Lock()
+		w.rstate = runtimestate.NewOrchestrationRuntimeState(w.actorID, state.CustomStatus, state.History)
+		w.setOrchestrationMetadata(w.rstate, startEvent.GetExecutionStarted())
+		w.lock.Unlock()
 		return w.scheduleWorkflowStart(ctx, startEvent, state)
 	}
 
 	// orchestration already existed: apply reuse id policy
-	runtimeState := getRuntimeState(w.actorID, state)
-	runtimeStatus := runtimeState.RuntimeStatus()
+	rs := w.rstate
+	runtimeStatus := runtimestate.RuntimeStatus(rs)
 	// if target status doesn't match, fall back to original logic, create instance only if previous one is completed
 	if !isStatusMatch(reuseIDPolicy.GetOperationStatus(), runtimeStatus) {
-		return w.createIfCompleted(ctx, runtimeState, state, startEvent)
+		return w.createIfCompleted(ctx, rs, state, startEvent)
 	}
 
 	switch reuseIDPolicy.GetAction() {
@@ -310,7 +332,7 @@ func (w *workflow) createWorkflowInstance(ctx context.Context, request []byte) e
 		return w.scheduleWorkflowStart(ctx, startEvent, state)
 	}
 	// default Action ERROR, fall back to original logic
-	return w.createIfCompleted(ctx, runtimeState, state, startEvent)
+	return w.createIfCompleted(ctx, rs, state, startEvent)
 }
 
 func isStatusMatch(statuses []api.OrchestrationStatus, runtimeStatus api.OrchestrationStatus) bool {
@@ -326,10 +348,10 @@ func (w *workflow) Completed() bool {
 	return w.completed.Load()
 }
 
-func (w *workflow) createIfCompleted(ctx context.Context, runtimeState *backend.OrchestrationRuntimeState, state *wfenginestate.State, startEvent *backend.HistoryEvent) error {
+func (w *workflow) createIfCompleted(ctx context.Context, rs *backend.OrchestrationRuntimeState, state *wfenginestate.State, startEvent *backend.HistoryEvent) error {
 	// We block (re)creation of existing workflows unless they are in a completed state
 	// Or if they still have any pending activity result awaited.
-	if !runtimeState.IsCompleted() {
+	if !runtimestate.IsCompleted(rs) {
 		return fmt.Errorf("an active workflow with ID '%s' already exists", w.actorID)
 	}
 	if w.activityResultAwaited.Load() {
@@ -375,76 +397,30 @@ func (w *workflow) cleanupWorkflowStateInternal(ctx context.Context, state *wfen
 		return err
 	}
 	// This will do the purging
-	s, err := w.actors.State(ctx)
+	err = w.actorState.TransactionalStateOperation(ctx, true, req)
 	if err != nil {
 		return err
 	}
-	err = s.TransactionalStateOperation(ctx, req)
-	if err != nil {
-		return err
-	}
-	w.state = nil
+	w.table.DeleteFromTableIn(w, 0)
+	w.cleanup()
 	return nil
-}
-
-func (w *workflow) getWorkflowMetadata(ctx context.Context) (*backend.OrchestrationMetadata, error) {
-	state, err := w.loadInternalState(ctx)
-	if err != nil {
-		return nil, err
-	}
-	if state == nil {
-		return nil, api.ErrInstanceNotFound
-	}
-
-	runtimeState := getRuntimeState(w.actorID, state)
-
-	name, _ := runtimeState.Name()
-	createdAt, _ := runtimeState.CreatedTime()
-	lastUpdated, _ := runtimeState.LastUpdatedTime()
-	input, _ := runtimeState.Input()
-	output, _ := runtimeState.Output()
-	failureDetuils, _ := runtimeState.FailureDetails()
-
-	return &backend.OrchestrationMetadata{
-		InstanceId:     string(runtimeState.InstanceID()),
-		Name:           name,
-		RuntimeStatus:  runtimeState.RuntimeStatus(),
-		CreatedAt:      timestamppb.New(createdAt),
-		LastUpdatedAt:  timestamppb.New(lastUpdated),
-		Input:          wrapperspb.String(input),
-		Output:         wrapperspb.String(output),
-		CustomStatus:   state.CustomStatus,
-		FailureDetails: failureDetuils,
-	}, nil
-}
-
-func (w *workflow) getWorkflowState(ctx context.Context) (*wfenginestate.State, error) {
-	state, err := w.loadInternalState(ctx)
-	if err != nil {
-		return nil, err
-	}
-	if state == nil {
-		return nil, api.ErrInstanceNotFound
-	}
-	return state, nil
 }
 
 // This method purges all the completed activity data from a workflow associated with the given actorID
 func (w *workflow) purgeWorkflowState(ctx context.Context) error {
-	state, err := w.loadInternalState(ctx)
+	state, _, err := w.loadInternalState(ctx)
 	if err != nil {
 		return err
 	}
 	if state == nil {
 		return api.ErrInstanceNotFound
 	}
-	runtimeState := getRuntimeState(w.actorID, state)
 	w.completed.Store(true)
-	return w.cleanupWorkflowStateInternal(ctx, state, !runtimeState.IsCompleted())
+	return w.cleanupWorkflowStateInternal(ctx, state, !runtimestate.IsCompleted(w.rstate))
 }
 
 func (w *workflow) addWorkflowEvent(ctx context.Context, historyEventBytes []byte) error {
-	state, err := w.loadInternalState(ctx)
+	state, _, err := w.loadInternalState(ctx)
 	if err != nil {
 		return err
 	}
@@ -463,34 +439,40 @@ func (w *workflow) addWorkflowEvent(ctx context.Context, historyEventBytes []byt
 	log.Debugf("Workflow actor '%s': adding event to the workflow inbox", w.actorID)
 	state.AddToInbox(&e)
 
+	if err := w.saveInternalState(ctx, state); err != nil {
+		return err
+	}
+
 	if _, err := w.createReliableReminder(ctx, "new-event", nil, 0); err != nil {
 		return err
 	}
-	return w.saveInternalState(ctx, state)
+
+	return nil
 }
 
-func (w *workflow) getWorkflowName(oldEvents, newEvents []*backend.HistoryEvent) string {
-	for _, e := range oldEvents {
+func (w *workflow) getExecutionStartedEvent(state *wfenginestate.State) *protos.ExecutionStartedEvent {
+	for _, e := range state.History {
 		if es := e.GetExecutionStarted(); es != nil {
-			return es.GetName()
+			return es
 		}
 	}
-	for _, e := range newEvents {
+	for _, e := range state.Inbox {
 		if es := e.GetExecutionStarted(); es != nil {
-			return es.GetName()
+			return es
 		}
 	}
-	return ""
+	return &protos.ExecutionStartedEvent{}
 }
 
 func (w *workflow) runWorkflow(ctx context.Context, reminder *actorapi.Reminder) (runCompleted, error) {
-	state, err := w.loadInternalState(ctx)
+	state, _, err := w.loadInternalState(ctx)
 	if err != nil {
 		return runCompletedTrue, fmt.Errorf("error loading internal state: %w", err)
 	}
 	if state == nil {
 		// The assumption is that someone manually deleted the workflow state. This is non-recoverable.
-		return runCompletedTrue, errors.New("no workflow state found")
+		log.Warnf("No workflow state found for actor '%s', terminating execution", w.actorID)
+		return runCompletedTrue, nil
 	}
 
 	if strings.HasPrefix(reminder.Name, "timer-") {
@@ -545,44 +527,53 @@ func (w *workflow) runWorkflow(ctx context.Context, reminder *actorapi.Reminder)
 		}
 	}
 
-	astate, err := w.actors.State(ctx)
-	if err != nil {
-		return runCompletedFalse, err
-	}
+	var lock sync.Mutex
+	var wg sync.WaitGroup
+	var errs []error
 
-	// TODO: for optimization make multiple go routines and run them in parallel
+	wg.Add(len(transactionalRequests))
 	for activityActorID, operations := range transactionalRequests {
-		err = astate.TransactionalStateOperation(ctx, &actorapi.TransactionalRequest{
-			ActorType:  w.activityActorType,
-			ActorID:    activityActorID,
-			Operations: operations,
-		})
-		if err != nil {
-			return runCompletedFalse, fmt.Errorf("failed to delete activity state for activity actor '%s' with error: %w", activityActorID, err)
-		}
+		go func(activityActorID string, operations []actorapi.TransactionalOperation) {
+			defer wg.Done()
+			aerr := w.actorState.TransactionalStateOperation(ctx, true, &actorapi.TransactionalRequest{
+				ActorType:  w.activityActorType,
+				ActorID:    activityActorID,
+				Operations: operations,
+			})
+			if aerr != nil {
+				lock.Lock()
+				errs = append(errs, fmt.Errorf("failed to delete activity state for activity actor '%s' with error: %w", activityActorID, aerr))
+				lock.Unlock()
+				return
+			}
+		}(activityActorID, operations)
+	}
+	wg.Wait()
+	if len(errs) > 0 {
+		return runCompletedFalse, errors.Join(errs...)
 	}
 
-	runtimeState := getRuntimeState(w.actorID, state)
+	rs := w.rstate
 	wi := &backend.OrchestrationWorkItem{
-		InstanceID: runtimeState.InstanceID(),
+		InstanceID: api.InstanceID(rs.GetInstanceId()),
 		NewEvents:  state.Inbox,
 		RetryCount: -1, // TODO
-		State:      runtimeState,
+		State:      rs,
 		Properties: make(map[string]any, 1),
 	}
 
 	// Executing workflow code is a one-way operation. We must wait for the app code to report its completion, which
 	// will trigger this callback channel.
-	callback := make(chan bool)
+	callback := make(chan bool, 1)
 	wi.Properties[todo.CallbackChannelProperty] = callback
 	// Setting executionStatus to failed by default to record metrics for non-recoverable errors.
 	executionStatus := diag.StatusFailed
-	if runtimeState.IsCompleted() {
+	if rs != nil && runtimestate.IsCompleted(rs) {
 		// If workflow is already completed, set executionStatus to empty string
 		// which will skip recording metrics for this execution.
 		executionStatus = ""
 	}
-	workflowName := w.getWorkflowName(state.History, state.Inbox)
+	workflowName := w.getExecutionStartedEvent(state).GetName()
 	// Request to execute workflow
 	log.Debugf("Workflow actor '%s': scheduling workflow execution with instanceId '%s'", w.actorID, wi.InstanceID)
 	// Schedule the workflow execution by signaling the backend
@@ -617,18 +608,18 @@ func (w *workflow) runWorkflow(ctx context.Context, reminder *actorapi.Reminder)
 			return runCompletedFalse, wferrors.NewRecoverable(errExecutionAborted)
 		}
 	}
-	log.Debugf("Workflow actor '%s': workflow execution returned with status '%s' instanceId '%s'", w.actorID, runtimeState.RuntimeStatus().String(), wi.InstanceID)
+	log.Debugf("Workflow actor '%s': workflow execution returned with status '%s' instanceId '%s'", w.actorID, runtimestate.RuntimeStatus(rs).String(), wi.InstanceID)
 
 	// Increment the generation counter if the workflow used continue-as-new. Subsequent actions below
 	// will use this updated generation value for their duplication execution handling.
-	if runtimeState.ContinuedAsNew() {
+	if rs.GetContinuedAsNew() {
 		log.Debugf("Workflow actor '%s': workflow with instanceId '%s' continued as new", w.actorID, wi.InstanceID)
 		state.Generation += 1
 	}
 
-	if !runtimeState.IsCompleted() {
+	if !runtimestate.IsCompleted(rs) {
 		// Create reminders for the durable timers. We only do this if the orchestration is still running.
-		for _, t := range runtimeState.PendingTimers() {
+		for _, t := range rs.GetPendingTimers() {
 			tf := t.GetTimerFired()
 			if tf == nil {
 				return runCompletedTrue, errors.New("invalid event in the PendingTimers list")
@@ -651,94 +642,128 @@ func (w *workflow) runWorkflow(ctx context.Context, reminder *actorapi.Reminder)
 	}
 
 	// Process the outbound orchestrator events
-	reqsByName := make(map[string][]backend.OrchestratorMessage, len(runtimeState.PendingMessages()))
-	for _, msg := range runtimeState.PendingMessages() {
-		if es := msg.HistoryEvent.GetExecutionStarted(); es != nil {
+	reqsByName := make(map[string][]*backend.OrchestrationRuntimeStateMessage, len(rs.GetPendingMessages()))
+	for _, msg := range rs.GetPendingMessages() {
+		if es := msg.GetHistoryEvent().GetExecutionStarted(); es != nil {
 			reqsByName[todo.CreateWorkflowInstanceMethod] = append(reqsByName[todo.CreateWorkflowInstanceMethod], msg)
-		} else if msg.HistoryEvent.GetSubOrchestrationInstanceCompleted() != nil || msg.HistoryEvent.GetSubOrchestrationInstanceFailed() != nil {
+		} else if msg.GetHistoryEvent().GetSubOrchestrationInstanceCompleted() != nil || msg.GetHistoryEvent().GetSubOrchestrationInstanceFailed() != nil {
 			reqsByName[todo.AddWorkflowEventMethod] = append(reqsByName[todo.AddWorkflowEventMethod], msg)
 		} else {
 			log.Warnf("Workflow actor '%s': don't know how to process outbound message '%v'", w.actorID, msg)
 		}
 	}
 
-	engine, err := w.actors.Engine(ctx)
-	if err != nil {
-		return runCompletedFalse, err
-	}
+	var compl runCompleted
 
 	// Schedule activities
-	// TODO: Parallelism
-	for _, e := range runtimeState.PendingTasks() {
-		ts := e.GetTaskScheduled()
-		if ts == nil {
-			log.Warnf("Workflow actor '%s': unable to process task '%v'", w.actorID, e)
-			continue
-		}
+	pendingTasks := rs.GetPendingTasks()
+	wg.Add(len(pendingTasks))
+	for _, e := range pendingTasks {
+		go func(e *backend.HistoryEvent) {
+			defer wg.Done()
 
-		var eventData []byte
-		eventData, err = proto.Marshal(e)
-		if err != nil {
-			return runCompletedTrue, err
-		}
-
-		targetActorID := getActivityActorID(w.actorID, e.GetEventId(), state.Generation)
-
-		w.activityResultAwaited.Store(true)
-
-		log.Debugf("Workflow actor '%s': invoking execute method on activity actor '%s'", w.actorID, targetActorID)
-
-		_, err = engine.Call(ctx, internalsv1pb.
-			NewInternalInvokeRequest("Execute").
-			WithActor(w.activityActorType, targetActorID).
-			WithData(eventData).
-			WithContentType(invokev1.ProtobufContentType),
-		)
-
-		if errors.Is(err, ErrDuplicateInvocation) {
-			log.Warnf("Workflow actor '%s': activity invocation '%s::%d' was flagged as a duplicate and will be skipped", w.actorID, ts.GetName(), e.GetEventId())
-			continue
-		} else if err != nil {
-			executionStatus = diag.StatusRecoverable
-			return runCompletedFalse, wferrors.NewRecoverable(fmt.Errorf("failed to invoke activity actor '%s' to execute '%s': %w", targetActorID, ts.GetName(), err))
-		}
-	}
-
-	// TODO: Do these in parallel?
-	for method, msgList := range reqsByName {
-		for _, msg := range msgList {
-			var requestBytes []byte
-			if method == todo.CreateWorkflowInstanceMethod {
-				requestBytes, err = proto.Marshal(&backend.CreateWorkflowInstanceRequest{
-					StartEvent: msg.HistoryEvent,
-				})
-				if err != nil {
-					return runCompletedTrue, fmt.Errorf("failed to marshal createWorkflowInstanceRequest: %w", err)
-				}
-			} else {
-				requestBytes, err = proto.Marshal(msg.HistoryEvent)
-				if err != nil {
-					return runCompletedTrue, err
-				}
+			ts := e.GetTaskScheduled()
+			if ts == nil {
+				log.Warnf("Workflow actor '%s': unable to process task '%v'", w.actorID, e)
+				return
 			}
 
-			log.Debugf("Workflow actor '%s': invoking method '%s' on workflow actor '%s'", w.actorID, method, msg.TargetInstanceID)
+			var eventData []byte
+			eventData, err = proto.Marshal(e)
+			if err != nil {
+				lock.Lock()
+				compl = runCompletedTrue
+				errs = append(errs, err)
+				lock.Unlock()
+				return
+			}
 
-			_, err = engine.Call(ctx, internalsv1pb.
-				NewInternalInvokeRequest(method).
-				WithActor(w.actorType, msg.TargetInstanceID).
-				WithData(requestBytes).
+			targetActorID := getActivityActorID(w.actorID, e.GetEventId(), state.Generation)
+
+			w.activityResultAwaited.Store(true)
+
+			log.Debugf("Workflow actor '%s': invoking execute method on activity actor '%s'", w.actorID, targetActorID)
+
+			_, eerr := w.engine.Call(ctx, internalsv1pb.
+				NewInternalInvokeRequest("Execute").
+				WithActor(w.activityActorType, targetActorID).
+				WithData(eventData).
 				WithContentType(invokev1.ProtobufContentType),
 			)
-			if err != nil {
+
+			if errors.Is(eerr, ErrDuplicateInvocation) {
+				log.Warnf("Workflow actor '%s': activity invocation '%s::%d' was flagged as a duplicate and will be skipped", w.actorID, ts.GetName(), e.GetEventId())
+				return
+			} else if eerr != nil {
+				lock.Lock()
 				executionStatus = diag.StatusRecoverable
-				// workflow-related actor methods are never expected to return errors
-				return runCompletedFalse, wferrors.NewRecoverable(fmt.Errorf("method %s on actor '%s' returned an error: %w", method, msg.TargetInstanceID, err))
+				errs = append(errs, fmt.Errorf("failed to invoke activity actor '%s' to execute '%s': %w", targetActorID, ts.GetName(), eerr))
+				lock.Unlock()
+				return
 			}
+		}(e)
+	}
+
+	wg.Wait()
+	if len(errs) > 0 {
+		return compl, errors.Join(errs...)
+	}
+
+	for method, msgList := range reqsByName {
+		wg.Add(len(msgList))
+		for _, msg := range msgList {
+			go func(method string, msg *backend.OrchestrationRuntimeStateMessage) {
+				defer wg.Done()
+
+				var requestBytes []byte
+				var perr error
+				if method == todo.CreateWorkflowInstanceMethod {
+					requestBytes, perr = proto.Marshal(&backend.CreateWorkflowInstanceRequest{
+						StartEvent: msg.GetHistoryEvent(),
+					})
+					if perr != nil {
+						lock.Lock()
+						errs = append(errs, fmt.Errorf("failed to marshal createWorkflowInstanceRequest: %w", perr))
+						compl = runCompletedTrue
+						lock.Unlock()
+						return
+					}
+				} else {
+					requestBytes, perr = proto.Marshal(msg.GetHistoryEvent())
+					if perr != nil {
+						lock.Lock()
+						errs = append(errs, perr)
+						compl = runCompletedTrue
+						lock.Unlock()
+						return
+					}
+				}
+
+				log.Debugf("Workflow actor '%s': invoking method '%s' on workflow actor '%s'", w.actorID, method, msg.GetTargetInstanceID())
+
+				_, eerr := w.engine.Call(ctx, internalsv1pb.
+					NewInternalInvokeRequest(method).
+					WithActor(w.actorType, msg.GetTargetInstanceID()).
+					WithData(requestBytes).
+					WithContentType(invokev1.ProtobufContentType),
+				)
+				if eerr != nil {
+					lock.Lock()
+					executionStatus = diag.StatusRecoverable
+					errs = append(errs, fmt.Errorf("failed to invoke method '%s' on actor '%s': %w", method, msg.GetTargetInstanceID(), eerr))
+					lock.Unlock()
+					return
+				}
+			}(method, msg)
 		}
 	}
 
-	state.ApplyRuntimeStateChanges(runtimeState)
+	wg.Wait()
+	if len(errs) > 0 {
+		return compl, errors.Join(errs...)
+	}
+
+	state.ApplyRuntimeStateChanges(rs)
 	state.ClearInbox()
 
 	err = w.saveInternalState(ctx, state)
@@ -749,8 +774,8 @@ func (w *workflow) runWorkflow(ctx context.Context, reminder *actorapi.Reminder)
 		// If workflow is not completed, set executionStatus to empty string
 		// which will skip recording metrics for this execution.
 		executionStatus = ""
-		if runtimeState.IsCompleted() {
-			if runtimeState.RuntimeStatus() == api.RUNTIME_STATUS_COMPLETED {
+		if runtimestate.IsCompleted(rs) {
+			if runtimestate.RuntimeStatus(rs) == api.RUNTIME_STATUS_COMPLETED {
 				executionStatus = diag.StatusSuccess
 			} else {
 				// Setting executionStatus to failed if workflow has failed/terminated/cancelled
@@ -759,8 +784,8 @@ func (w *workflow) runWorkflow(ctx context.Context, reminder *actorapi.Reminder)
 			wfExecutionElapsedTime = w.calculateWorkflowExecutionLatency(state)
 		}
 	}
-	if runtimeState.IsCompleted() {
-		log.Infof("Workflow Actor '%s': workflow completed with status '%s' workflowName '%s'", w.actorID, runtimeState.RuntimeStatus().String(), workflowName)
+	if runtimestate.IsCompleted(rs) {
+		log.Infof("Workflow Actor '%s': workflow completed with status '%s' workflowName '%s'", w.actorID, runtimestate.RuntimeStatus(rs).String(), workflowName)
 		return runCompletedTrue, nil
 	}
 	return runCompletedFalse, nil
@@ -799,33 +824,35 @@ func (*workflow) recordWorkflowSchedulingLatency(ctx context.Context, esHistoryE
 	}
 }
 
-func (w *workflow) loadInternalState(ctx context.Context) (*wfenginestate.State, error) {
+func (w *workflow) loadInternalState(ctx context.Context) (*wfenginestate.State, *backend.OrchestrationMetadata, error) {
 	// See if the state for this actor is already cached in memory
 	if w.state != nil {
-		return w.state, nil
+		return w.state, w.ometa, nil
 	}
 
 	// state is not cached, so try to load it from the state store
 	log.Debugf("Workflow actor '%s': loading workflow state", w.actorID)
-	astate, err := w.actors.State(ctx)
-	if err != nil {
-		return nil, err
-	}
-	state, err := wfenginestate.LoadWorkflowState(ctx, astate, w.actorID, wfenginestate.Options{
+	state, err := wfenginestate.LoadWorkflowState(ctx, w.actorState, w.actorID, wfenginestate.Options{
 		AppID:             w.appID,
 		WorkflowActorType: w.actorType,
 		ActivityActorType: w.activityActorType,
 	})
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if state == nil {
 		// No such state exists in the state store
-		return nil, nil
+		return nil, nil, nil
 	}
 	// Update cached state
+	w.lock.Lock()
+	defer w.lock.Unlock()
 	w.state = state
-	return state, nil
+	w.rstate = runtimestate.NewOrchestrationRuntimeState(w.actorID, state.CustomStatus, state.History)
+	w.setOrchestrationMetadata(w.rstate, w.getExecutionStartedEvent(state))
+	w.ometaBroadcaster.Broadcast(w.ometa)
+
+	return state, w.ometa, nil
 }
 
 func (w *workflow) saveInternalState(ctx context.Context, state *wfenginestate.State) error {
@@ -836,11 +863,8 @@ func (w *workflow) saveInternalState(ctx context.Context, state *wfenginestate.S
 	}
 
 	log.Debugf("Workflow actor '%s': saving %d keys to actor state store", w.actorID, len(req.Operations))
-	astate, err := w.actors.State(ctx)
-	if err != nil {
-		return err
-	}
-	if err = astate.TransactionalStateOperation(ctx, req); err != nil {
+
+	if err = w.actorState.TransactionalStateOperation(ctx, true, req); err != nil {
 		return err
 	}
 
@@ -848,7 +872,12 @@ func (w *workflow) saveInternalState(ctx context.Context, state *wfenginestate.S
 	state.ResetChangeTracking()
 
 	// Update cached state
+	w.lock.Lock()
+	defer w.lock.Unlock()
 	w.state = state
+	w.rstate = runtimestate.NewOrchestrationRuntimeState(w.actorID, state.CustomStatus, state.History)
+	w.setOrchestrationMetadata(w.rstate, w.getExecutionStartedEvent(state))
+	w.ometaBroadcaster.Broadcast(w.ometa)
 	return nil
 }
 
@@ -861,11 +890,6 @@ func (w *workflow) createReliableReminder(ctx context.Context, namePrefix string
 
 	reminderName := namePrefix + "-" + base64.RawURLEncoding.EncodeToString(b)
 	log.Debugf("Workflow actor '%s||%s': creating '%s' reminder with DueTime = '%s'", w.activityActorType, w.actorID, reminderName, delay)
-
-	reminders, err := w.actors.Reminders(ctx)
-	if err != nil {
-		return "", err
-	}
 
 	var period string
 	var oneshot bool
@@ -883,7 +907,7 @@ func (w *workflow) createReliableReminder(ctx context.Context, namePrefix string
 		}
 	}
 
-	return reminderName, reminders.Create(ctx, &actorapi.CreateReminderRequest{
+	return reminderName, w.reminders.Create(ctx, &actorapi.CreateReminderRequest{
 		ActorType: w.actorType,
 		ActorID:   w.actorID,
 		Data:      adata,
@@ -894,60 +918,194 @@ func (w *workflow) createReliableReminder(ctx context.Context, namePrefix string
 	})
 }
 
-func getRuntimeState(actorID string, state *wfenginestate.State) *backend.OrchestrationRuntimeState {
-	// TODO: Add caching when a good invalidation policy can be determined
-	return backend.NewOrchestrationRuntimeState(api.InstanceID(actorID), state.History)
-}
-
 func getActivityActorID(workflowID string, taskID int32, generation uint64) string {
 	// An activity can be identified by its name followed by its task ID and generation. Example: SayHello::0::1, SayHello::1::1, etc.
 	return workflowID + "::" + strconv.Itoa(int(taskID)) + "::" + strconv.FormatUint(generation, 10)
 }
 
 func (w *workflow) removeCompletedStateData(ctx context.Context, state *wfenginestate.State) error {
-	astate, err := w.actors.State(ctx)
+	var lock sync.Mutex
+	var wg sync.WaitGroup
+	var errs []error
+
+	// The logic/for loop below purges/removes any leftover state from a completed or failed activity
+	wg.Add(len(state.Inbox))
+	for _, e := range state.Inbox {
+		go func(e *backend.HistoryEvent) {
+			defer wg.Done()
+
+			var taskID int32
+			if ts := e.GetTaskCompleted(); ts != nil {
+				taskID = ts.GetTaskScheduledId()
+			} else if tf := e.GetTaskFailed(); tf != nil {
+				taskID = tf.GetTaskScheduledId()
+			} else {
+				return
+			}
+
+			req := actorapi.TransactionalRequest{
+				ActorType: w.activityActorType,
+				ActorID:   getActivityActorID(w.actorID, taskID, state.Generation),
+				Operations: []actorapi.TransactionalOperation{{
+					Operation: actorapi.Delete,
+					Request: actorapi.TransactionalDelete{
+						Key: activityStateKey,
+					},
+				}},
+			}
+			if terr := w.actorState.TransactionalStateOperation(ctx, true, &req); terr != nil {
+				lock.Lock()
+				errs = append(errs, fmt.Errorf("failed to delete activity state with error: %w", terr))
+				lock.Unlock()
+				return
+			}
+		}(e)
+	}
+
+	wg.Wait()
+
+	return errors.Join(errs...)
+}
+
+// DeactivateActor implements actors.InternalActor
+func (w *workflow) Deactivate() error {
+	w.cleanup()
+	log.Debugf("Workflow actor '%s': deactivated", w.actorID)
+	return nil
+}
+
+func (w *workflow) cleanup() {
+	w.lock.Lock()
+	defer w.lock.Unlock()
+
+	w.ometaBroadcaster.Close()
+	w.state = nil // A bit of extra caution, shouldn't be necessary
+	w.rstate = nil
+	w.ometa = nil
+
+	if w.closed.CompareAndSwap(false, true) {
+		close(w.closeCh)
+	}
+}
+
+func (w *workflow) InvokeStream(ctx context.Context, req *internalsv1pb.InternalInvokeRequest, stream chan<- *internalsv1pb.InternalInvokeResponse) error {
+	if err := w.handleStreamInitial(ctx, req, stream); err != nil {
+		return err
+	}
+
+	subCtx, cancel := context.WithCancel(ctx)
+	defer cancel()
+	ch := make(chan *backend.OrchestrationMetadata)
+	w.ometaBroadcaster.Subscribe(subCtx, ch)
+
+	for {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		case <-w.closeCh:
+			return nil
+		case val, ok := <-ch:
+			if !ok {
+				return nil
+			}
+			d, err := anypb.New(val)
+			if err != nil {
+				return err
+			}
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			case <-w.closeCh:
+				return nil
+			case stream <- &internalsv1pb.InternalInvokeResponse{
+				Status:  &internalsv1pb.Status{Code: http.StatusOK},
+				Message: &commonv1pb.InvokeResponse{Data: d},
+			}:
+			}
+		}
+	}
+}
+
+func (w *workflow) handleStreamInitial(ctx context.Context, req *internalsv1pb.InternalInvokeRequest, stream chan<- *internalsv1pb.InternalInvokeResponse) error {
+	if m := req.GetMessage().GetMethod(); m != todo.WaitForRuntimeStatus {
+		return fmt.Errorf("unsupported stream method: %s", m)
+	}
+
+	_, ometa, err := w.loadInternalState(ctx)
 	if err != nil {
 		return err
 	}
 
-	// The logic/for loop below purges/removes any leftover state from a completed or failed activity
-	// TODO: for optimization make multiple go routines and run them in parallel
-	for _, e := range state.Inbox {
-		var taskID int32
-		if ts := e.GetTaskCompleted(); ts != nil {
-			taskID = ts.GetTaskScheduledId()
-		} else if tf := e.GetTaskFailed(); tf != nil {
-			taskID = tf.GetTaskScheduledId()
-		} else {
-			continue
+	if ometa != nil {
+		arstate, err := anypb.New(ometa)
+		if err != nil {
+			return err
 		}
-		req := actorapi.TransactionalRequest{
-			ActorType: w.activityActorType,
-			ActorID:   getActivityActorID(w.actorID, taskID, state.Generation),
-			Operations: []actorapi.TransactionalOperation{{
-				Operation: actorapi.Delete,
-				Request: actorapi.TransactionalDelete{
-					Key: activityStateKey,
-				},
-			}},
+
+		select {
+		case <-ctx.Done():
+		case stream <- &internalsv1pb.InternalInvokeResponse{
+			Status:  &internalsv1pb.Status{Code: http.StatusOK},
+			Message: &commonv1pb.InvokeResponse{Data: arstate},
+		}:
 		}
-		if err = astate.TransactionalStateOperation(ctx, &req); err != nil {
-			return fmt.Errorf("failed to delete activity state with error: %w", err)
+
+		if api.OrchestrationMetadataIsComplete(ometa) {
+			w.table.DeleteFromTableIn(w, time.Second*10)
 		}
 	}
 
-	return err
-}
-
-// DeactivateActor implements actors.InternalActor
-func (w *workflow) Deactivate(ctx context.Context) error {
-	log.Debugf("Workflow actor '%s': deactivating", w.actorID)
-	w.state = nil // A bit of extra caution, shouldn't be necessary
-	w.lock.Close()
 	return nil
 }
 
-// CloseUntil closes the actor but backs out sooner if the duration is reached.
-func (w *workflow) CloseUntil(d time.Duration) {
-	w.lock.CloseUntil(d)
+func (w *workflow) setOrchestrationMetadata(rstate *backend.OrchestrationRuntimeState, startEvent *protos.ExecutionStartedEvent) {
+	var se *protos.ExecutionStartedEvent = nil
+	if rstate.GetStartEvent() != nil {
+		se = rstate.GetStartEvent()
+	} else if startEvent != nil {
+		se = startEvent
+	}
+
+	name, _ := runtimestate.Name(rstate)
+	if name == "" && se != nil {
+		name = se.GetName()
+	}
+	createdAt, _ := runtimestate.CreatedTime(rstate)
+	lastUpdated, _ := runtimestate.LastUpdatedTime(rstate)
+	completedAt, _ := runtimestate.CompletedTime(rstate)
+	input, _ := runtimestate.Input(rstate)
+	output, _ := runtimestate.Output(rstate)
+	failureDetails, _ := runtimestate.FailureDetails(rstate)
+	var parentInstanceID string
+	if se != nil && se.GetParentInstance() != nil && se.GetParentInstance().GetOrchestrationInstance() != nil {
+		parentInstanceID = se.GetParentInstance().GetOrchestrationInstance().GetInstanceId()
+	}
+	w.ometa = &backend.OrchestrationMetadata{
+		InstanceId:       rstate.GetInstanceId(),
+		Name:             name,
+		RuntimeStatus:    runtimestate.RuntimeStatus(rstate),
+		CreatedAt:        timestamppb.New(createdAt),
+		LastUpdatedAt:    timestamppb.New(lastUpdated),
+		CompletedAt:      timestamppb.New(completedAt),
+		Input:            input,
+		Output:           output,
+		CustomStatus:     rstate.GetCustomStatus(),
+		FailureDetails:   failureDetails,
+		ParentInstanceId: parentInstanceID,
+	}
+}
+
+// Key returns the key for this unique actor.
+func (w *workflow) Key() string {
+	return w.actorType + actorapi.DaprSeparator + w.actorID
+}
+
+// Type returns the type for this unique actor.
+func (w *workflow) Type() string {
+	return w.actorType
+}
+
+// ID returns the ID for this unique actor.
+func (w *workflow) ID() string {
+	return w.actorID
 }

@@ -215,6 +215,10 @@ func (f *Fake) WithSVIDContext(ctx context.Context) context.Context {
 	return ctx
 }
 
+func (f *Fake) IdentityDir() *string {
+	return nil
+}
+
 func (f *Fake) GRPCDialOption(id spiffeid.ID) grpc.DialOption {
 	return f.grpcDialOptionFn(id)
 }
@@ -242,4 +246,8 @@ func (f *Fake) Run(ctx context.Context) error {
 
 func (f *Fake) Handler(context.Context) (security.Handler, error) {
 	return f, nil
+}
+
+func (f *Fake) ID() spiffeid.ID {
+	return spiffeid.ID{}
 }

@@ -343,7 +343,7 @@ func TestGetResourceRequirements(t *testing.T) {
 	})
 }
 
-func TestGetProbeHttpHandler(t *testing.T) {
+func TestGetReadinessProbeHandler(t *testing.T) {
 	pathElements := []string{"api", "v1", "healthz"}
 	expectedPath := "/api/v1/healthz"
 	expectedHandler := corev1.ProbeHandler{
@@ -353,7 +353,17 @@ func TestGetProbeHttpHandler(t *testing.T) {
 		},
 	}
 
-	assert.EqualValues(t, expectedHandler, getProbeHTTPHandler(3500, pathElements...))
+	assert.EqualValues(t, expectedHandler, getReadinessProbeHandler(3500, pathElements...))
+}
+
+func TestGetLivenessProbeHandler(t *testing.T) {
+	expectedHandler := corev1.ProbeHandler{
+		TCPSocket: &corev1.TCPSocketAction{
+			Port: intstr.IntOrString{IntVal: 3500},
+		},
+	}
+
+	assert.EqualValues(t, expectedHandler, getLivenessProbeHandler(3500))
 }
 
 func TestFormatProbePath(t *testing.T) {
@@ -838,12 +848,12 @@ func TestGetSidecarContainer(t *testing.T) {
 			},
 		},
 		{
-			name: "not set when annotation is empty",
+			name: "false when annotation is empty",
 			annotations: map[string]string{
 				annotations.KeyEnableAPILogging: "",
 			},
 			assertFn: func(t *testing.T, container *corev1.Container) {
-				assert.NotContains(t, strings.Join(container.Args, " "), "--enable-api-logging")
+				assert.Contains(t, container.Args, "--enable-api-logging=false")
 			},
 		},
 	}))

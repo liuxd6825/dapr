@@ -15,6 +15,7 @@ package placement
 
 import (
 	"context"
+	"errors"
 	"strconv"
 	"strings"
 	"sync"
@@ -24,17 +25,19 @@ import (
 	"github.com/dapr/dapr/pkg/actors/api"
 	"github.com/dapr/dapr/pkg/actors/internal/apilevel"
 	"github.com/dapr/dapr/pkg/actors/internal/placement/client"
-	"github.com/dapr/dapr/pkg/actors/internal/placement/lock"
 	"github.com/dapr/dapr/pkg/actors/internal/reminders/storage"
 	"github.com/dapr/dapr/pkg/actors/table"
+	"github.com/dapr/dapr/pkg/actors/targets"
 	diag "github.com/dapr/dapr/pkg/diagnostics"
 	"github.com/dapr/dapr/pkg/healthz"
 	"github.com/dapr/dapr/pkg/messages"
 	"github.com/dapr/dapr/pkg/placement/hashing"
 	v1pb "github.com/dapr/dapr/pkg/proto/placement/v1"
 	"github.com/dapr/dapr/pkg/security"
+	"github.com/dapr/dapr/utils"
 	"github.com/dapr/kit/concurrency"
 	"github.com/dapr/kit/concurrency/fifo"
+	"github.com/dapr/kit/concurrency/lock"
 	"github.com/dapr/kit/logger"
 )
 
@@ -51,8 +54,7 @@ const (
 type Interface interface {
 	Run(context.Context) error
 	Ready() bool
-	Lock(context.Context) error
-	Unlock()
+	Lock(context.Context) (context.Context, context.CancelFunc, error)
 	LookupActor(ctx context.Context, req *api.LookupActorRequest) (*api.LookupActorResponse, error)
 }
 
@@ -80,10 +82,12 @@ type placement struct {
 	hashTable         *hashing.ConsistentHashTables
 	virtualNodesCache *hashing.VirtualNodesCache
 
-	lock          *lock.Lock
+	lock          *lock.OuterCancel
 	lockVersion   atomic.Uint64
 	updateVersion atomic.Uint64
 	operationLock *fifo.Mutex
+
+	tableUnlock context.CancelFunc
 
 	appID     string
 	namespace string
@@ -96,7 +100,7 @@ type placement struct {
 }
 
 func New(opts Options) (Interface, error) {
-	lock := lock.New()
+	lock := lock.NewOuterCancel(errors.New("placement is disseminating"), time.Second*2)
 	client, err := client.New(client.Options{
 		Addresses: opts.Addresses,
 		Security:  opts.Security,
@@ -132,6 +136,10 @@ func (p *placement) Run(ctx context.Context) error {
 	err := concurrency.NewRunnerManager(
 		p.client.Run,
 		func(ctx context.Context) error {
+			p.lock.Run(ctx)
+			return nil
+		},
+		func(ctx context.Context) error {
 			ch, actorTypes := p.actorTable.SubscribeToTypeUpdates(ctx)
 			log.Infof("Reporting actor types: %v", actorTypes)
 			if err := p.sendHost(ctx, actorTypes); err != nil {
@@ -160,7 +168,6 @@ func (p *placement) Run(ctx context.Context) error {
 		},
 		func(ctx context.Context) error {
 			defer p.wg.Wait()
-			defer p.lock.EnsureUnlockTable()
 
 			for {
 				in, err := p.client.Recv(ctx)
@@ -174,7 +181,14 @@ func (p *placement) Run(ctx context.Context) error {
 	).Run(ctx)
 
 	p.closed.Store(true)
-	p.lock.EnsureUnlockTable()
+
+	p.operationLock.Lock()
+	if p.tableUnlock != nil {
+		p.tableUnlock()
+		p.tableUnlock = nil
+	}
+	p.operationLock.Unlock()
+
 	return err
 }
 
@@ -237,22 +251,17 @@ func (p *placement) handleReceive(ctx context.Context, in *v1pb.PlacementOrder) 
 	}
 }
 
-func (p *placement) Lock(ctx context.Context) error {
+func (p *placement) Lock(ctx context.Context) (context.Context, context.CancelFunc, error) {
 	select {
 	case <-p.readyCh:
 	case <-ctx.Done():
-		return ctx.Err()
+		return nil, nil, ctx.Err()
 	}
-	p.lock.LockLookup()
-	return nil
-}
-
-func (p *placement) Unlock() {
-	p.lock.UnlockLookup()
+	return p.lock.RLock(ctx)
 }
 
 func (p *placement) handleLockOperation(ctx context.Context) {
-	p.lock.LockTable()
+	p.tableUnlock = p.lock.Lock()
 	lockVersion := p.lockVersion.Add(1)
 
 	clear(p.hashTable.Entries)
@@ -263,13 +272,16 @@ func (p *placement) handleLockOperation(ctx context.Context) {
 		defer p.wg.Done()
 		select {
 		case <-ctx.Done():
-		case <-time.After(time.Second * 10):
+		case <-time.After(time.Second * 15):
 			p.operationLock.Lock()
 			defer p.operationLock.Unlock()
 			if p.updateVersion.Load() < lockVersion {
 				p.updateVersion.Store(lockVersion)
 				clear(p.hashTable.Entries)
-				p.lock.EnsureUnlockTable()
+				if p.tableUnlock != nil {
+					p.tableUnlock()
+					p.tableUnlock = nil
+				}
 			}
 		}
 	}()
@@ -293,19 +305,25 @@ func (p *placement) handleUpdateOperation(ctx context.Context, in *v1pb.Placemen
 	p.hashTable.Version = in.GetVersion()
 	p.hashTable.Entries = entries
 
-	p.reminders.DrainRebalancedReminders()
-	p.actorTable.Drain(func(actorType, actorID string) bool {
+	if p.reminders != nil {
+		p.reminders.DrainRebalancedReminders()
+	}
+
+	err := p.actorTable.Drain(func(target targets.Interface) bool {
 		lar, err := p.LookupActor(ctx, &api.LookupActorRequest{
-			ActorType: actorType,
-			ActorID:   actorID,
+			ActorType: target.Type(),
+			ActorID:   target.ID(),
 		})
 		if err != nil {
-			log.Errorf("failed to lookup actor %s/%s: %s", actorType, actorID, err)
+			log.Errorf("failed to lookup actor %s/%s: %s", target.Type(), target.ID(), err)
 			return true
 		}
 
 		return lar != nil && !p.isActorLocal(lar.Address, p.hostname, p.port)
 	})
+	if err != nil {
+		log.Errorf("Error draining actors: %s", err)
+	}
 
 	log.Infof("Placement tables updated, version: %s", in.GetVersion())
 }
@@ -322,13 +340,15 @@ func (p *placement) handleUnlockOperation(ctx context.Context) {
 	}
 
 	if found {
-		p.reminders.OnPlacementTablesUpdated(ctx, func(ctx context.Context, req *api.LookupActorRequest) bool {
-			if ctx.Err() != nil {
-				return false
-			}
-			lar, err := p.LookupActor(ctx, req)
-			return err == nil && lar.Local
-		})
+		if p.reminders != nil {
+			p.reminders.OnPlacementTablesUpdated(ctx, func(ctx context.Context, req *api.LookupActorRequest) bool {
+				if ctx.Err() != nil {
+					return false
+				}
+				lar, err := p.LookupActor(ctx, req)
+				return err == nil && lar.Local
+			})
+		}
 
 		if p.isReady.CompareAndSwap(false, true) {
 			close(p.readyCh)
@@ -336,7 +356,8 @@ func (p *placement) handleUnlockOperation(ctx context.Context) {
 	}
 
 	p.htarget.Ready()
-	p.lock.EnsureUnlockTable()
+	p.tableUnlock()
+	p.tableUnlock = nil
 }
 
 func (p *placement) isActorLocal(targetActorAddress, hostAddress string, port string) bool {
@@ -345,13 +366,9 @@ func (p *placement) isActorLocal(targetActorAddress, hostAddress string, port st
 		return true
 	}
 
-	if isLocalhost(hostAddress) && strings.HasSuffix(targetActorAddress, ":"+port) {
-		return isLocalhost(targetActorAddress[0 : len(targetActorAddress)-len(port)-1])
+	if utils.IsLocalhost(hostAddress) && strings.HasSuffix(targetActorAddress, ":"+port) {
+		return utils.IsLocalhost(targetActorAddress[0 : len(targetActorAddress)-len(port)-1])
 	}
 
 	return false
-}
-
-func isLocalhost(addr string) bool {
-	return addr == "localhost" || addr == "127.0.0.1" || addr == "[::1]" || addr == "::1"
 }

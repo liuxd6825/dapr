@@ -18,6 +18,8 @@ import (
 	"fmt"
 	"time"
 
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/durationpb"
 
 	"github.com/dapr/dapr/pkg/actors/api"
@@ -38,7 +40,7 @@ var log = logger.NewLogger("dapr.runtime.actor.reminders.scheduler")
 type Options struct {
 	Namespace     string
 	AppID         string
-	Clients       *clients.Clients
+	Clients       clients.Clients
 	StateReminder storage.Interface
 	Table         table.Interface
 	Healthz       healthz.Healthz
@@ -48,7 +50,7 @@ type Options struct {
 type scheduler struct {
 	namespace     string
 	appID         string
-	clients       *clients.Clients
+	clients       clients.Clients
 	table         table.Interface
 	stateReminder storage.Interface
 	htarget       healthz.Target
@@ -202,7 +204,12 @@ func (s *scheduler) Get(ctx context.Context, req *api.GetReminderRequest) (*api.
 			"namespace": s.namespace,
 			"jobType":   "reminder",
 		}
-		log.Errorf("Error getting reminder job %s due to: %s", req.Name, err)
+		log.Debugf("Error getting reminder job %s due to: %s", req.Name, err)
+
+		if status, ok := status.FromError(err); ok && status.Code() == codes.NotFound {
+			return new(api.Reminder), nil
+		}
+
 		return nil, apierrors.SchedulerGetJob(errMetadata, err)
 	}
 

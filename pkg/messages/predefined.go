@@ -68,9 +68,9 @@ var (
 	ErrMalformedRequest = APIError{"failed deserializing HTTP body: %v", errorcodes.CommonMalformedRequest, http.StatusBadRequest, grpcCodes.InvalidArgument}
 
 	// DirectMessaging.
-	ErrDirectInvoke         = APIError{"failed to invoke, id: %s, err: %v", errorcodes.ConversationDirectInvoke, http.StatusInternalServerError, grpcCodes.Internal}
-	ErrDirectInvokeNoAppID  = APIError{"failed getting app id either from the URL path or the header dapr-app-id", errorcodes.ConversationDirectInvoke, http.StatusNotFound, grpcCodes.NotFound}
-	ErrDirectInvokeNotReady = APIError{"invoke API is not ready", errorcodes.ConversationDirectInvoke, http.StatusInternalServerError, grpcCodes.Internal}
+	ErrDirectInvoke         = APIError{"failed to invoke, id: %s, err: %v", errorcodes.ServiceInvocationDirectInvoke, http.StatusInternalServerError, grpcCodes.Internal}
+	ErrDirectInvokeNoAppID  = APIError{"failed getting app id either from the URL path or the header dapr-app-id", errorcodes.ServiceInvocationDirectInvoke, http.StatusNotFound, grpcCodes.NotFound}
+	ErrDirectInvokeNotReady = APIError{"invoke API is not ready", errorcodes.ServiceInvocationDirectInvoke, http.StatusInternalServerError, grpcCodes.Internal}
 
 	// Healthz.
 	ErrHealthNotReady         = APIError{"dapr is not ready", errorcodes.HealthNotReady, http.StatusInternalServerError, grpcCodes.Internal}
@@ -125,7 +125,7 @@ var (
 	ErrInvalidInstanceID             = APIError{"workflow instance ID '%s' is invalid: only alphanumeric and underscore characters are allowed", errorcodes.WorkflowInstanceIDInvalid, http.StatusBadRequest, grpcCodes.InvalidArgument}
 	ErrWorkflowComponentDoesNotExist = APIError{"workflow component '%s' does not exist", errorcodes.WorkflowComponentNotFound, http.StatusBadRequest, grpcCodes.InvalidArgument}
 	ErrMissingOrEmptyInstance        = APIError{"no instance ID was provided", errorcodes.WorkflowInstanceIDProvidedMissing, http.StatusBadRequest, grpcCodes.InvalidArgument}
-	ErrWorkflowInstanceNotFound      = APIError{"unable to find workflow with the provided instance ID: %s", errorcodes.WorkflowInstanceIDNotFound, http.StatusNotFound, grpcCodes.NotFound}
+	ErrWorkflowInstanceNotFound      = APIError{"unable to find workflow with the provided instance ID: %s: %v", errorcodes.WorkflowInstanceIDNotFound, http.StatusNotFound, grpcCodes.NotFound}
 	ErrNoOrMissingWorkflowComponent  = APIError{"no workflow component was provided", errorcodes.WorkflowComponentMissing, http.StatusBadRequest, grpcCodes.InvalidArgument}
 	ErrTerminateWorkflow             = APIError{"error terminating workflow '%s': %s", errorcodes.WorkflowTerminate, http.StatusInternalServerError, grpcCodes.Internal}
 	ErrMissingWorkflowEventName      = APIError{"missing workflow event name", errorcodes.WorkflowEventNameMissing, http.StatusBadRequest, grpcCodes.InvalidArgument}

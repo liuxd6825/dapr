@@ -40,6 +40,7 @@ type Reminder struct {
 	Callback       string         `json:"callback,omitempty"` // Used by timers only
 	IsTimer        bool           `json:"-"`
 	IsRemote       bool           `json:"-"`
+	SkipLock       bool           `json:"-"`
 }
 
 // ActorKey returns the key of the actor for this reminder.

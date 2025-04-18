@@ -2,8 +2,6 @@ module github.com/dapr/dapr/tests/apps/service_invocation_grpc_proxy_client
 
 go 1.23.6
 
-toolchain go1.23.8
-
 require (
 	github.com/dapr/dapr v0.0.0-00010101000000-000000000000
 	github.com/gorilla/mux v1.8.1
