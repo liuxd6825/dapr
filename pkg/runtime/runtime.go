@@ -363,6 +363,7 @@ func newDaprRuntime(ctx context.Context,
 			log.Infof("app id: %s", rt.runtimeConfig.id)
 
 			if rerr := rt.initRuntime(ctx); rerr != nil {
+				log.Errorf("app initRuntime() mode:%s, id:%s, error: %s", rt.runtimeConfig.mode, rt.runtimeConfig.id, rerr)
 				return rerr
 			}
 
@@ -1153,12 +1154,11 @@ func (a *DaprRuntime) loadDeclarativeSubscriptions(ctx context.Context) error {
 		return nil
 	}
 
-	log.Info("Loading Declarative Subscriptions…")
 	subs, err := loader.Load(ctx)
 	if err != nil {
 		return err
 	}
-
+	log.Info("Loading Declarative Subscriptions ", len(subs), " found.")
 	for _, s := range subs {
 		log.Infof("Found Subscription: %s", s.Name)
 	}
