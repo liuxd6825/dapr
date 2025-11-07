@@ -48,6 +48,8 @@ type Options struct {
 	AdapterStreamer rtpubsub.AdapterStreamer
 }
 
+// Subscription
+// @Description: 消息订阅，liuxd
 type Subscription struct {
 	appID           string
 	namespace       string
@@ -119,6 +121,7 @@ func New(opts Options) (*Subscription, error) {
 		Topic:    subscribeTopic,
 		Metadata: routeMetadata,
 	}, func(ctx context.Context, msg *contribpubsub.NewMessage) error {
+		// 消息接收器 liuxd
 		if msg.Metadata == nil {
 			msg.Metadata = make(map[string]string, 1)
 		}
@@ -252,6 +255,7 @@ func New(opts Options) (*Subscription, error) {
 		}
 		policyRunner := resiliency.NewRunner[any](context.Background(), policyDef)
 		_, err = policyRunner(func(ctx context.Context) (any, error) {
+			// 消息发送器 liuxd
 			var pErr error
 			if s.adapterStreamer != nil {
 				pErr = s.adapterStreamer.Publish(ctx, sm)
@@ -260,6 +264,11 @@ func New(opts Options) (*Subscription, error) {
 					pErr = s.publishMessageHTTP(ctx, sm)
 				} else {
 					pErr = s.publishMessageGRPC(ctx, sm)
+				}
+
+				if pErr == nil {
+					// 增加消息成功的日志 liuxd
+					log.Warnf("publishMessage ok event %v; pubsub:%s; topic %s; path %s;  ", cloudEvent[contribpubsub.IDField], name, msgTopic, sm.Path)
 				}
 			}
 

@@ -33,6 +33,7 @@ func (p *Processor) AddPendingSubscription(ctx context.Context, subscriptions ..
 		return true
 	}
 
+	// 消息订阅 liuxd
 	for i := range scopedSubs {
 		comp := scopedSubs[i]
 		sub := rtpubsub.Subscription{

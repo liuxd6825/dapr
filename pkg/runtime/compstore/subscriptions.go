@@ -185,13 +185,24 @@ func (c *ComponentStore) ListSubscriptionsAppByPubSub(name string) []*NamedSubsc
 			continue
 		}
 
-		if _, ok := taken[sub.Subscription.Topic]; !ok {
-			taken[sub.Subscription.Topic] = len(subs)
-			subs = append(subs, &NamedSubscription{
-				Name:         ptr.Of(subName),
-				Subscription: sub.Subscription,
-			})
-		}
+		// liuxd 消息订阅，解决同一个pubsub，多个topic只能订阅一个的问题。
+		/*
+			if _, ok := taken[sub.Subscription.Topic]; !ok {
+				taken[sub.Subscription.Topic] = len(subs)
+				subs = append(subs, &NamedSubscription{
+					Name:         ptr.Of(subName),
+					Subscription: sub.Subscription,
+				})
+			}
+		*/
+
+		taken[sub.Subscription.Topic] = len(subs)
+		subs = append(subs, &NamedSubscription{
+			Name:         ptr.Of(subName),
+			Subscription: sub.Subscription,
+		})
+
+		// ----------------------------------------------------
 	}
 	for i := range c.subscriptions.programmatics {
 		sub := c.subscriptions.programmatics[i]

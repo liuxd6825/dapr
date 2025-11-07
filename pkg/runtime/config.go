@@ -207,6 +207,7 @@ func FromConfig(ctx context.Context, cfg *Config) (*DaprRuntime, error) {
 		configErr    error
 	)
 
+	// 加载主配置文件
 	if len(intc.config) > 0 {
 		switch intc.mode {
 		case modes.KubernetesMode:
@@ -250,6 +251,7 @@ func FromConfig(ctx context.Context, cfg *Config) (*DaprRuntime, error) {
 		}
 	}
 
+	// 加载组件配置文件
 	// Load Resiliency
 	var resiliencyProvider *resiliencyConfig.Resiliency
 	switch intc.mode {

@@ -193,8 +193,14 @@ func (p *Processor) WaitForEmptyComponentQueue() {
 	defer p.pendingComponentsWaiting.Unlock()
 }
 
+// processComponentAndDependents
+// @Description: 加载组件 liuxd
+// @receiver p
+// @param ctx
+// @param comp
+// @return error
 func (p *Processor) processComponentAndDependents(ctx context.Context, comp componentsapi.Component) error {
-	log.Debug("Loading component: " + comp.LogName())
+	log.Warnf("Loading component: %s %s", comp.LogName(), comp.GetName())
 	res := p.preprocessOneComponent(ctx, &comp)
 	if res.unreadyDependency != "" {
 		p.pendingComponentDependents[res.unreadyDependency] = append(p.pendingComponentDependents[res.unreadyDependency], comp)
@@ -226,7 +232,7 @@ func (p *Processor) processComponentAndDependents(ctx context.Context, comp comp
 		return rterrors.NewInit(rterrors.InitComponentFailure, comp.LogName(), err)
 	}
 
-	log.Info("Component loaded: " + comp.LogName())
+	log.Warnf("Component loaded: %s %s", comp.LogName(), comp.GetName())
 	diag.DefaultMonitoring.ComponentLoaded()
 
 	dependency := componentDependency(compCategory, comp.Name)

@@ -139,6 +139,7 @@ type DaprRuntime struct {
 	wg sync.WaitGroup
 }
 
+// Dapr运行时初始化 liuxd
 // newDaprRuntime returns a new runtime with the given runtime config and global config.
 func newDaprRuntime(ctx context.Context,
 	sec security.Handler,
@@ -561,6 +562,11 @@ func getOtelServiceName(fallback string) string {
 	return fallback
 }
 
+// initRuntime
+// @Description: 初始化Dapr运行时 liuxd
+// @receiver a
+// @param ctx
+// @return error
 func (a *DaprRuntime) initRuntime(ctx context.Context) error {
 	var err error
 	if a.hostAddress, err = utils.GetHostAddress(); err != nil {
@@ -569,12 +575,14 @@ func (a *DaprRuntime) initRuntime(ctx context.Context) error {
 	if err = a.setupTracing(ctx, a.hostAddress, newOpentelemetryTracerProviderStore()); err != nil {
 		return fmt.Errorf("failed to setup tracing: %w", err)
 	}
+	// 初始化服务发现 liuxd
 	// Register and initialize name resolution for service discovery.
 	err = a.initNameResolution(ctx)
 	if err != nil {
 		log.Errorf(err.Error())
 	}
 
+	// 初始化代理 liuxd
 	// Start proxy
 	a.initProxy()
 
@@ -583,6 +591,8 @@ func (a *DaprRuntime) initRuntime(ctx context.Context) error {
 	a.initPluggableComponents(ctx)
 
 	a.appendBuiltinSecretStore(ctx)
+
+	// 加载Dapr组件配置文件
 	err = a.loadComponents(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to load components: %s", err)
@@ -596,6 +606,7 @@ func (a *DaprRuntime) initRuntime(ctx context.Context) error {
 	}
 	a.flushOutstandingHTTPEndpoints(ctx)
 
+	// 加载消息订阅器
 	err = a.loadDeclarativeSubscriptions(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to load declarative subscriptions: %s", err)
@@ -1084,6 +1095,11 @@ func (a *DaprRuntime) initActors(ctx context.Context) error {
 	return nil
 }
 
+// loadComponents
+// @Description: 加载Dapr组件配置文件 liuxd
+// @receiver a
+// @param ctx
+// @return error
 func (a *DaprRuntime) loadComponents(ctx context.Context) error {
 	var loader loader.Loader[compapi.Component]
 
@@ -1160,7 +1176,7 @@ func (a *DaprRuntime) loadDeclarativeSubscriptions(ctx context.Context) error {
 	}
 	log.Info("Loading Declarative Subscriptions ", len(subs), " found.")
 	for _, s := range subs {
-		log.Infof("Found Subscription: %s", s.Name)
+		log.Warnf("Found Subscription: %s", s.Name)
 	}
 
 	a.processor.AddPendingSubscription(ctx, subs...)

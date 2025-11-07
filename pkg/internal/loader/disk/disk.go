@@ -50,6 +50,12 @@ func new[T meta.Resource](opts Options) *disk[T] {
 	}
 }
 
+// Load
+// @Description: 加载dapr组件配置文件
+// @receiver d
+// @param context.Context
+// @return []T
+// @return error
 // load loads manifests for the given directory.
 func (d *disk[T]) Load(context.Context) ([]T, error) {
 	set, err := d.loadWithOrder()
@@ -95,6 +101,11 @@ func (d *disk[T]) Load(context.Context) ([]T, error) {
 	return filteredManifests, nil
 }
 
+// loadWithOrder
+// @Description: 查找组件配置文件 liuxd
+// @receiver d
+// @return *manifestSet[T]
+// @return error
 func (d *disk[T]) loadWithOrder() (*manifestSet[T], error) {
 	set := &manifestSet[T]{d: d}
 

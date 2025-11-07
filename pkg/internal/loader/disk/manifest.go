@@ -86,6 +86,7 @@ func (m *manifestSet[T]) loadManifestsFromFile(path string) {
 		m.fileIndex++
 	}()
 
+	// 加载配置文件 liuxd
 	f, err := os.Open(path)
 	if err != nil {
 		log.Warnf("daprd load %s error when opening file %s: %v", m.d.kind, path, err)
@@ -102,7 +103,7 @@ func (m *manifestSet[T]) decodeYaml(f io.Reader) error {
 	var errs []error
 	scanner := bufio.NewScanner(f)
 	scanner.Split(splitYamlDoc)
-
+	// 加载配置文件 liuxd
 	m.manifestIndex = 0
 	for {
 		m.manifestIndex++
@@ -148,6 +149,8 @@ func (m *manifestSet[T]) decodeYaml(f io.Reader) error {
 			manifestIndex: m.manifestIndex - 1,
 		})
 		m.ts = append(m.ts, manifest)
+
+		log.Warnf("daprd load %s, logName: %s, namespace: %s", m.d.kind, manifest.LogName(), manifest.GetNamespace())
 	}
 
 	if len(errs) > 0 {
